@@ -1,0 +1,1000 @@
+{
+ "provenance": "run",
+ "plan": "experiments/cvpr27_plan.json (amendment 2026-11-14)",
+ "metric": "cosine distance (1 - cos) to the nearest other image",
+ "labels": "source labels",
+ "per_encoder": {
+  "intraoral/ResNet-18": {
+   "n_images": 6935,
+   "n_images_with_same_patient_neighbour": 6929,
+   "nearest_same_patient": {
+    "median": 0.0784342885017395,
+    "q1": 0.05124092102050781,
+    "q3": 0.12536507844924927,
+    "p05": 0.024870658293366432,
+    "p95": 0.18503589928150177,
+    "n": 6929
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.06255078315734863,
+    "q1": 0.0535663366317749,
+    "q3": 0.07421901822090149,
+    "p05": 0.04383941367268562,
+    "p95": 0.10175259411334991,
+    "n": 6935
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.06118512153625488,
+    "q1": 0.05280578136444092,
+    "q3": 0.0721292495727539,
+    "p05": 0.042874038219451904,
+    "p95": 0.09921310842037201,
+    "n": 6935
+   },
+   "frac_nn_same_patient": 0.3179524152847873,
+   "chance_frac_nn_same_patient": 0.0011720768627219375,
+   "frac_nn_same_patient_among_multi_image": 0.31822773849040265
+  },
+  "intraoral/ResNet-50": {
+   "n_images": 6935,
+   "n_images_with_same_patient_neighbour": 6929,
+   "nearest_same_patient": {
+    "median": 0.11863744258880615,
+    "q1": 0.07604753971099854,
+    "q3": 0.1789712905883789,
+    "p05": 0.04070216417312622,
+    "p95": 0.26309654116630554,
+    "n": 6929
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.09234052896499634,
+    "q1": 0.07866823673248291,
+    "q3": 0.11243435740470886,
+    "p05": 0.06513310968875885,
+    "p95": 0.1762060970067978,
+    "n": 6935
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.09017783403396606,
+    "q1": 0.07728013396263123,
+    "q3": 0.1090182363986969,
+    "p05": 0.06372570991516113,
+    "p95": 0.17231899499893188,
+    "n": 6935
+   },
+   "frac_nn_same_patient": 0.3140591204037491,
+   "chance_frac_nn_same_patient": 0.0011720768627219375,
+   "frac_nn_same_patient_among_multi_image": 0.3143310723048059
+  },
+  "intraoral/ConvNeXt-T": {
+   "n_images": 6935,
+   "n_images_with_same_patient_neighbour": 6929,
+   "nearest_same_patient": {
+    "median": 0.12573188543319702,
+    "q1": 0.0738791823387146,
+    "q3": 0.2153095006942749,
+    "p05": 0.03162834420800209,
+    "p95": 0.33151721954345703,
+    "n": 6929
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.10540378093719482,
+    "q1": 0.08722013235092163,
+    "q3": 0.13155028223991394,
+    "p05": 0.06913405656814575,
+    "p95": 0.21084599196910858,
+    "n": 6935
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.10313206911087036,
+    "q1": 0.08643707633018494,
+    "q3": 0.1282166838645935,
+    "p05": 0.06863092631101608,
+    "p95": 0.20322386920452118,
+    "n": 6935
+   },
+   "frac_nn_same_patient": 0.4007209805335256,
+   "chance_frac_nn_same_patient": 0.0011720768627219375,
+   "frac_nn_same_patient_among_multi_image": 0.4010679751767932
+  },
+  "intraoral/ConvNeXt-L": {
+   "n_images": 6935,
+   "n_images_with_same_patient_neighbour": 6929,
+   "nearest_same_patient": {
+    "median": 0.12426364421844482,
+    "q1": 0.07026290893554688,
+    "q3": 0.2084919810295105,
+    "p05": 0.02526909112930298,
+    "p95": 0.337345153093338,
+    "n": 6929
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.09628260135650635,
+    "q1": 0.07543572783470154,
+    "q3": 0.12422752380371094,
+    "p05": 0.05399193614721298,
+    "p95": 0.1999865472316742,
+    "n": 6935
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.09388184547424316,
+    "q1": 0.0742361843585968,
+    "q3": 0.12147045135498047,
+    "p05": 0.05324345827102661,
+    "p95": 0.19474640488624573,
+    "n": 6935
+   },
+   "frac_nn_same_patient": 0.3701514059120404,
+   "chance_frac_nn_same_patient": 0.0011720768627219375,
+   "frac_nn_same_patient_among_multi_image": 0.3704719295713667
+  },
+  "intraoral/DINOv2-S": {
+   "n_images": 6935,
+   "n_images_with_same_patient_neighbour": 6929,
+   "nearest_same_patient": {
+    "median": 0.061413466930389404,
+    "q1": 0.03368735313415527,
+    "q3": 0.10125786066055298,
+    "p05": 0.014863014221191406,
+    "p95": 0.18098241090774536,
+    "n": 6929
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.04403722286224365,
+    "q1": 0.03418499231338501,
+    "q3": 0.05584689974784851,
+    "p05": 0.024266188964247704,
+    "p95": 0.08256305754184723,
+    "n": 6935
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.04295074939727783,
+    "q1": 0.03341937065124512,
+    "q3": 0.05474430322647095,
+    "p05": 0.023699522018432617,
+    "p95": 0.07860368490219116,
+    "n": 6935
+   },
+   "frac_nn_same_patient": 0.32271088680605625,
+   "chance_frac_nn_same_patient": 0.0011720768627219375,
+   "frac_nn_same_patient_among_multi_image": 0.3229903304950209
+  },
+  "intraoral/DINOv2-B": {
+   "n_images": 6935,
+   "n_images_with_same_patient_neighbour": 6929,
+   "nearest_same_patient": {
+    "median": 0.045847415924072266,
+    "q1": 0.02430260181427002,
+    "q3": 0.07273316383361816,
+    "p05": 0.00976016465574503,
+    "p95": 0.11815331876277924,
+    "n": 6929
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.02946460247039795,
+    "q1": 0.022174835205078125,
+    "q3": 0.03891348838806152,
+    "p05": 0.014463091269135475,
+    "p95": 0.05980952829122543,
+    "n": 6935
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.028992772102355957,
+    "q1": 0.021820485591888428,
+    "q3": 0.03794145584106445,
+    "p05": 0.01433072704821825,
+    "p95": 0.056954436004161835,
+    "n": 6935
+   },
+   "frac_nn_same_patient": 0.28478731074260993,
+   "chance_frac_nn_same_patient": 0.0011720768627219375,
+   "frac_nn_same_patient_among_multi_image": 0.2850339154279117
+  },
+  "intraoral/DINOv2-L": {
+   "n_images": 6935,
+   "n_images_with_same_patient_neighbour": 6929,
+   "nearest_same_patient": {
+    "median": 0.03877568244934082,
+    "q1": 0.020486056804656982,
+    "q3": 0.06581437587738037,
+    "p05": 0.008110081776976585,
+    "p95": 0.11608398705720901,
+    "n": 6929
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.025113821029663086,
+    "q1": 0.019023418426513672,
+    "q3": 0.03385075926780701,
+    "p05": 0.012150293216109276,
+    "p95": 0.052153732627630234,
+    "n": 6935
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.024449586868286133,
+    "q1": 0.01859337091445923,
+    "q3": 0.032473206520080566,
+    "p05": 0.011988145299255848,
+    "p95": 0.05031448230147362,
+    "n": 6935
+   },
+   "frac_nn_same_patient": 0.28233597692862294,
+   "chance_frac_nn_same_patient": 0.0011720768627219375,
+   "frac_nn_same_patient_among_multi_image": 0.28258045894068407
+  },
+  "intraoral/SigLIP-2": {
+   "n_images": 6935,
+   "n_images_with_same_patient_neighbour": 6929,
+   "nearest_same_patient": {
+    "median": 0.02057868242263794,
+    "q1": 0.013308823108673096,
+    "q3": 0.03244662284851074,
+    "p05": 0.007682442665100098,
+    "p95": 0.05648248642683029,
+    "n": 6929
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.014792859554290771,
+    "q1": 0.0121878981590271,
+    "q3": 0.018542826175689697,
+    "p05": 0.009522974491119385,
+    "p95": 0.02833929844200611,
+    "n": 6935
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.014481544494628906,
+    "q1": 0.011956453323364258,
+    "q3": 0.017937779426574707,
+    "p05": 0.009449625387787819,
+    "p95": 0.026768825948238373,
+    "n": 6935
+   },
+   "frac_nn_same_patient": 0.26964671953857244,
+   "chance_frac_nn_same_patient": 0.0011720768627219375,
+   "frac_nn_same_patient_among_multi_image": 0.26988021359503533
+  },
+  "intraoral/CLIP-B/16": {
+   "n_images": 6935,
+   "n_images_with_same_patient_neighbour": 6929,
+   "nearest_same_patient": {
+    "median": 0.017887592315673828,
+    "q1": 0.01200258731842041,
+    "q3": 0.027846455574035645,
+    "p05": 0.007142901420593262,
+    "p95": 0.045710258185863495,
+    "n": 6929
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.012810111045837402,
+    "q1": 0.010689258575439453,
+    "q3": 0.01603737473487854,
+    "p05": 0.008750438690185547,
+    "p95": 0.024593275040388107,
+    "n": 6935
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.012511253356933594,
+    "q1": 0.010472148656845093,
+    "q3": 0.015616893768310547,
+    "p05": 0.00858293753117323,
+    "p95": 0.023519113659858704,
+    "n": 6935
+   },
+   "frac_nn_same_patient": 0.23922134102379236,
+   "chance_frac_nn_same_patient": 0.0011720768627219375,
+   "frac_nn_same_patient_among_multi_image": 0.2394284889594458
+  },
+  "intraoral/BiomedCLIP": {
+   "n_images": 6935,
+   "n_images_with_same_patient_neighbour": 6929,
+   "nearest_same_patient": {
+    "median": 0.05890047550201416,
+    "q1": 0.0346524715423584,
+    "q3": 0.10645562410354614,
+    "p05": 0.017036259174346924,
+    "p95": 0.19749176502227783,
+    "n": 6929
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.03811913728713989,
+    "q1": 0.030337274074554443,
+    "q3": 0.0483628511428833,
+    "p05": 0.022658050060272217,
+    "p95": 0.07371537387371063,
+    "n": 6935
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.037293195724487305,
+    "q1": 0.029981285333633423,
+    "q3": 0.046745747327804565,
+    "p05": 0.022877871990203857,
+    "p95": 0.06952016055583954,
+    "n": 6935
+   },
+   "frac_nn_same_patient": 0.24917087238644556,
+   "chance_frac_nn_same_patient": 0.0011720768627219375,
+   "frac_nn_same_patient_among_multi_image": 0.2493866358781931
+  },
+  "opg/ResNet-18": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.2592364549636841,
+    "q1": 0.2091057300567627,
+    "q3": 0.2933582365512848,
+    "p05": 0.08016365766525269,
+    "p95": 0.35061830282211304,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.0763176679611206,
+    "q1": 0.0663713812828064,
+    "q3": 0.0904504656791687,
+    "p05": 0.05304868891835213,
+    "p95": 0.11594340950250626,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.07419955730438232,
+    "q1": 0.0649167001247406,
+    "q3": 0.08543911576271057,
+    "p05": 0.05208854004740715,
+    "p95": 0.11155270785093307,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.022269353128313893,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.05172413793103448
+  },
+  "opg/ResNet-50": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.47661423683166504,
+    "q1": 0.400280237197876,
+    "q3": 0.5364168882369995,
+    "p05": 0.18323063850402832,
+    "p95": 0.639481782913208,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.16492444276809692,
+    "q1": 0.14787983894348145,
+    "q3": 0.18861475586891174,
+    "p05": 0.12241455912590027,
+    "p95": 0.24753540754318237,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.16193753480911255,
+    "q1": 0.1452692747116089,
+    "q3": 0.18314507603645325,
+    "p05": 0.12138600647449493,
+    "p95": 0.23004645109176636,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.02014846235418876,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.046798029556650245
+  },
+  "opg/ConvNeXt-T": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.5500971078872681,
+    "q1": 0.47384560108184814,
+    "q3": 0.6149213910102844,
+    "p05": 0.18106931447982788,
+    "p95": 0.7188193202018738,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.17692410945892334,
+    "q1": 0.1566767692565918,
+    "q3": 0.20472991466522217,
+    "p05": 0.12695671617984772,
+    "p95": 0.26770874857902527,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.1717514991760254,
+    "q1": 0.1505107581615448,
+    "q3": 0.20029476284980774,
+    "p05": 0.12695227563381195,
+    "p95": 0.26688796281814575,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.022269353128313893,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.05172413793103448
+  },
+  "opg/ConvNeXt-L": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.5106090307235718,
+    "q1": 0.4165531396865845,
+    "q3": 0.5832539796829224,
+    "p05": 0.1434803605079651,
+    "p95": 0.6614894866943359,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.15337932109832764,
+    "q1": 0.13280606269836426,
+    "q3": 0.17942088842391968,
+    "p05": 0.1082308292388916,
+    "p95": 0.23666545748710632,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.15144497156143188,
+    "q1": 0.12832272052764893,
+    "q3": 0.1736496388912201,
+    "p05": 0.10381690412759781,
+    "p95": 0.2234649658203125,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.02332979851537646,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.054187192118226604
+  },
+  "opg/DINOv2-S": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.23384350538253784,
+    "q1": 0.18453776836395264,
+    "q3": 0.27632659673690796,
+    "p05": 0.03613811731338501,
+    "p95": 0.34342509508132935,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.03523284196853638,
+    "q1": 0.02874007821083069,
+    "q3": 0.04906100034713745,
+    "p05": 0.020313864573836327,
+    "p95": 0.07876171916723251,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.03429502248764038,
+    "q1": 0.028076976537704468,
+    "q3": 0.046969711780548096,
+    "p05": 0.02087504230439663,
+    "p95": 0.0745500922203064,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.02014846235418876,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.046798029556650245
+  },
+  "opg/DINOv2-B": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.09677034616470337,
+    "q1": 0.07710060477256775,
+    "q3": 0.12946045398712158,
+    "p05": 0.021359026432037354,
+    "p95": 0.18055398762226105,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.02154862880706787,
+    "q1": 0.01766189932823181,
+    "q3": 0.027871251106262207,
+    "p05": 0.013746964745223522,
+    "p95": 0.04697897657752037,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.020809829235076904,
+    "q1": 0.01736128330230713,
+    "q3": 0.026882201433181763,
+    "p05": 0.013271385803818703,
+    "p95": 0.045181505382061005,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.02014846235418876,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.046798029556650245
+  },
+  "opg/DINOv2-L": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.10854241251945496,
+    "q1": 0.08494043350219727,
+    "q3": 0.13471269607543945,
+    "p05": 0.019697070121765137,
+    "p95": 0.20585285127162933,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.018943965435028076,
+    "q1": 0.015476882457733154,
+    "q3": 0.02364593744277954,
+    "p05": 0.011179155670106411,
+    "p95": 0.0388791449368,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.018099486827850342,
+    "q1": 0.01522374153137207,
+    "q3": 0.022665470838546753,
+    "p05": 0.0108893271535635,
+    "p95": 0.036993443965911865,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.018027571580063628,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.04187192118226601
+  },
+  "opg/RAD-DINO": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.2451612949371338,
+    "q1": 0.18497096002101898,
+    "q3": 0.3303157091140747,
+    "p05": 0.034517526626586914,
+    "p95": 0.5659451484680176,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.03626811504364014,
+    "q1": 0.02918112277984619,
+    "q3": 0.04741367697715759,
+    "p05": 0.021772265434265137,
+    "p95": 0.07875864952802658,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.03440356254577637,
+    "q1": 0.0278131365776062,
+    "q3": 0.04443180561065674,
+    "p05": 0.02172415889799595,
+    "p95": 0.07626667618751526,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.018027571580063628,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.04187192118226601
+  },
+  "opg/SigLIP-2": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.0787011981010437,
+    "q1": 0.051386743783950806,
+    "q3": 0.10236017405986786,
+    "p05": 0.008699178695678711,
+    "p95": 0.12789857387542725,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.010394692420959473,
+    "q1": 0.007944077253341675,
+    "q3": 0.016125142574310303,
+    "p05": 0.006146448664367199,
+    "p95": 0.03176993131637573,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.00994729995727539,
+    "q1": 0.007782250642776489,
+    "q3": 0.014681905508041382,
+    "p05": 0.005954086780548096,
+    "p95": 0.02814118005335331,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.018027571580063628,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.04187192118226601
+  },
+  "opg/CLIP-B/16": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.10382139682769775,
+    "q1": 0.0651090145111084,
+    "q3": 0.13341280817985535,
+    "p05": 0.013905555009841919,
+    "p95": 0.17145061492919922,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.010087966918945312,
+    "q1": 0.007904052734375,
+    "q3": 0.014654278755187988,
+    "p05": 0.005902707576751709,
+    "p95": 0.03511279076337814,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.009791374206542969,
+    "q1": 0.00764840841293335,
+    "q3": 0.014414936304092407,
+    "p05": 0.006075567100197077,
+    "p95": 0.03306407108902931,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.008483563096500531,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.019704433497536946
+  },
+  "opg/BiomedCLIP": {
+   "n_images": 943,
+   "n_images_with_same_patient_neighbour": 406,
+   "nearest_same_patient": {
+    "median": 0.27071091532707214,
+    "q1": 0.20972959697246552,
+    "q3": 0.3154805898666382,
+    "p05": 0.036517441272735596,
+    "p95": 0.368671178817749,
+    "n": 406
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.025391459465026855,
+    "q1": 0.018972575664520264,
+    "q3": 0.03864794969558716,
+    "p05": 0.013096076436340809,
+    "p95": 0.07196127623319626,
+    "n": 943
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.02442634105682373,
+    "q1": 0.01815927028656006,
+    "q3": 0.0365389883518219,
+    "p05": 0.012890160083770752,
+    "p95": 0.06261354684829712,
+    "n": 943
+   },
+   "frac_nn_same_patient": 0.012725344644750796,
+   "chance_frac_nn_same_patient": 0.0005178395733001916,
+   "frac_nn_same_patient_among_multi_image": 0.029556650246305417
+  },
+  "cephalogram/ResNet-18": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 0.0001881122589111328,
+    "q1": 4.729628562927246e-05,
+    "q3": 0.00025244057178497314,
+    "p05": 3.5762786865234375e-07,
+    "p95": 0.0002738833427429199,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.07432454824447632,
+    "q1": 0.06658297777175903,
+    "q3": 0.08202254772186279,
+    "p05": 0.0560603141784668,
+    "p95": 0.10087239742279053,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.0716547966003418,
+    "q1": 0.06373482942581177,
+    "q3": 0.08222293853759766,
+    "p05": 0.05677640438079834,
+    "p95": 0.09619277715682983,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  },
+  "cephalogram/ResNet-50": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 0.0022052526473999023,
+    "q1": 0.0005512237548828125,
+    "q3": 0.002389475703239441,
+    "p05": -1.1920928955078125e-07,
+    "p95": 0.002450883388519287,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.14578402042388916,
+    "q1": 0.12324738502502441,
+    "q3": 0.16777849197387695,
+    "p05": 0.10268783569335938,
+    "p95": 0.21070611476898193,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.14432764053344727,
+    "q1": 0.1226801872253418,
+    "q3": 0.16500544548034668,
+    "p05": 0.10246658325195312,
+    "p95": 0.20285570621490479,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  },
+  "cephalogram/ConvNeXt-T": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 0.0013570785522460938,
+    "q1": 0.00033926963806152344,
+    "q3": 0.001953423023223877,
+    "p05": 0.0,
+    "p95": 0.0021522045135498047,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.1536349058151245,
+    "q1": 0.1237102746963501,
+    "q3": 0.18176651000976562,
+    "p05": 0.09004569053649902,
+    "p95": 0.21421098709106445,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.15060025453567505,
+    "q1": 0.12078768014907837,
+    "q3": 0.1742863655090332,
+    "p05": 0.09360778331756592,
+    "p95": 0.22406071424484253,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  },
+  "cephalogram/ConvNeXt-L": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 0.0007195472717285156,
+    "q1": 0.00017979741096496582,
+    "q3": 0.0009213387966156006,
+    "p05": -1.1920928955078125e-07,
+    "p95": 0.000988602638244629,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.13361358642578125,
+    "q1": 0.10023009777069092,
+    "q3": 0.1608743667602539,
+    "p05": 0.07758641242980957,
+    "p95": 0.20813441276550293,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.13135802745819092,
+    "q1": 0.09800845384597778,
+    "q3": 0.1572754979133606,
+    "p05": 0.06683349609375,
+    "p95": 0.20281177759170532,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  },
+  "cephalogram/DINOv2-S": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 0.0002955794334411621,
+    "q1": 7.420778274536133e-05,
+    "q3": 0.0005729198455810547,
+    "p05": 4.172325134277344e-07,
+    "p95": 0.0006653666496276855,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.05061519145965576,
+    "q1": 0.042593181133270264,
+    "q3": 0.060700416564941406,
+    "p05": 0.03511226177215576,
+    "p95": 0.0850343108177185,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.0475083589553833,
+    "q1": 0.041157305240631104,
+    "q3": 0.05913412570953369,
+    "p05": 0.03490293025970459,
+    "p95": 0.08281224966049194,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  },
+  "cephalogram/DINOv2-B": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 0.00023347139358520508,
+    "q1": 5.836784839630127e-05,
+    "q3": 0.00025694072246551514,
+    "p05": 0.0,
+    "p95": 0.00026476383209228516,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.024426639080047607,
+    "q1": 0.020066142082214355,
+    "q3": 0.031123757362365723,
+    "p05": 0.015155255794525146,
+    "p95": 0.04829525947570801,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.023861289024353027,
+    "q1": 0.019418954849243164,
+    "q3": 0.029941916465759277,
+    "p05": 0.014857947826385498,
+    "p95": 0.04652118682861328,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  },
+  "cephalogram/DINOv2-L": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 0.00024259090423583984,
+    "q1": 6.029009819030762e-05,
+    "q3": 0.0007019191980361938,
+    "p05": -4.76837158203125e-07,
+    "p95": 0.0008550286293029785,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.01893782615661621,
+    "q1": 0.014845669269561768,
+    "q3": 0.02296978235244751,
+    "p05": 0.011036574840545654,
+    "p95": 0.03870999813079834,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.018253445625305176,
+    "q1": 0.014360189437866211,
+    "q3": 0.02290928363800049,
+    "p05": 0.010164141654968262,
+    "p95": 0.035613417625427246,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  },
+  "cephalogram/RAD-DINO": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 0.00012797117233276367,
+    "q1": 3.190338611602783e-05,
+    "q3": 0.00013145804405212402,
+    "p05": -1.1920928955078125e-07,
+    "p95": 0.00013262033462524414,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.04963529109954834,
+    "q1": 0.03804314136505127,
+    "q3": 0.061045169830322266,
+    "p05": 0.028721928596496582,
+    "p95": 0.08763110637664795,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.04684031009674072,
+    "q1": 0.037195801734924316,
+    "q3": 0.05948972702026367,
+    "p05": 0.02752786874771118,
+    "p95": 0.08235114812850952,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  },
+  "cephalogram/SigLIP-2": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 0.00015610456466674805,
+    "q1": 3.902614116668701e-05,
+    "q3": 0.0002654045820236206,
+    "p05": 0.0,
+    "p95": 0.0003018379211425781,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.01344919204711914,
+    "q1": 0.010670602321624756,
+    "q3": 0.01738208532333374,
+    "p05": 0.007546365261077881,
+    "p95": 0.026019275188446045,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.013178527355194092,
+    "q1": 0.01002877950668335,
+    "q3": 0.016426503658294678,
+    "p05": 0.007559657096862793,
+    "p95": 0.026720404624938965,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  },
+  "cephalogram/CLIP-B/16": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 0.0001087188720703125,
+    "q1": 2.7000904083251953e-05,
+    "q3": 0.00020116567611694336,
+    "p05": -2.384185791015625e-07,
+    "p95": 0.0002319812774658203,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.01506662368774414,
+    "q1": 0.01214611530303955,
+    "q3": 0.018612146377563477,
+    "p05": 0.009691178798675537,
+    "p95": 0.030746936798095703,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.014193415641784668,
+    "q1": 0.011895835399627686,
+    "q3": 0.017849445343017578,
+    "p05": 0.010127544403076172,
+    "p95": 0.02805352210998535,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  },
+  "cephalogram/BiomedCLIP": {
+   "n_images": 421,
+   "n_images_with_same_patient_neighbour": 6,
+   "nearest_same_patient": {
+    "median": 7.271766662597656e-06,
+    "q1": 1.817941665649414e-06,
+    "q3": 1.4603137969970703e-05,
+    "p05": 0.0,
+    "p95": 1.704692840576172e-05,
+    "n": 6
+   },
+   "nearest_other_patient_same_class": {
+    "median": 0.018455088138580322,
+    "q1": 0.012686371803283691,
+    "q3": 0.02449256181716919,
+    "p05": 0.007885992527008057,
+    "p95": 0.040899574756622314,
+    "n": 421
+   },
+   "nearest_other_patient_other_class": {
+    "median": 0.017677903175354004,
+    "q1": 0.011620044708251953,
+    "q3": 0.023648321628570557,
+    "p05": 0.007606565952301025,
+    "p95": 0.03685498237609863,
+    "n": 421
+   },
+   "frac_nn_same_patient": 0.014251781472684086,
+   "chance_frac_nn_same_patient": 3.3932813030200205e-05,
+   "frac_nn_same_patient_among_multi_image": 1.0
+  }
+ }
+}

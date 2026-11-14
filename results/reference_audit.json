@@ -1,0 +1,873 @@
+{
+  "provenance": "run: independent recomputation from user-provided case-level workbook; clinical reviews not repeated",
+  "workbook_sha256": "e14c212631e8678a7fdea0d70f784e94d67997a508799132fbe9998f3cfb7cb2",
+  "source_sheet": "Analysis Data",
+  "bootstrap_replicates": 20000,
+  "bootstrap_seed": 20260906,
+  "bootstrap_method": "multinomial paired-case bootstrap; percentile kappa/AC1 intervals; Wilson proportion intervals",
+  "cohort_linkage": {
+    "n_source_patients": 962,
+    "n_linked": 240,
+    "missing_ids": 0,
+    "manifest_label_mismatches": 0,
+    "audited_fraction": 0.2494802494802495
+  },
+  "combined": {
+    "n": 240,
+    "reviewer_agreement": {
+      "n": 240,
+      "matrix": [
+        [
+          111,
+          10,
+          3,
+          3
+        ],
+        [
+          18,
+          44,
+          0,
+          2
+        ],
+        [
+          25,
+          1,
+          14,
+          2
+        ],
+        [
+          1,
+          1,
+          1,
+          4
+        ]
+      ],
+      "agreements": 173,
+      "raw_agreement": 0.7208333333333333,
+      "raw_agreement_ci": [
+        0.6609424090249535,
+        0.7737662763341914
+      ],
+      "expected_agreement": 0.4184375,
+      "kappa": 0.5199713415726311,
+      "kappa_ci": [
+        0.4234044826009168,
+        0.6106293293871432
+      ],
+      "undefined_bootstrap_kappas": 0,
+      "ac1": 0.6545946642608583,
+      "ac1_ci": [
+        0.581678118366647,
+        0.7246517413153758
+      ],
+      "brennan_prediger": 0.6277777777777778,
+      "per_class": [
+        {
+          "reviewer1_n": 127,
+          "reviewer2_n": 155,
+          "both": 111,
+          "marginal_difference": 0.11666666666666667,
+          "positive_agreement": 0.7872340425531915,
+          "negative_agreement": 0.696969696969697,
+          "mcnemar_exact_p": 0.00039404324272610154
+        },
+        {
+          "reviewer1_n": 64,
+          "reviewer2_n": 56,
+          "both": 44,
+          "marginal_difference": -0.03333333333333333,
+          "positive_agreement": 0.7333333333333333,
+          "negative_agreement": 0.9111111111111111,
+          "mcnemar_exact_p": 0.21532714972272515
+        },
+        {
+          "reviewer1_n": 42,
+          "reviewer2_n": 18,
+          "both": 14,
+          "marginal_difference": -0.1,
+          "positive_agreement": 0.4666666666666667,
+          "negative_agreement": 0.9238095238095239,
+          "mcnemar_exact_p": 1.9301194697618484e-05
+        },
+        {
+          "reviewer1_n": 7,
+          "reviewer2_n": 11,
+          "both": 4,
+          "marginal_difference": 0.016666666666666666,
+          "positive_agreement": 0.4444444444444444,
+          "negative_agreement": 0.9783549783549783,
+          "mcnemar_exact_p": 0.34375
+        }
+      ],
+      "bowker": {
+        "statistic": 22.238095238095234,
+        "df": 6,
+        "p": 0.0010962583515560628
+      },
+      "stuart_maxwell": {
+        "statistic": 20.48152760481527,
+        "df": 3,
+        "p": 0.00013487973644853708
+      }
+    },
+    "final_labels": {
+      "Class III": 30,
+      "Class I": 134,
+      "Class II": 67,
+      "Excluded (not assessable)": 9
+    },
+    "manifest_labels": {
+      "Class III": 29,
+      "Class I": 129,
+      "Class II": 82
+    },
+    "manifest_vs_final_matrix": [
+      [
+        93,
+        22,
+        10,
+        4
+      ],
+      [
+        34,
+        44,
+        2,
+        2
+      ],
+      [
+        7,
+        1,
+        18,
+        3
+      ]
+    ],
+    "manifest_agreement": {
+      "n": 231,
+      "matrix": [
+        [
+          93,
+          22,
+          10
+        ],
+        [
+          34,
+          44,
+          2
+        ],
+        [
+          7,
+          1,
+          18
+        ]
+      ],
+      "agreements": 155,
+      "raw_agreement": 0.670995670995671,
+      "raw_agreement_ci": [
+        0.6080408664155169,
+        0.7283562944466032
+      ],
+      "expected_agreement": 0.42896497441951986,
+      "kappa": 0.42384562370778783,
+      "kappa_ci": [
+        0.31345446085675654,
+        0.5289592802481108
+      ],
+      "undefined_bootstrap_kappas": 0,
+      "ac1": 0.5399220362302224,
+      "ac1_ci": [
+        0.45464192010131377,
+        0.6255908962215038
+      ],
+      "brennan_prediger": 0.5064935064935066,
+      "per_class": [
+        {
+          "reviewer1_n": 125,
+          "reviewer2_n": 134,
+          "both": 93,
+          "marginal_difference": 0.03896103896103896,
+          "positive_agreement": 0.7181467181467182,
+          "negative_agreement": 0.6403940886699507,
+          "mcnemar_exact_p": 0.34918183817058834
+        },
+        {
+          "reviewer1_n": 80,
+          "reviewer2_n": 67,
+          "both": 44,
+          "marginal_difference": -0.05627705627705628,
+          "positive_agreement": 0.5986394557823129,
+          "negative_agreement": 0.8126984126984127,
+          "mcnemar_exact_p": 0.11747735024505848
+        },
+        {
+          "reviewer1_n": 26,
+          "reviewer2_n": 30,
+          "both": 18,
+          "marginal_difference": 0.017316017316017316,
+          "positive_agreement": 0.6428571428571429,
+          "negative_agreement": 0.9507389162561576,
+          "mcnemar_exact_p": 0.5034446716308594
+        }
+      ],
+      "bowker": {
+        "statistic": 3.4341736694677873,
+        "df": 3,
+        "p": 0.329400462818388
+      },
+      "stuart_maxwell": {
+        "statistic": 3.4261315115286077,
+        "df": 2,
+        "p": 0.18031215136889772
+      }
+    },
+    "changed_labels": 76,
+    "changed_fraction": 0.329004329004329,
+    "changed_fraction_ci": [
+      0.27164370555339684,
+      0.39195913358448303
+    ],
+    "n_assessable": 231,
+    "n_excluded": 9,
+    "senior_n": 71,
+    "senior_fraction": 0.29583333333333334,
+    "agreement_resolved_n": 169,
+    "senior_final_labels": {
+      "Class III": 16,
+      "Class I": 23,
+      "Class II": 23,
+      "Excluded (not assessable)": 9
+    },
+    "senior_alignment": {
+      "Matches Expert 1": 42,
+      "Matches Expert 2": 18,
+      "Matches neither expert": 10,
+      "Matches both experts": 1
+    },
+    "submission_pace": {
+      "expert1": {
+        "submissions": 240,
+        "sessions": 10,
+        "median_interval_seconds": 21.279,
+        "interval_iqr_seconds": [
+          14.83175,
+          39.24925
+        ]
+      },
+      "expert2": {
+        "submissions": 240,
+        "sessions": 4,
+        "median_interval_seconds": 12.328,
+        "interval_iqr_seconds": [
+          9.349,
+          21.47225
+        ]
+      },
+      "senior": {
+        "submissions": 71,
+        "sessions": 5,
+        "median_interval_seconds": 32.3035,
+        "interval_iqr_seconds": [
+          18.372,
+          61.87575
+        ]
+      }
+    },
+    "any_na": 14,
+    "both_na": 4,
+    "na_retained": 11,
+    "na_excluded": 3,
+    "new_senior_exclusions": 6,
+    "confidence": {
+      "expert1": {
+        "High": 5,
+        "Medium": 233,
+        "Low": 2
+      },
+      "expert2": {
+        "High": 17,
+        "Medium": 223
+      }
+    },
+    "expert_comments": 1,
+    "n_expert_reviews": 480,
+    "discussion_comments": 0,
+    "review_gap_hours_median": 49.583465277777776,
+    "senior_turnaround_hours": {
+      "min": 5.78308,
+      "q1": 20.653789027777776,
+      "median": 26.03303361111111,
+      "q3": 28.44871888888889,
+      "max": 28.730474166666664,
+      "mean": 25.204265661189357
+    }
+  },
+  "primary": {
+    "n": 230,
+    "reviewer_agreement": {
+      "n": 230,
+      "matrix": [
+        [
+          104,
+          9,
+          3,
+          3
+        ],
+        [
+          18,
+          42,
+          0,
+          2
+        ],
+        [
+          25,
+          1,
+          14,
+          2
+        ],
+        [
+          1,
+          1,
+          1,
+          4
+        ]
+      ],
+      "agreements": 164,
+      "raw_agreement": 0.7130434782608696,
+      "raw_agreement_ci": [
+        0.6514614566301842,
+        0.7676259049276517
+      ],
+      "expected_agreement": 0.4107939508506616,
+      "kappa": 0.512977638037794,
+      "kappa_ci": [
+        0.41608489360934603,
+        0.6040538254579678
+      ],
+      "undefined_bootstrap_kappas": 0,
+      "ac1": 0.6439670235596261,
+      "ac1_ci": [
+        0.568756823204784,
+        0.7164167497740467
+      ],
+      "brennan_prediger": 0.6173913043478261,
+      "per_class": [
+        {
+          "reviewer1_n": 119,
+          "reviewer2_n": 148,
+          "both": 104,
+          "marginal_difference": 0.12608695652173912,
+          "positive_agreement": 0.7790262172284644,
+          "negative_agreement": 0.694300518134715,
+          "mcnemar_exact_p": 0.00020372185740785698
+        },
+        {
+          "reviewer1_n": 62,
+          "reviewer2_n": 53,
+          "both": 42,
+          "marginal_difference": -0.0391304347826087,
+          "positive_agreement": 0.7304347826086957,
+          "negative_agreement": 0.9101449275362319,
+          "mcnemar_exact_p": 0.14961278438568115
+        },
+        {
+          "reviewer1_n": 42,
+          "reviewer2_n": 18,
+          "both": 14,
+          "marginal_difference": -0.10434782608695652,
+          "positive_agreement": 0.4666666666666667,
+          "negative_agreement": 0.92,
+          "mcnemar_exact_p": 1.9301194697618484e-05
+        },
+        {
+          "reviewer1_n": 7,
+          "reviewer2_n": 11,
+          "both": 4,
+          "marginal_difference": 0.017391304347826087,
+          "positive_agreement": 0.4444444444444444,
+          "negative_agreement": 0.9773755656108597,
+          "mcnemar_exact_p": 0.34375
+        }
+      ],
+      "bowker": {
+        "statistic": 22.95238095238095,
+        "df": 6,
+        "p": 0.0008125853340871409
+      },
+      "stuart_maxwell": {
+        "statistic": 21.133619302949047,
+        "df": 3,
+        "p": 9.875911786797342e-05
+      }
+    },
+    "final_labels": {
+      "Class III": 30,
+      "Class I": 127,
+      "Class II": 64,
+      "Excluded (not assessable)": 9
+    },
+    "manifest_labels": {
+      "Class III": 28,
+      "Class I": 123,
+      "Class II": 79
+    },
+    "manifest_vs_final_matrix": [
+      [
+        87,
+        22,
+        10,
+        4
+      ],
+      [
+        34,
+        41,
+        2,
+        2
+      ],
+      [
+        6,
+        1,
+        18,
+        3
+      ]
+    ],
+    "manifest_agreement": {
+      "n": 221,
+      "matrix": [
+        [
+          87,
+          22,
+          10
+        ],
+        [
+          34,
+          41,
+          2
+        ],
+        [
+          6,
+          1,
+          18
+        ]
+      ],
+      "agreements": 146,
+      "raw_agreement": 0.6606334841628959,
+      "raw_agreement_ci": [
+        0.5959376129953037,
+        0.7198404484547462
+      ],
+      "expected_agreement": 0.4256874347372085,
+      "kappa": 0.40909090909090906,
+      "kappa_ci": [
+        0.29407884351141567,
+        0.5172457962535818
+      ],
+      "undefined_bootstrap_kappas": 0,
+      "ac1": 0.5243663598602513,
+      "ac1_ci": [
+        0.43457137929051914,
+        0.6130107531024799
+      ],
+      "brennan_prediger": 0.49095022624434387,
+      "per_class": [
+        {
+          "reviewer1_n": 119,
+          "reviewer2_n": 127,
+          "both": 87,
+          "marginal_difference": 0.03619909502262444,
+          "positive_agreement": 0.7073170731707317,
+          "negative_agreement": 0.6326530612244898,
+          "mcnemar_exact_p": 0.40957939592707177
+        },
+        {
+          "reviewer1_n": 77,
+          "reviewer2_n": 64,
+          "both": 41,
+          "marginal_difference": -0.058823529411764705,
+          "positive_agreement": 0.5815602836879432,
+          "negative_agreement": 0.8039867109634552,
+          "mcnemar_exact_p": 0.11747735024505848
+        },
+        {
+          "reviewer1_n": 25,
+          "reviewer2_n": 30,
+          "both": 18,
+          "marginal_difference": 0.02262443438914027,
+          "positive_agreement": 0.6545454545454545,
+          "negative_agreement": 0.9509043927648578,
+          "mcnemar_exact_p": 0.359283447265625
+        }
+      ],
+      "bowker": {
+        "statistic": 3.904761904761905,
+        "df": 3,
+        "p": 0.27193346715276734
+      },
+      "stuart_maxwell": {
+        "statistic": 3.8633093525179856,
+        "df": 2,
+        "p": 0.14490822380051605
+      }
+    },
+    "changed_labels": 75,
+    "changed_fraction": 0.3393665158371041,
+    "changed_fraction_ci": [
+      0.2801595515452538,
+      0.40406238700469627
+    ],
+    "n_assessable": 221,
+    "n_excluded": 9,
+    "senior_n": 70,
+    "senior_fraction": 0.30434782608695654,
+    "agreement_resolved_n": 160,
+    "senior_final_labels": {
+      "Class III": 16,
+      "Class I": 23,
+      "Class II": 22,
+      "Excluded (not assessable)": 9
+    },
+    "senior_alignment": {
+      "Matches Expert 1": 42,
+      "Matches Expert 2": 17,
+      "Matches neither expert": 10,
+      "Matches both experts": 1
+    },
+    "submission_pace": {
+      "expert1": {
+        "submissions": 230,
+        "sessions": 8,
+        "median_interval_seconds": 21.279,
+        "interval_iqr_seconds": [
+          14.719,
+          39.24925
+        ]
+      },
+      "expert2": {
+        "submissions": 230,
+        "sessions": 3,
+        "median_interval_seconds": 11.917,
+        "interval_iqr_seconds": [
+          9.3255,
+          19.668999999999997
+        ]
+      },
+      "senior": {
+        "submissions": 70,
+        "sessions": 4,
+        "median_interval_seconds": 32.3035,
+        "interval_iqr_seconds": [
+          18.372,
+          61.87575
+        ]
+      }
+    },
+    "any_na": 14,
+    "both_na": 4,
+    "na_retained": 11,
+    "na_excluded": 3,
+    "new_senior_exclusions": 6,
+    "confidence": {
+      "expert1": {
+        "High": 3,
+        "Medium": 225,
+        "Low": 2
+      },
+      "expert2": {
+        "High": 17,
+        "Medium": 213
+      }
+    },
+    "expert_comments": 1,
+    "n_expert_reviews": 460,
+    "discussion_comments": 0,
+    "review_gap_hours_median": 49.456163333333336,
+    "senior_turnaround_hours": {
+      "min": 19.17798611111111,
+      "q1": 21.593272430555558,
+      "median": 26.03366972222222,
+      "q3": 28.449850833333333,
+      "max": 28.730474166666664,
+      "mean": 25.481711170634917
+    }
+  },
+  "pilot": {
+    "n": 10,
+    "reviewer_agreement": {
+      "n": 10,
+      "matrix": [
+        [
+          7,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "agreements": 9,
+      "raw_agreement": 0.9,
+      "raw_agreement_ci": [
+        0.5958499732047615,
+        0.9821237869049271
+      ],
+      "expected_agreement": 0.62,
+      "kappa": 0.736842105263158,
+      "kappa_ci": [
+        0.0,
+        1.0
+      ],
+      "undefined_bootstrap_kappas": 574,
+      "ac1": 0.8857142857142858,
+      "ac1_ci": [
+        0.6463654223968566,
+        1.0
+      ],
+      "brennan_prediger": 0.8666666666666667,
+      "per_class": [
+        {
+          "reviewer1_n": 8,
+          "reviewer2_n": 7,
+          "both": 7,
+          "marginal_difference": -0.1,
+          "positive_agreement": 0.9333333333333333,
+          "negative_agreement": 0.8,
+          "mcnemar_exact_p": 1.0
+        },
+        {
+          "reviewer1_n": 2,
+          "reviewer2_n": 3,
+          "both": 2,
+          "marginal_difference": 0.1,
+          "positive_agreement": 0.8,
+          "negative_agreement": 0.9333333333333333,
+          "mcnemar_exact_p": 1.0
+        },
+        {
+          "reviewer1_n": 0,
+          "reviewer2_n": 0,
+          "both": 0,
+          "marginal_difference": 0.0,
+          "positive_agreement": null,
+          "negative_agreement": 1.0,
+          "mcnemar_exact_p": 1.0
+        },
+        {
+          "reviewer1_n": 0,
+          "reviewer2_n": 0,
+          "both": 0,
+          "marginal_difference": 0.0,
+          "positive_agreement": null,
+          "negative_agreement": 1.0,
+          "mcnemar_exact_p": 1.0
+        }
+      ],
+      "bowker": {
+        "statistic": 1.0,
+        "df": 1,
+        "p": 0.31731050786291115
+      },
+      "stuart_maxwell": {
+        "statistic": 0.9999999999999996,
+        "df": 1,
+        "p": 0.3173105078629113
+      }
+    },
+    "final_labels": {
+      "Class I": 7,
+      "Class II": 3
+    },
+    "manifest_labels": {
+      "Class I": 6,
+      "Class II": 3,
+      "Class III": 1
+    },
+    "manifest_vs_final_matrix": [
+      [
+        6,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        3,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    "manifest_agreement": {
+      "n": 10,
+      "matrix": [
+        [
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ],
+      "agreements": 9,
+      "raw_agreement": 0.9,
+      "raw_agreement_ci": [
+        0.5958499732047615,
+        0.9821237869049271
+      ],
+      "expected_agreement": 0.51,
+      "kappa": 0.7959183673469388,
+      "kappa_ci": [
+        0.2592592592592592,
+        1.0
+      ],
+      "undefined_bootstrap_kappas": 131,
+      "ac1": 0.8679867986798678,
+      "ac1_ci": [
+        0.5759717314487632,
+        1.0
+      ],
+      "brennan_prediger": 0.8499999999999999,
+      "per_class": [
+        {
+          "reviewer1_n": 6,
+          "reviewer2_n": 7,
+          "both": 6,
+          "marginal_difference": 0.1,
+          "positive_agreement": 0.9230769230769231,
+          "negative_agreement": 0.8571428571428571,
+          "mcnemar_exact_p": 1.0
+        },
+        {
+          "reviewer1_n": 3,
+          "reviewer2_n": 3,
+          "both": 3,
+          "marginal_difference": 0.0,
+          "positive_agreement": 1.0,
+          "negative_agreement": 1.0,
+          "mcnemar_exact_p": 1.0
+        },
+        {
+          "reviewer1_n": 1,
+          "reviewer2_n": 0,
+          "both": 0,
+          "marginal_difference": -0.1,
+          "positive_agreement": 0.0,
+          "negative_agreement": 0.9473684210526315,
+          "mcnemar_exact_p": 1.0
+        }
+      ],
+      "bowker": {
+        "statistic": 1.0,
+        "df": 1,
+        "p": 0.31731050786291115
+      },
+      "stuart_maxwell": {
+        "statistic": 1.0,
+        "df": 1,
+        "p": 0.31731050786291115
+      }
+    },
+    "changed_labels": 1,
+    "changed_fraction": 0.1,
+    "changed_fraction_ci": [
+      0.017876213095072896,
+      0.4041500267952385
+    ],
+    "n_assessable": 10,
+    "n_excluded": 0,
+    "senior_n": 1,
+    "senior_fraction": 0.1,
+    "agreement_resolved_n": 9,
+    "senior_final_labels": {
+      "Class II": 1
+    },
+    "senior_alignment": {
+      "Matches Expert 2": 1
+    },
+    "submission_pace": {
+      "expert1": {
+        "submissions": 10,
+        "sessions": 2,
+        "median_interval_seconds": 22.1445,
+        "interval_iqr_seconds": [
+          19.549,
+          46.859750000000005
+        ]
+      },
+      "expert2": {
+        "submissions": 10,
+        "sessions": 1,
+        "median_interval_seconds": 40.626,
+        "interval_iqr_seconds": [
+          31.041,
+          78.7
+        ]
+      },
+      "senior": {
+        "submissions": 1,
+        "sessions": 1,
+        "median_interval_seconds": null,
+        "interval_iqr_seconds": null
+      }
+    },
+    "any_na": 0,
+    "both_na": 0,
+    "na_retained": 0,
+    "na_excluded": 0,
+    "new_senior_exclusions": 0,
+    "confidence": {
+      "expert1": {
+        "Medium": 8,
+        "High": 2
+      },
+      "expert2": {
+        "Medium": 10
+      }
+    },
+    "expert_comments": 0,
+    "n_expert_reviews": 20,
+    "discussion_comments": 0,
+    "review_gap_hours_median": 83.13113472222221,
+    "senior_turnaround_hours": {
+      "min": 5.78308,
+      "q1": 5.78308,
+      "median": 5.78308,
+      "q3": 5.78308,
+      "max": 5.78308,
+      "mean": 5.78308
+    }
+  },
+  "limitations": [
+    "Sampling procedure not evidenced by export",
+    "Reviewer qualifications and blinding not verified by generic accounts",
+    "No dedicated senior rationale field",
+    "No AI predictions in input workbook",
+    "No established linkage to a 134-case post-AI cohort"
+  ]
+}

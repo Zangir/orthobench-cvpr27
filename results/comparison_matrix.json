@@ -1,0 +1,112 @@
+{
+ "description": "OrthoBench vs representative public dental/orthodontic datasets. Incumbent facts are reported provenance (quoted from the cited source in litreview/papers.json); the OrthoBench row is regenerated from results/dataset_stats.json.",
+ "quantitative_column": "n_images",
+ "capability_columns": [
+  "patient_linked_multimodal",
+  "angle_class_labels",
+  "patient_level_split"
+ ],
+ "null_render": "n/r",
+ "datasets": [
+  {
+   "name": "ISBI-2015",
+   "cite_key": "wang2016benchmark",
+   "source_id": "td995ce1163",
+   "modalities": "Lateral ceph",
+   "population": "Single-center (Asia)",
+   "task": "Landmark detection",
+   "n_patients": null,
+   "n_images": 400,
+   "patient_linked_multimodal": false,
+   "angle_class_labels": false,
+   "patient_level_split": null,
+   "provenance": "reported"
+  },
+  {
+   "name": "Aariz",
+   "cite_key": "khalid2023aariz",
+   "source_id": "2302.07797",
+   "modalities": "Lateral ceph",
+   "population": "Pakistan",
+   "task": "Landmark detection + CVM",
+   "n_patients": null,
+   "n_images": 1000,
+   "patient_linked_multimodal": false,
+   "angle_class_labels": false,
+   "patient_level_split": null,
+   "provenance": "reported"
+  },
+  {
+   "name": "CL-Detection 2023",
+   "cite_key": "zhang2024techniques",
+   "source_id": "2409.15834",
+   "modalities": "Lateral ceph",
+   "population": "Multi-center (3 centers)",
+   "task": "Landmark detection",
+   "n_patients": null,
+   "n_images": 600,
+   "patient_linked_multimodal": false,
+   "angle_class_labels": false,
+   "patient_level_split": null,
+   "provenance": "reported"
+  },
+  {
+   "name": "Tufts",
+   "cite_key": "panetta2022tufts",
+   "source_id": "ta4b42dbfce",
+   "modalities": "Panoramic",
+   "population": "USA",
+   "task": "Diagnostic segmentation",
+   "n_patients": null,
+   "n_images": 1000,
+   "patient_linked_multimodal": false,
+   "angle_class_labels": false,
+   "patient_level_split": null,
+   "provenance": "reported"
+  },
+  {
+   "name": "DENTEX",
+   "cite_key": "hamamci2023dentex",
+   "source_id": "2305.19112",
+   "modalities": "Panoramic",
+   "population": "Europe",
+   "task": "Enumeration / pathosis",
+   "n_patients": null,
+   "n_images": 3903,
+   "n_images_note": "693 + 634 + 1005 + 1571 unlabelled panoramic X-rays",
+   "patient_linked_multimodal": false,
+   "angle_class_labels": false,
+   "patient_level_split": null,
+   "provenance": "reported"
+  },
+  {
+   "name": "UFBA-UESC",
+   "cite_key": "silva2018automatic",
+   "source_id": "t709c1581ad",
+   "modalities": "Panoramic",
+   "population": "Brazil",
+   "task": "Tooth segmentation",
+   "n_patients": null,
+   "n_images": 1500,
+   "patient_linked_multimodal": false,
+   "angle_class_labels": false,
+   "patient_level_split": null,
+   "provenance": "reported"
+  },
+  {
+   "name": "OrthoBench (ours)",
+   "cite_key": null,
+   "source_id": "ours",
+   "modalities": "Intraoral + OPG + ceph",
+   "population": "single source cohort (withheld for review)",
+   "task": "Patient-level Angle class",
+   "patient_linked_multimodal": true,
+   "angle_class_labels": true,
+   "patient_level_split": true,
+   "provenance": "run",
+   "n_patients": 962,
+   "n_images": 8299,
+   "paired_patients": 285
+  }
+ ]
+}

@@ -1,0 +1,103 @@
+[
+  {
+    "file": "fig0_teaser",
+    "document": "main",
+    "caption_draft": "Linked cohort, primary audit agreement/label changes, and separate historical split effects.",
+    "result_sources": [
+      "results/dataset_stats.json",
+      "results/reference_audit.json",
+      "results/significance.json"
+    ]
+  },
+  {
+    "file": "fig9_primer",
+    "document": "main",
+    "caption_draft": "Existing clinical exemplar shows modality inputs and intraoral view heterogeneity.",
+    "result_sources": [
+      "results/dataset_stats.json",
+      "results/phi_audit.json"
+    ]
+  },
+  {
+    "file": "fig11_reference",
+    "document": "main",
+    "caption_draft": "Primary reviewer matrix; combined original/final matrix and final class counts.",
+    "result_sources": [
+      "results/reference_audit.json"
+    ]
+  },
+  {
+    "file": "fig5_comparison",
+    "document": "main",
+    "caption_draft": "Task-specific incumbent capabilities; unknown patient grouping is n/r, not absent.",
+    "result_sources": [
+      "results/comparison_matrix.json"
+    ]
+  },
+  {
+    "file": "fig1_leakage",
+    "document": "main",
+    "caption_draft": "Historical per-image split comparison; seed spreads, differing test membership.",
+    "result_sources": [
+      "results/leakage.json",
+      "results/finetune.json"
+    ]
+  },
+  {
+    "file": "fig10_confusion",
+    "document": "supplementary",
+    "caption_draft": "Historical patient-level confusion and per-class uncertainty.",
+    "result_sources": [
+      "results/baselines.json"
+    ]
+  },
+  {
+    "file": "fig3_baselines",
+    "document": "supplementary",
+    "caption_draft": "Historical frozen-backbone performance.",
+    "result_sources": [
+      "results/baselines.json"
+    ]
+  },
+  {
+    "file": "fig2_neardup",
+    "document": "supplementary",
+    "caption_draft": "Perceptual-hash candidate distribution, not verified cross-patient identity.",
+    "result_sources": [
+      "results/neardup.json"
+    ]
+  },
+  {
+    "file": "fig4_data_efficiency",
+    "document": "supplementary",
+    "caption_draft": "Historical training-size ablation.",
+    "result_sources": [
+      "results/ablations.json"
+    ]
+  },
+  {
+    "file": "fig7_fusion",
+    "document": "supplementary",
+    "caption_draft": "Historical paired-modality and missing-modality results.",
+    "result_sources": [
+      "results/fusion.json"
+    ]
+  },
+  {
+    "file": "fig6_modality",
+    "document": "supplementary",
+    "caption_draft": "Historical split gaps across modality cohorts; descriptive association.",
+    "result_sources": [
+      "results/modality_tracks.json"
+    ]
+  },
+  {
+    "file": "fig8_phi",
+    "document": "supplementary",
+    "caption_draft": "OCR triage, synthetic-control sensitivity, and redaction utility.",
+    "result_sources": [
+      "results/phi_audit.json",
+      "results/redaction.json"
+    ]
+  }
+]

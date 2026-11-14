@@ -1,0 +1,50 @@
+{
+  "provenance": "run: recomputed historical seed-zero controls",
+  "n_test_patients": 289,
+  "split_seed": 0,
+  "bootstrap_seed": 0,
+  "bootstrap_replicates": 1000,
+  "cache_sha256": "2b324ecad9a16a4438a1c41cbf37acf93a647bf6f5264138834691271af10ae8",
+  "controls": {
+    "majority_class": {
+      "macro_f1": 0.23175319789315274,
+      "accuracy": 0.532871972318339,
+      "balanced_accuracy": 0.3333333333333333,
+      "per_class_f1": [
+        0.6952595936794582,
+        0.0,
+        0.0
+      ],
+      "macro_f1_ci": [
+        0.21437089201877932,
+        0.24782608695652175
+      ],
+      "accuracy_ci": [
+        0.473961937716263,
+        0.5916955017301038
+      ],
+      "macro_f1_mean": 0.23138584957148267,
+      "accuracy_mean": 0.5321384083044983
+    },
+    "stratified_random": {
+      "macro_f1": 0.32931171196633535,
+      "accuracy": 0.4186851211072664,
+      "balanced_accuracy": 0.32956709956709956,
+      "per_class_f1": [
+        0.5284280936454849,
+        0.375,
+        0.08450704225352113
+      ],
+      "macro_f1_ci": [
+        0.2774626079526576,
+        0.38389455356617747
+      ],
+      "accuracy_ci": [
+        0.3633217993079585,
+        0.47750865051903113
+      ],
+      "macro_f1_mean": 0.32857170110087813,
+      "accuracy_mean": 0.41953979238754324
+    }
+  }
+}

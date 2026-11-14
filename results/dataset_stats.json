@@ -1,0 +1,111 @@
+{
+ "n_patients": 962,
+ "n_images": 8299,
+ "images_by_modality": {
+  "cephalogram": 421,
+  "intraoral": 6935,
+  "opg": 943
+ },
+ "patient_label_distribution": {
+  "Class I": 515,
+  "Class II": 332,
+  "Class III": 115
+ },
+ "imbalance_I_to_III": 4.48,
+ "images_per_patient": {
+  "cephalogram": [
+   1.0,
+   1.0,
+   1.0,
+   1,
+   2
+  ],
+  "intraoral": [
+   6.0,
+   5.0,
+   9.0,
+   1,
+   38
+  ],
+  "opg": [
+   1.0,
+   1.0,
+   2.0,
+   1,
+   4
+  ]
+ },
+ "modalities_present": {
+  "intraoral+opg": 446,
+  "intraoral+opg+cephalogram": 285,
+  "intraoral+cephalogram": 133,
+  "intraoral": 97,
+  "opg": 1
+ },
+ "fully_paired_patients": 285,
+ "redundant_exact_within_modality": {
+  "cephalogram": 0,
+  "intraoral": 0,
+  "opg": 0
+ },
+ "cross_patient_exact_groups_remaining": 0,
+ "resolution": {
+  "cephalogram": {
+   "median_wh": [
+    1785,
+    1800
+   ],
+   "min_wh": [
+    446,
+    450
+   ],
+   "max_wh": [
+    2685,
+    2211
+   ]
+  },
+  "intraoral": {
+   "median_wh": [
+    1701,
+    1214
+   ],
+   "min_wh": [
+    224,
+    152
+   ],
+   "max_wh": [
+    6000,
+    4000
+   ]
+  },
+  "opg": {
+   "median_wh": [
+    2441,
+    1480
+   ],
+   "min_wh": [
+    130,
+    154
+   ],
+   "max_wh": [
+    3027,
+    2107
+   ]
+  }
+ },
+ "source_files_with_exif": 6543,
+ "phi_pixel_review_pending": 8299,
+ "pre_packaging_provenance": {
+  "input_exact_unique_images": 8324,
+  "excluded_cross_patient_exact_groups": 25,
+  "cross_modality_groups_resolved": 208,
+  "cross_modality_combinations": {
+   "cephalogram/intraoral": 1,
+   "cephalogram/opg": 138,
+   "intraoral/opg": 69
+  },
+  "source_files_with_sensitive_info_keys": 7611,
+  "output_files_with_sensitive_metadata": 0,
+  "pixel_equivalence_verified": 8299
+ }
+}

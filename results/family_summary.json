@@ -1,0 +1,57 @@
+{
+ "provenance": "run",
+ "plan": "experiments/cvpr27_plan.json (amendment 2026-11-14)",
+ "metric": "patient macro-F1, 189 test patients",
+ "groups": {
+  "DINOv2 / knn1": {
+   "n_entries": 3,
+   "mean_source": 0.3407170795085838,
+   "mean_adjudicated": 0.3285442249621226
+  },
+  "DINOv2 / knn5": {
+   "n_entries": 3,
+   "mean_source": 0.3137203118422283,
+   "mean_adjudicated": 0.31722604582873964
+  },
+  "DINOv2 / logreg": {
+   "n_entries": 3,
+   "mean_source": 0.4672694776687217,
+   "mean_adjudicated": 0.47110871171155977
+  },
+  "Fine-tuned / fine-tuned": {
+   "n_entries": 3,
+   "mean_source": 0.4358156111834958,
+   "mean_adjudicated": 0.45331156390060534
+  },
+  "Image-text / knn1": {
+   "n_entries": 3,
+   "mean_source": 0.33148020345808166,
+   "mean_adjudicated": 0.35003821131342955
+  },
+  "Image-text / knn5": {
+   "n_entries": 3,
+   "mean_source": 0.3286800754783656,
+   "mean_adjudicated": 0.3119815892017855
+  },
+  "Image-text / logreg": {
+   "n_entries": 3,
+   "mean_source": 0.428754701925417,
+   "mean_adjudicated": 0.46283391709988475
+  },
+  "ImageNet-supervised / knn1": {
+   "n_entries": 4,
+   "mean_source": 0.3293727131074258,
+   "mean_adjudicated": 0.35742898813145013
+  },
+  "ImageNet-supervised / knn5": {
+   "n_entries": 4,
+   "mean_source": 0.3330138663429247,
+   "mean_adjudicated": 0.31918095363038695
+  },
+  "ImageNet-supervised / logreg": {
+   "n_entries": 4,
+   "mean_source": 0.415822564816551,
+   "mean_adjudicated": 0.43262819295298854
+  }
+ }
+}

@@ -1,0 +1,23 @@
+# OrthoBench default experiment configuration
+# (values are also the argparse defaults in run_experiment.py; this file documents them)
+backbones: [dinov2, resnet50]     # frozen feature extractors
+feature_dim: {dinov2: 384, resnet50: 2048}
+preprocess: {resize: 256, crop: 224, norm: imagenet}
+
+split:
+  test_frac: 0.30                 # class-stratified
+  n_seeds: 5                      # paired across image-level and patient-level regimes
+  protocols: [patient_level, image_level]
+
+probes:
+  logreg: {C: 1.0, class_weight: balanced, max_iter: 2000}
+  knn: {k: [1, 5], metric: cosine}
+
+evaluation:
+  primary_metric: macro_f1
+  patient_aggregation: mean_prob  # mean predicted probability across a patient's images
+  bootstrap: {n_boot: 1000, alpha: 0.05, unit: patient}
+
+dedup:
+  phash_bits: 64
+  hamming_thresholds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
