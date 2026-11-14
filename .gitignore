@@ -1,7 +1,7 @@
 .venv/
 __pycache__/
 *.pyc
+.DS_Store
+# Restricted clinical data and any features derived from it are never committed.
 data/
-sample_data/images/
-sample_data/manifests/
-out/
+*.npz

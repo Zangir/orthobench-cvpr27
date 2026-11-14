@@ -94,6 +94,16 @@
     "E1 fine-tuned backbones in the split arm (GPU, ~8.7 h, after Nov 16)",
     "E2 extra fine-tuning seeds (GPU, ~2.3 h, after Nov 16)"
    ]
+  },
+  {
+   "date": "2026-11-14",
+   "logged_before_running": true,
+   "reason": "three-perspective review (paper/REVIEW_3P.md): the paper states 'no model reaches an expert' and 'the lead is not significant' without a paired interval for either difference",
+   "status": "exploratory, added after the frozen plan; stored per-patient predictions and the case-level reviewer labels only (CPU, seconds); nothing is refit; reported whatever the outcome",
+   "analyses": {
+    "C11_expert_gap_ci": "for each expert reviewer, paired 95% percentile interval of (reviewer macro-F1 minus fine-tuned DINOv2-S macro-F1, 3-seed mean) against the source label, over the same 2,000 patient-bootstrap draws (seed 20261108) as zoo_reference.json; rule (a) all 189 test patients with not-assessable counted as an error, rule (b) only the patients that reviewer could assess; also the share of draws in which the model scores at or above the reviewer -> results/expert_gap_ci.json",
+    "C12_lead_ci": "paired 95% interval of (fine-tuned DINOv2-S minus fine-tuned ConvNeXt-T) and (fine-tuned DINOv2-S minus the best frozen entry, ResNet-18 linear) macro-F1 under the source and the adjudicated label, same draws -> results/expert_gap_ci.json"
+   }
   }
  ]
 }

@@ -7,7 +7,7 @@ results/; patient identifiers never leave memory.
 
   python scripts/exemplar_checks.py --workbook ../../updates/OrthoLabel_EDA.xlsx
 
-Outputs: results/rank_stability.json, expert_subset.json, feature_distance.json,
+Outputs: results/rank_stability.json, expert_subset.json, expert_gap_ci.json, feature_distance.json,
 modality_paired.json, family_summary.json, fig2_frame_probs.json
 """
 import argparse
@@ -192,6 +192,36 @@ def family_summary(manifest, final, entries):
     save("family_summary.json", {"metric": "patient macro-F1, 189 test patients", "groups": out})
 
 
+def expert_gap_ci(ctx, test, manifest, final, entries):
+    """C11 + C12 (amendment 2, 2026-11-14): paired intervals for the expert gap and the lead."""
+    w = V.draw_weights(len(test), R.N_BOOT, R.SEED)          # identical draws to zoo_reference.json
+    pr = ctx["primary"]
+    ft = [p.argmax(1) for p in entries[("dinov2", "fine-tuned")]]
+    ci = lambda x: [float(np.percentile(x, 2.5)), float(np.percentile(x, 97.5))]
+    rec = {"bootstrap_replicates": R.N_BOOT, "bootstrap_seed": R.SEED, "n_test": len(test)}
+    for r in ("expert1", "expert2"):
+        raw = [pr[p][f"{r}_label"] for p in test]
+        ex = np.array([LABELS.index(v) if v in LABELS[:3] else 3 for v in raw])
+        ok = (ex < 3).astype(float)
+        out = {}
+        for rule, ww in (("all_na_as_error", w), ("assessable_only", w * ok[None, :])):
+            e_b = V.scores(manifest, ex, ww)[0]
+            m_b = V.entry_scores(manifest, ft, ww)
+            g = e_b - m_b
+            out[rule] = {"gap_ci95": ci(g), "share_draws_model_at_or_above_reviewer": float((g <= 0).mean())}
+        rec[r] = out
+    others = {"convnext_t_ft": entries[("convnext_tiny", "fine-tuned")],
+              "resnet18_linear": entries[("resnet18", "logreg")]}
+    lead = {}
+    for nm, runs in others.items():
+        for lab, truth in (("source", manifest), ("adjudicated", final)):
+            d = V.entry_scores(truth, ft, w) - V.entry_scores(truth, [p.argmax(1) for p in runs], w)
+            pt = float(V.entry_scores(truth, ft)[0] - V.entry_scores(truth, [p.argmax(1) for p in runs])[0])
+            lead[f"dinov2s_ft_minus_{nm}_{lab}"] = {"point": pt, "ci95": ci(d)}
+    rec["lead"] = lead
+    save("expert_gap_ci.json", rec)
+
+
 def fig2_frame_probs(ctx):
     rec = {"record": "the redacted record already shown in the primer figure (identifier withheld)",
            "in_reference_test_189": PRIMER_PATIENT in ctx["test_ids"],
@@ -214,9 +244,13 @@ def fig2_frame_probs(ctx):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--workbook", required=True)
+    ap.add_argument("--only-gap", action="store_true", help="run only C11/C12 (amendment 2)")
     a = ap.parse_args()
     ctx = zoo.context(read_cases(a.workbook), CACHE)
     store, test, manifest, final, agreed, entries = entries_and_labels(ctx)
+    expert_gap_ci(ctx, test, manifest, final, entries)
+    if a.only_gap:
+        return
     rank_stability(test, manifest, final, entries)
     expert_subset(ctx, test, manifest, entries)
     modality_paired(store, test, final)

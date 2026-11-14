@@ -1,0 +1,69 @@
+{
+ "provenance": "run",
+ "plan": "experiments/cvpr27_plan.json (amendment 2026-11-14)",
+ "bootstrap_replicates": 2000,
+ "bootstrap_seed": 20261108,
+ "n_test": 189,
+ "expert1": {
+  "all_na_as_error": {
+   "gap_ci95": [
+    -0.018303565729319075,
+    0.1400815360102051
+   ],
+   "share_draws_model_at_or_above_reviewer": 0.063
+  },
+  "assessable_only": {
+   "gap_ci95": [
+    -0.02353415863349684,
+    0.1393315465711676
+   ],
+   "share_draws_model_at_or_above_reviewer": 0.0755
+  }
+ },
+ "expert2": {
+  "all_na_as_error": {
+   "gap_ci95": [
+    -0.06839657653460329,
+    0.1337806185538628
+   ],
+   "share_draws_model_at_or_above_reviewer": 0.2605
+  },
+  "assessable_only": {
+   "gap_ci95": [
+    -0.06466458195568145,
+    0.1445864054812612
+   ],
+   "share_draws_model_at_or_above_reviewer": 0.2255
+  }
+ },
+ "lead": {
+  "dinov2s_ft_minus_convnext_t_ft_source": {
+   "point": 0.02206891422040158,
+   "ci95": [
+    -0.04588049448611537,
+    0.0946526552298891
+   ]
+  },
+  "dinov2s_ft_minus_convnext_t_ft_adjudicated": {
+   "point": 0.07422843448706962,
+   "ci95": [
+    0.003026408709841804,
+    0.14230569356457407
+   ]
+  },
+  "dinov2s_ft_minus_resnet18_linear_source": {
+   "point": 0.03842438595060349,
+   "ci95": [
+    -0.048295259980005126,
+    0.1233818656030603
+   ]
+  },
+  "dinov2s_ft_minus_resnet18_linear_adjudicated": {
+   "point": 0.08853103411979435,
+   "ci95": [
+    0.007458354303289665,
+    0.1742250548439549
+   ]
+  }
+ }
+}

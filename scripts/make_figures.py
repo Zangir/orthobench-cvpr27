@@ -126,7 +126,7 @@ def fig_teaser(ds, nd, lk, ft=None):
                 fontweight="bold", color=OI["black"])
 
     # Panel 1: real multi-modality cohort
-    ax = axes[0]; box(ax, OI["blue"], "Real clinical cohort")
+    ax = axes[0]; box(ax, OI["blue"], "Real Gulf clinical cohort")
     ax.text(0.5, 0.70, f"{n_pat} patients", ha="center", fontsize=13,
             fontweight="bold", color=OI["blue"])
     ax.text(0.5, 0.61, f"{n_img:,} images", ha="center", fontsize=11.5, color=OI["black"])
@@ -315,7 +315,7 @@ def fig_neardup(nd):
     axes[1].axvline(action_t, color="#666666", ls=":", lw=1)
     axes[1].annotate(
         f"{cx[action_i]} cross-patient\npairs at threshold $\\leq {action_t}$",
-        xy=(action_t, cx[action_i]), xytext=(action_t - 2.6, cx[action_i] + 33),
+        xy=(action_t, cx[action_i]), xytext=(action_t - 5.8, cx[action_i] + 45),
         arrowprops=dict(arrowstyle="->", color=HUE["cross_patient"], lw=1),
         color=HUE["cross_patient"], fontsize=9, fontweight="bold", ha="left",
     )
@@ -348,7 +348,7 @@ def fig_baselines(bl):
     ax.axhline(1 / 3, ls=":", color="#555555", lw=1,
                label="0.33 reference")
     ax.set_xticks(x); ax.set_xticklabels(labels)
-    ax.set_ylabel("Per-class F1 (patient-level, mean $\\pm$ std, 5 seeds)")
+    ax.set_ylabel("Per-class F1 (mean $\\pm$ std, 5 seeds)")
     ax.set_xlabel("Angle malocclusion class")
     ax.legend(loc="upper right", frameon=False, ncol=3, fontsize=8.5)
     ax.set_ylim(0, 0.80)
@@ -646,8 +646,8 @@ def fig_modality(mt):
     bars = ax.bar(np.arange(len(mods)), m, 0.6, yerr=e, capsize=3,
                   color=[HUE[k] for k in mods], edgecolor="white", linewidth=0.6)
     for bar, val, k in zip(bars, m, mods):
-        ax.text(bar.get_x() + bar.get_width() / 2, val - 0.02, f"{val:.3f}",
-                ha="center", va="top", fontsize=9, color="white", fontweight="bold")
+        ax.text(bar.get_x() + bar.get_width() / 2, 0.02, f"{val:.3f}",
+                ha="center", va="bottom", fontsize=9, color="white", fontweight="bold")
         ax.text(bar.get_x() + bar.get_width() / 2, val + e[mods.index(k)] + 0.008,
                 f"n={d[k]['n_images']:,}", ha="center", va="bottom", fontsize=8,
                 color="#555555")
@@ -786,8 +786,8 @@ def fig_fusion(fu):
     bars = ax.bar(np.arange(len(keys)), m, 0.62, yerr=e, capsize=3, color=col,
                   edgecolor="white", linewidth=0.6)
     for bar, val in zip(bars, m):
-        ax.text(bar.get_x() + bar.get_width() / 2, val + 0.004, f"{val:.3f}",
-                ha="center", va="bottom", fontsize=8.5, color="#333333")
+        ax.text(bar.get_x() + bar.get_width() / 2, 0.02, f"{val:.3f}",
+                ha="center", va="bottom", fontsize=8.5, color="white", fontweight="bold")
     best_uni = max(m[:3])
     ax.axhline(best_uni, ls="--", color=OI["vermillion"], lw=1.1)
     ax.annotate(f"dashed line: best single modality ({best_uni:.3f})", (0.02, 0.89),
@@ -817,9 +817,9 @@ def fig_phi(ph, rd):
     bars = ax.bar(np.arange(len(mods)), pct, 0.6,
                   color=[HUE[m] for m in mods], edgecolor="white", linewidth=0.6)
     for bar, val, m in zip(bars, pct, mods):
-        ax.text(bar.get_x() + bar.get_width() / 2, val + 0.55,
+        ax.text(bar.get_x() + bar.get_width() / 2, val - 0.5,
                 f"{val:.1f}%\n({ph['by_modality'][m]['flagged_risk']})",
-                ha="center", va="bottom", fontsize=8.5, color=HUE[m],
+                ha="center", va="top", fontsize=8.5, color="white",
                 fontweight="bold")
     ax.axhline(ph["flagged_pct_of_cohort"], ls=":", color="#444444", lw=1)
     ax.annotate(f"dotted line: whole cohort {ph['flagged_pct_of_cohort']:.2f}%",
@@ -840,7 +840,7 @@ def fig_phi(ph, rd):
     bars = ax.bar(np.arange(len(bk)), sens, 0.6, color=OI["blue"],
                   edgecolor="white", linewidth=0.6)
     for bar, val, b in zip(bars, sens, bk):
-        ax.text(bar.get_x() + bar.get_width() / 2, val - 0.03, f"{val:.2f}",
+        ax.text(bar.get_x() + bar.get_width() / 2, val - 0.07, f"{val:.2f}",
                 ha="center", va="top", fontsize=9, color="white", fontweight="bold")
         ax.text(bar.get_x() + bar.get_width() / 2, val + 0.012,
                 f"n={bands[b]['n']}", ha="center", va="bottom", fontsize=8,
@@ -864,8 +864,8 @@ def fig_phi(ph, rd):
          v["margin_redacted"]["patient_macro_f1"]["std"]]
     bars = ax.bar([0, 1], m, 0.52, yerr=e, capsize=4,
                   color=[OI["grey"], OI["green"]], edgecolor="white", linewidth=0.6)
-    for bar, val in zip(bars, m):
-        ax.text(bar.get_x() + bar.get_width() / 2, val - 0.02, f"{val:.3f}",
+    for bar, val, ev in zip(bars, m, e):
+        ax.text(bar.get_x() + bar.get_width() / 2, val - ev - 0.015, f"{val:.3f}",
                 ha="center", va="top", fontsize=9, color="white", fontweight="bold")
     ax.set_xticks([0, 1]); ax.set_xticklabels(names, fontsize=9)
     ax.set_ylabel("Patient-level macro-F1")

@@ -43,8 +43,11 @@ def load(name):
 
 def setup():
     ps.style()
-    plt.rcParams.update({"font.size": 7.2, "xtick.labelsize": 6.6, "ytick.labelsize": 6.6,
-                         "axes.labelsize": 7.2, "axes.titlesize": 7.6, "legend.fontsize": 6.6,
+    # Arial is narrower than DejaVu Sans, so >= 7 pt labels fit the same panels (review 2026-11-14)
+    plt.rcParams.update({"font.family": ["Arial", "DejaVu Sans"], "mathtext.fontset": "custom", "mathtext.rm": "Arial",
+                         "mathtext.it": "Arial:italic", "mathtext.bf": "Arial:bold",
+                         "font.size": 7.3, "xtick.labelsize": 7.3, "ytick.labelsize": 7.3,
+                         "axes.labelsize": 7.3, "axes.titlesize": 7.8, "legend.fontsize": 7.3,
                          "lines.markersize": 3, "axes.grid": True})
 
 
@@ -67,15 +70,23 @@ def primer_thumbnails(pdf):
     return {"opg": ims[0], "cephalogram": ims[1], "intraoral": ims[2:7]}
 
 
-def panel(fig, x, y, w, h, title, num):
+# ----------------------------------------------------------------- legibility (review 2026-11-14)
+# Every label must print at >= 7 pt (0.7 x the 10 pt body). Figures 1, 2, 5, 6 print at about
+# 0.98 x their 7.0 in width, Fig. 3 at about 0.97 x (3.25 in into one column), Fig. 4 at about
+# 1.17 x. FS is the smallest size used in the full-width figures (7.3 x 0.98 = 7.15 pt).
+FS = 7.3
+
+
+def panel(fig, x, y, w, h, title, num, fig_h):
     ax = fig.add_axes([x, y, w, h])
     ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
     ax.add_patch(FancyBboxPatch((0.01, 0.01), 0.98, 0.98, boxstyle="round,pad=0,rounding_size=0.04",
                                 facecolor=PANEL_FACE, edgecolor=PANEL_EDGE, linewidth=1.0))
-    ax.add_patch(Circle((0.075, 0.915), 0.042, facecolor="white", edgecolor="#222222", lw=0.8,
-                        transform=ax.transData, clip_on=False))
-    ax.text(0.075, 0.913, str(num), ha="center", va="center", fontsize=6.8, fontweight="bold")
-    ax.text(0.14, 0.915, title, ha="left", va="center", fontsize=7.4, fontweight="bold")
+    aspect = (w * 7.0) / (h * fig_h)                       # keep the number badge round
+    ax.add_patch(Ellipse((0.075, 0.93), 0.095, 0.095 * aspect, facecolor="white", edgecolor="#222222", lw=0.8,
+                         clip_on=False))
+    ax.text(0.075, 0.928, str(num), ha="center", va="center", fontsize=FS, fontweight="bold")
+    ax.text(0.145, 0.93, title, ha="left", va="center", fontsize=7.8, fontweight="bold")
     return ax
 
 
@@ -90,85 +101,93 @@ def molar(ax, x, y, w, h, col, up=True):
 def fig1(out, thumbs):
     ds, ra, sz, zr = load("dataset_stats.json"), load("reference_audit.json"), load("split_zoo.json"), load("zoo_reference.json")
     pr = ra["primary"]
-    fig = plt.figure(figsize=(7.0, 2.15))
+    FH = 2.6
+    fig = plt.figure(figsize=(7.0, FH))
     W, G = 0.243, 0.0093
     xs = [G * 0.5 + i * (W + G) for i in range(4)]
+    Y0, H = 0.02, 0.96
+
+    def sub(i, u0, v0, du, dv):                            # panel coords -> figure axes
+        return fig.add_axes([xs[i] + W * u0, Y0 + H * v0, W * du, H * dv])
     # (1) linked records
-    ax = panel(fig, xs[0], 0.02, W, 0.96, "Linked clinical records", 1)
+    ax = panel(fig, xs[0], Y0, W, H, "Linked clinical records", 1, FH)
     for j, im in enumerate(thumbs["intraoral"]):
         x0 = 0.05 + j * 0.182
-        ax.imshow(np.asarray(im), extent=(x0, x0 + 0.17, 0.60, 0.79), aspect="auto", zorder=2)
-    ax.text(0.5, 0.835, "intraoral photo series", ha="center", fontsize=6.2, color="#333333")
-    ax.imshow(np.asarray(thumbs["opg"]), extent=(0.08, 0.46, 0.27, 0.50), aspect="auto", zorder=2)
-    ax.imshow(np.asarray(thumbs["cephalogram"]), extent=(0.56, 0.90, 0.27, 0.50), aspect="auto", zorder=2)
-    ax.text(0.27, 0.525, "panoramic (OPG)", ha="center", fontsize=6.2, color="#333333")
-    ax.text(0.73, 0.525, "cephalogram", ha="center", fontsize=6.2, color="#333333")
+        ax.imshow(np.asarray(im), extent=(x0, x0 + 0.17, 0.635, 0.795), aspect="auto", zorder=2)
+    ax.text(0.5, 0.825, "intraoral photo series", ha="center", fontsize=FS, color="#333333")
+    ax.imshow(np.asarray(thumbs["opg"]), extent=(0.07, 0.47, 0.335, 0.53), aspect="auto", zorder=2)
+    ax.imshow(np.asarray(thumbs["cephalogram"]), extent=(0.57, 0.91, 0.335, 0.53), aspect="auto", zorder=2)
+    ax.text(0.27, 0.555, "panoramic (OPG)", ha="center", fontsize=FS, color="#333333")
+    ax.text(0.74, 0.555, "cephalogram", ha="center", fontsize=FS, color="#333333")
     n = ds["images_by_modality"]
-    ax.text(0.5, 0.165, f"{n['intraoral']:,} photos (median {ds['images_per_patient']['intraoral'][0]:.0f} per patient)\n"
-            f"{n['opg']:,} OPGs, {n['cephalogram']:,} cephalograms", ha="center", va="center", fontsize=6.1)
-    ax.text(0.5, 0.055, f"{ds['n_patients']} patients, {ds['fully_paired_patients']} with all three",
-            ha="center", va="center", fontsize=6.1, fontweight="bold")
+    ax.text(0.5, 0.25, f"{n['intraoral']:,} photos, {n['opg']:,} OPGs,", ha="center", va="center", fontsize=FS)
+    ax.text(0.5, 0.19, f"{n['cephalogram']:,} cephalograms", ha="center", va="center", fontsize=FS)
+    ax.text(0.5, 0.115, f"{ds['n_patients']} patients", ha="center", va="center", fontsize=FS, fontweight="bold")
+    ax.text(0.5, 0.055, f"{ds['fully_paired_patients']} with all three", ha="center", va="center", fontsize=FS)
     # (2) Angle class target
-    ax = panel(fig, xs[1], 0.02, W, 0.96, "Angle class target", 2)
+    ax = panel(fig, xs[1], Y0, W, H, "Angle class target", 2, FH)
     lab = ds["patient_label_distribution"]
     for j, (name, shift) in enumerate((("Class I", 0.0), ("Class II", 0.3), ("Class III", -0.3))):
         cx = 0.06 + j * 0.31
-        molar(ax, cx + 0.06, 0.56, 0.16, 0.08, "#BFBFBF", up=False)
-        molar(ax, cx + 0.06 + shift * 0.16, 0.40, 0.16, 0.08, CLS_COLOR[j], up=True)
-        ax.plot([cx + 0.06, cx + 0.06], [0.36, 0.70], color="#888888", lw=0.5, ls=(0, (2, 2)))
-        ax.text(cx + 0.14, 0.76, name, ha="center", fontsize=6.6, fontweight="bold", color=CLS_COLOR[j])
-        ax.text(cx + 0.14, 0.27, f"{lab[name]}", ha="center", fontsize=6.6, fontweight="bold")
-    ax.text(0.5, 0.17, "patients (source labels)", ha="center", fontsize=6.1)
-    ax.text(0.5, 0.07, "sagittal relation of the first molars", ha="center", fontsize=6.0, style="italic", color="#444444")
+        molar(ax, cx + 0.06, 0.58, 0.16, 0.08, "#BFBFBF", up=False)
+        molar(ax, cx + 0.06 + shift * 0.16, 0.43, 0.16, 0.08, CLS_COLOR[j], up=True)
+        ax.plot([cx + 0.06, cx + 0.06], [0.39, 0.72], color="#888888", lw=0.5, ls=(0, (2, 2)))
+        ax.text(cx + 0.14, 0.78, name, ha="center", fontsize=FS, fontweight="bold", color=CLS_COLOR[j])
+        ax.text(cx + 0.14, 0.30, f"{lab[name]}", ha="center", fontsize=FS, fontweight="bold")
+    ax.text(0.5, 0.20, "patients (source labels)", ha="center", fontsize=FS)
+    ax.text(0.5, 0.08, "sagittal molar relation", ha="center", fontsize=FS, style="italic", color="#444444")
     # (3) expert audit
-    ax = panel(fig, xs[2], 0.02, W, 0.96, "Expert audit", 3)
-    for (x, t) in ((0.12, "Reviewer A"), (0.12, "Reviewer B")):
-        pass
-    for y, t in ((0.72, "Reviewer A"), (0.53, "Reviewer B")):
-        ax.add_patch(Circle((0.09, y), 0.035, facecolor=SKY, edgecolor="#333333", lw=0.5))
-        ax.text(0.14, y, t, va="center", fontsize=6.0)
-    ax.add_patch(Circle((0.09, 0.33), 0.035, facecolor=BLUE, edgecolor="#333333", lw=0.5))
-    ax.text(0.14, 0.33, "Adjudicator", va="center", fontsize=6.0)
-    ax.annotate("", xy=(0.09, 0.38), xytext=(0.09, 0.48), arrowprops=dict(arrowstyle="-|>", lw=0.6, color="#555555"))
+    ax = panel(fig, xs[2], Y0, W, H, "Expert audit", 3, FH)
+    for y, t in ((0.76, "Reviewer A"), (0.62, "Reviewer B")):
+        ax.add_patch(Ellipse((0.075, y), 0.06, 0.06 * W * 7.0 / (H * FH), facecolor=SKY, edgecolor="#333333", lw=0.5))
+        ax.text(0.125, y, t, va="center", fontsize=FS)
+    ax.add_patch(Ellipse((0.075, 0.40), 0.06, 0.06 * W * 7.0 / (H * FH), facecolor=BLUE, edgecolor="#333333", lw=0.5))
+    ax.text(0.125, 0.40, "Adjudicator", va="center", fontsize=FS)
+    ax.annotate("", xy=(0.075, 0.44), xytext=(0.075, 0.58), arrowprops=dict(arrowstyle="-|>", lw=0.6, color="#555555"))
     m = np.array(pr["manifest_vs_final_matrix"])[:, :3]
-    hx = fig.add_axes([xs[2] + W * 0.53, 0.30, W * 0.40, 0.48])
+    hx = sub(2, 0.56, 0.42, 0.34, 0.34)
     hx.imshow(m, cmap="Blues", vmin=0, vmax=m.max())
     for i in range(3):
         for j in range(3):
-            hx.text(j, i, str(m[i, j]), ha="center", va="center", fontsize=5.6,
+            hx.text(j, i, str(m[i, j]), ha="center", va="center", fontsize=FS,
                     color="white" if m[i, j] > m.max() * 0.55 else "#222222")
-    hx.set_xticks(range(3), ["I", "II", "III"], fontsize=5.6); hx.set_yticks(range(3), ["I", "II", "III"], fontsize=5.6)
-    hx.set_xlabel("adjudicated", fontsize=5.8, labelpad=1); hx.set_ylabel("source", fontsize=5.8, labelpad=1)
+    hx.set_xticks(range(3), ["I", "II", "III"], fontsize=FS); hx.set_yticks(range(3), ["I", "II", "III"], fontsize=FS)
+    hx.set_xlabel("adjudicated", fontsize=FS, labelpad=1)
+    hx.yaxis.set_label_position("right"); hx.set_ylabel("source", fontsize=FS, labelpad=2, rotation=270, va="bottom")
     hx.tick_params(length=0, pad=1); hx.grid(False)
     for s in hx.spines.values():
         s.set_visible(False)
     ag = pr["reviewer_agreement"]
-    ax.text(0.5, 0.13, f"{ra['cohort_linkage']['n_linked']} patients; agreement {100 * ag['raw_agreement']:.1f}%",
-            ha="center", fontsize=6.1)
-    ax.text(0.5, 0.05, f"{100 * pr['changed_fraction']:.1f}% of labels revised", ha="center",
-            fontsize=6.1, fontweight="bold")
+    ax.text(0.5, 0.215, f"{100 * ag['raw_agreement']:.1f}% agreement", ha="center", fontsize=FS)
+    ax.text(0.5, 0.150, f"({ag['n']} primary patients)", ha="center", fontsize=FS)
+    ax.text(0.5, 0.060, f"{100 * pr['changed_fraction']:.1f}% of labels revised", ha="center",
+            fontsize=FS, fontweight="bold")
     # (4) evaluation variables
-    ax = panel(fig, xs[3], 0.02, W, 0.96, "Two evaluation variables", 4)
+    ax = panel(fig, xs[3], Y0, W, H, "Evaluation variables", 4, FH)
     e = sz["entries"]
-    a1 = fig.add_axes([xs[3] + W * 0.12, 0.27, W * 0.33, 0.48])
+    a1 = sub(3, 0.20, 0.36, 0.33, 0.37)
+    a2 = sub(3, 0.62, 0.36, 0.33, 0.37)
     for nme, v in e.items():
         h = nme.split(" / ")[1]
         a1.plot([0, 1], [v["patient_split"], v["image_split"]], color=HEAD_COLOR[h], lw=0.5, alpha=0.75)
-    a1.set_xticks([0, 1], ["patient", "image"], fontsize=5.8); a1.set_xlim(-0.25, 1.25)
-    a1.set_title(f"split: $\\tau_b$={sz['kendall_tau_point']:.2f}", fontsize=6.0, pad=2)
-    a1.tick_params(labelsize=5.4, pad=1); a1.grid(False)
-    a2 = fig.add_axes([xs[3] + W * 0.62, 0.27, W * 0.33, 0.48])
     for mm in zr["macro_f1"]["models"]:
         h = mm["name"].split(" / ")[1]
         a2.plot([0, 1], [mm["score_ref_a"], mm["score_ref_b"]], color=HEAD_COLOR[h], lw=0.5, alpha=0.75)
-    a2.set_xticks([0, 1], ["source", "adjud."], fontsize=5.8); a2.set_xlim(-0.25, 1.25)
-    a2.set_title(f"label: $\\tau_b$={zr['macro_f1']['kendall_tau_point']:.2f}", fontsize=6.0, pad=2)
-    a2.tick_params(labelsize=5.4, pad=1); a2.grid(False)
-    ax.text(0.5, 0.13, f"{zr['n_entries']} entries, same models", ha="center", fontsize=6.1)
+    a1.set_xticks([0, 1], ["patient", "image"], fontsize=FS)
+    a2.set_xticks([0, 1], ["source", "adjud."], fontsize=FS)
+    a1.set_title(f"split\n$\\tau_b$ = {sz['kendall_tau_point']:.2f}", fontsize=FS, pad=2, linespacing=1.1)
+    a2.set_title(f"label\n$\\tau_b$ = {zr['macro_f1']['kendall_tau_point']:.2f}", fontsize=FS, pad=2, linespacing=1.1)
+    for a in (a1, a2):
+        a.set_xlim(-0.35, 1.35); a.set_ylim(0.24, 0.62); a.grid(False)
+        a.set_yticks([0.3, 0.4, 0.5, 0.6])
+        a.tick_params(labelsize=FS, pad=1, length=2)
+    a2.set_yticklabels([])
+    ax.text(0.5, 0.215, f"{zr['n_entries']} entries, same models", ha="center", fontsize=FS)
     hs = [("knn1", "1-NN"), ("knn5", "5-NN"), ("logreg", "linear"), ("fine-tuned", "fine-tuned")]
     for k, (h, t) in enumerate(hs):
-        ax.plot([0.05 + k * 0.235, 0.09 + k * 0.235], [0.05, 0.05], color=HEAD_COLOR[h], lw=1.4)
-        ax.text(0.10 + k * 0.235, 0.05, t, va="center", fontsize=5.6)
+        x0, y0 = 0.10 + (k % 2) * 0.43, 0.135 - (k // 2) * 0.07
+        ax.plot([x0, x0 + 0.07], [y0, y0], color=HEAD_COLOR[h], lw=1.6)
+        ax.text(x0 + 0.09, y0, t, va="center", fontsize=FS)
     save(fig, out, "ex_fig1_teaser")
 
 
@@ -178,38 +197,39 @@ def fig2(out, thumbs):
     ims = list(thumbs["intraoral"]) + [thumbs["opg"], thumbs["cephalogram"]]
     probs = fp["intraoral_frame_probs"] + fp["opg_frame_probs"] + fp["cephalogram_frame_probs"]
     heads = [f"frame {i + 1}" for i in range(5)] + ["OPG", "cephalogram"]
-    fig = plt.figure(figsize=(7.0, 1.95))
+    fig = plt.figure(figsize=(7.0, 2.2))
     # left: record schematic
-    ax = fig.add_axes([0.0, 0.05, 0.13, 0.90]); ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
+    ax = fig.add_axes([0.0, 0.05, 0.135, 0.90]); ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
     ax.add_patch(FancyBboxPatch((0.03, 0.03), 0.94, 0.94, boxstyle="round,pad=0,rounding_size=0.06",
                                 facecolor=PANEL_FACE, edgecolor=PANEL_EDGE, lw=0.9))
-    ax.add_patch(Ellipse((0.5, 0.80), 0.30, 0.13, facecolor=SKY, edgecolor="#333333", lw=0.6))
-    ax.text(0.5, 0.64, "one patient", ha="center", fontsize=6.4, fontweight="bold")
+    ax.add_patch(Ellipse((0.5, 0.83), 0.30, 0.11, facecolor=SKY, edgecolor="#333333", lw=0.6))
+    ax.text(0.5, 0.68, "one patient", ha="center", fontsize=FS, fontweight="bold")
     for k, t in enumerate(("5 photos", "1 OPG", "1 cephalogram")):
-        ax.text(0.5, 0.50 - k * 0.11, t, ha="center", fontsize=6.0)
-    ax.text(0.5, 0.15, "source label:\nClass I\n(not audited)", ha="center", va="center", fontsize=5.9,
-            color=GREEN, fontweight="bold")
+        ax.text(0.5, 0.56 - k * 0.095, t, ha="center", fontsize=FS)
+    ax.text(0.5, 0.17, "source label:\nClass I\n(not audited)", ha="center", va="center", fontsize=FS,
+            color=GREEN, fontweight="bold", linespacing=1.15)
     n = len(ims)
-    x0, wcol = 0.165, 0.835 / n
-    rows = [("image", 0.50, 0.40), ("model\nreading", 0.10, 0.30)]
+    x0, wcol = 0.17, 0.83 / n
     for j in range(n):
-        a = fig.add_axes([x0 + j * wcol + 0.004, 0.50, wcol - 0.008, 0.40])
+        a = fig.add_axes([x0 + j * wcol + 0.004, 0.53, wcol - 0.008, 0.36])
         a.imshow(np.asarray(ims[j]), aspect="auto"); a.axis("off")
-        a.set_title(heads[j], fontsize=6.4, pad=2)
-        b = fig.add_axes([x0 + j * wcol + 0.012, 0.12, wcol - 0.024, 0.30])
+        a.set_title(heads[j], fontsize=FS, pad=2)
+        b = fig.add_axes([x0 + j * wcol + 0.016, 0.17, wcol - 0.028, 0.29])
         p = probs[j]
         b.bar(range(3), p, color=CLS_COLOR, width=0.75)
-        b.set_ylim(0, 1); b.set_xticks(range(3), ["I", "II", "III"], fontsize=5.8)
-        b.tick_params(labelsize=5.4, pad=1, length=1.5)
+        b.set_ylim(0, 1); b.set_xticks(range(3), ["I", "II", "III"], fontsize=FS)
+        b.set_yticks([0, 0.5, 1.0])
+        b.tick_params(labelsize=FS, pad=1, length=1.5)
         if j == 0:
-            b.set_ylabel("probe p(class)", fontsize=5.9, labelpad=1)
+            b.set_yticklabels(["0", ".5", "1"])
+            b.set_ylabel("p(class)", fontsize=FS, labelpad=1)
         else:
             b.set_yticklabels([])
         b.grid(axis="y", alpha=0.3)
     mean_io = np.mean(fp["intraoral_frame_probs"], 0)
-    fig.text(x0 + 2.5 * wcol, 0.015,
+    fig.text(x0 + 2.5 * wcol, 0.012,
              f"photo-series mean: Class {['I', 'II', 'III'][int(mean_io.argmax())]}"
-             f" (p = {mean_io.max():.2f})", ha="center", fontsize=6.2, color=CLS_COLOR[int(mean_io.argmax())],
+             f" (p = {mean_io.max():.2f})", ha="center", fontsize=FS, color=CLS_COLOR[int(mean_io.argmax())],
              fontweight="bold")
     save(fig, out, "ex_fig2_record")
 
@@ -221,7 +241,8 @@ def fig3(out):
     kinds = [("nearest_same_patient", "same patient", BLUE),
              ("nearest_other_patient_same_class", "other patient, same class", ORANGE),
              ("nearest_other_patient_other_class", "other patient, other class", GREEN)]
-    fig, ax = plt.subplots(figsize=(3.3, 1.95))
+    fs3 = 7.4                                               # prints at about 0.97 x in one column
+    fig, ax = plt.subplots(figsize=(3.25, 2.3))
     stats, pos, cols = [], [], []
     for i, e in enumerate(encs):
         d = fd[f"intraoral/{e}"]
@@ -230,7 +251,7 @@ def fig3(out):
             stats.append({"med": q["median"], "q1": q["q1"], "q3": q["q3"], "whislo": q["p05"],
                           "whishi": q["p95"], "fliers": []})
             pos.append(i * 4 + k); cols.append(c)
-        ax.text(i * 4 + 1, 0.348, f"{100 * d['frac_nn_same_patient']:.0f}%", ha="center", fontsize=6.4,
+        ax.text(i * 4 + 1, 0.352, f"{100 * d['frac_nn_same_patient']:.0f}%", ha="center", fontsize=fs3,
                 fontweight="bold", color=BLUE)
     bp = ax.bxp(stats, positions=pos, widths=0.75, patch_artist=True, showfliers=False)
     for patch, c in zip(bp["boxes"], cols):
@@ -240,16 +261,18 @@ def fig3(out):
             for ln in bp[part][2 * k:2 * k + 2]:
                 ln.set_color(c); ln.set_linewidth(0.8)
         bp["medians"][k].set_color(c); bp["medians"][k].set_linewidth(1.2)
-    ax.set_xticks([i * 4 + 1 for i in range(len(encs))], encs)
-    ax.set_ylabel("cosine distance to\nnearest other photo")
-    ax.set_ylim(0, 0.37)
-    ax.set_title("share whose nearest photo is from the same patient", fontsize=6.2, color=BLUE, pad=3)
+    ax.set_xticks([i * 4 + 1 for i in range(len(encs))], encs, fontsize=fs3)
+    ax.tick_params(axis="y", labelsize=fs3)
+    ax.set_ylabel("cosine distance to\nnearest other photo", fontsize=fs3)
+    ax.set_ylim(0, 0.38)
+    ax.set_title("nearest photo from the same patient", fontsize=fs3, color=BLUE, pad=3)
     for key, lab, c in kinds:
-        ax.plot([], [], color=c, lw=1.2, label=lab)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=3, fontsize=5.8, handlelength=1.2,
-              columnspacing=0.8)
+        ax.plot([], [], color=c, lw=1.4, label=lab)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.45, -0.13), ncol=2, fontsize=fs3, handlelength=1.3,
+              columnspacing=1.0, handletextpad=0.4, labelspacing=0.3)
     ax.grid(axis="x", visible=False)
     save(fig, out, "ex_fig3_featdist")
+
 
 
 # ----------------------------------------------------------------- Fig 4 (factor analysis)
@@ -302,6 +325,7 @@ def fig4(out):
         _boxes(ax, [g_p, g_i], [0 + off[h] * 1.2, 1 + off[h] * 1.2], HEAD_COLOR[h], 0.17)
     ax.set_xticks([0, 1], ["patient\nsplit", "image\nsplit"])
     ax.set_title("(b) Split unit", loc="left")
+    ax.text(0.0, 0.605, "per image", ha="center", va="top", fontsize=6.3, color="#555555")
     # (c) modality, linear head, adjudicated label, same patients
     ax = axes[2]
     pe = mp["per_encoder"]
@@ -319,8 +343,8 @@ def fig4(out):
                label="RAD-DINO")
     ax.set_xticks([0, 1, 2], ["photo |\nOPG", "photo |\nceph", "photo |\nfused"], fontsize=6.2)
     for x, t in ((0, f"n={fl['n_test_with_opg']}"), (1, f"n={fl['n_test_with_ceph']}"), (2, f"n={zr['n_test']}")):
-        ax.text(x, 0.215, t, ha="center", fontsize=5.6, color="#555555")
-    ax.legend(loc="upper right", fontsize=5.6, handletextpad=0.2, borderpad=0.1)
+        ax.text(x, 0.215, t, ha="center", fontsize=6.3, color="#555555")
+    ax.legend(loc="upper right", fontsize=6.3, handletextpad=0.2, borderpad=0.1)
     ax.set_title("(c) Modality (linear)", loc="left")
     # (d) label version
     ax = axes[3]
@@ -345,7 +369,10 @@ def fig5(out):
     models = zr["macro_f1"]["models"]
     best = zr["best_manifest"]
     bm = next(m for m in models if m["name"] == best["name"])
-    fig, axes = plt.subplots(1, 3, figsize=(7.0, 1.75), gridspec_kw={"width_ratios": [1.1, 0.8, 1.15], "wspace": 0.55})
+    fig = plt.figure(figsize=(7.0, 2.45))
+    B, T = 0.20, 0.88
+    axes = [fig.add_axes([0.150, B, 0.190, T - B]), fig.add_axes([0.435, B, 0.135, T - B]),
+            fig.add_axes([0.770, B, 0.225, T - B])]
     ax = axes[0]
     rows = [("adjudicated label", t["oracle_final_vs_manifest_macro_f1"], t["oracle_final_vs_manifest_ci"], VERM),
             ("Reviewer A", t["expert1_vs_manifest_macro_f1"], t["expert1_vs_manifest_ci"], ORANGE),
@@ -355,12 +382,14 @@ def fig5(out):
         y = len(rows) - 1 - i
         ax.barh(y, v, color=c, height=0.62)
         ax.errorbar(v, y, xerr=[[v - ci[0]], [ci[1] - v]], color="#222222", lw=0.7, capsize=2)
-        ax.text(ci[1] + 0.02, y, f"{v:.3f}", va="center", fontsize=6.2, fontweight="bold")
-    ax.axvline(t["expert1_vs_expert2_macro_f1_both_assessable"], color="#555555", ls=(0, (3, 2)), lw=0.7)
-    ax.text(t["expert1_vs_expert2_macro_f1_both_assessable"], 3.55, "reviewers vs each other", fontsize=5.6,
-            ha="center", color="#555555")
-    ax.set_yticks(range(len(rows)), [r[0] for r in rows][::-1])
-    ax.set_xlim(0, 1.0); ax.set_ylim(-0.6, 3.85)
+        ax.text(0.76, y, f"{v:.3f}", va="center", fontsize=FS, fontweight="bold")
+    xr = t["expert1_vs_expert2_macro_f1_both_assessable"]
+    ax.axvline(xr, color="#555555", ls=(0, (3, 2)), lw=0.7)
+    ax.text(xr - 0.015, 3.95, "reviewers vs\neach other", fontsize=FS, ha="right", va="center", color="#555555",
+            linespacing=1.05)
+    ax.set_yticks(range(len(rows)), [r[0] for r in rows][::-1], fontsize=FS)
+    ax.set_xticks([0, 0.5, 1.0], ["0", "0.5", "1.0"])
+    ax.set_xlim(0, 1.0); ax.set_ylim(-0.6, 4.45)
     ax.set_xlabel("macro-F1 vs source label")
     ax.set_title("(a) Expert reference", loc="left")
     ax.grid(axis="y", visible=False)
@@ -371,7 +400,7 @@ def fig5(out):
     cd = zr["changed_case_decomposition"]
     ax.plot([0, 1], [cd["zoo_mean_acc_final_agreed"], cd["zoo_mean_acc_final_adjudicated"]], color="black", lw=1.6,
             marker="s", ms=3.5)
-    ax.set_xticks([0, 1], [f"agreed\n(n={cd['n_agreed_test']})", f"adjudicated\n(n={cd['n_adjudicated_test']})"])
+    ax.set_xticks([0, 1], [f"agreed\n(n={cd['n_agreed_test']})", f"adjud.\n(n={cd['n_adjudicated_test']})"])
     ax.set_xlim(-0.3, 1.3)
     ax.set_ylabel("accuracy vs adjudicated")
     ax.set_title("(b) Where models fail", loc="left")
@@ -388,15 +417,17 @@ def fig5(out):
                     fmt="o", ms=2.6, color=c, lw=0.7, capsize=1.5)
     ax.axvline(0.5, color=GRAY, ls=(0, (3, 2)), lw=0.7)
     labels = [n.replace(" / logreg", "").replace(" / fine-tuned", " (FT)") for n, _ in items]
-    ax.set_yticks(range(len(items)), labels[::-1], fontsize=5.2)
-    ax.set_xlabel("AUROC for expert-changed labels")
-    ax.set_title("(c) Can confidence find the changes?", loc="left")
+    ax.set_yticks(range(len(items)), labels[::-1], fontsize=FS)
+    ax.set_ylim(-0.6, len(items) - 0.4)
+    ax.set_xticks([0.4, 0.5, 0.6, 0.7])
+    ax.set_xlabel("AUROC for changed labels")
+    ax.set_title("(c) Finding the changes", loc="left")
     ax.grid(axis="y", visible=False)
     save(fig, out, "ex_fig5_experts")
 
 
 # ----------------------------------------------------------------- Fig 6 (protocol)
-def _box(ax, x, y, w, h, text, face="white", bold=False, fs=6.0):
+def _box(ax, x, y, w, h, text, face="white", bold=False, fs=FS):
     ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0,rounding_size=0.015", facecolor=face,
                                 edgecolor="#9AA9B8", lw=0.6))
     ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=fs,
@@ -409,44 +440,43 @@ def _arrow(ax, x0, y0, x1, y1):
 
 def fig6(out):
     fr, zr, sz = load("finetune_reference.json"), load("zoo_reference.json"), load("split_zoo.json")
-    ft = load("finetune.json")
     cd = zr["changed_case_decomposition"]
-    fig = plt.figure(figsize=(7.0, 1.55))
+    fig = plt.figure(figsize=(7.0, 2.0))
     ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
-    for (x0, w, title) in ((0.005, 0.475, "Reference arm: one prediction, two label versions"),
-                           (0.49, 0.305, "Split arm: one cohort, two split units"),
-                           (0.805, 0.19, "Evaluation card")):
+    for (x0, w, title) in ((0.005, 0.470, "Reference arm: one prediction, two label versions"),
+                           (0.485, 0.280, "Split arm: two split units"),
+                           (0.775, 0.220, "Evaluation card")):
         ax.add_patch(FancyBboxPatch((x0, 0.03), w, 0.80, boxstyle="round,pad=0,rounding_size=0.02",
                                     facecolor=PANEL_FACE, edgecolor=PANEL_EDGE, lw=0.9))
         ax.add_patch(FancyBboxPatch((x0 + 0.01, 0.86), w - 0.02, 0.12,
                                     boxstyle="round,pad=0,rounding_size=0.02", facecolor=BLUE, edgecolor="none"))
-        ax.text(x0 + 0.018, 0.92, title, color="white", fontsize=6.4, fontweight="bold", va="center")
-    xs = [0.015, 0.132, 0.249, 0.366]
-    txt = [f"train\n{fr['n_train_patients']} unaudited\npatients\n({fr['n_train_images']:,} images)",
-           f"predict once\n{fr['n_test_patients']} audit-held-\nout patients\n({fr['n_test_images']:,} images)",
-           f"score twice:\nsource and\nadjudicated\n(differ on {cd['n_changed_test']})",
-           f"{zr['bootstrap_replicates']:,} shared\nbootstrap draws\n$\\tau_b$, paired shifts"]
+        ax.text(x0 + 0.018, 0.92, title, color="white", fontsize=7.6, fontweight="bold", va="center")
+    bw, gap = 0.104, 0.0123
+    xs = [0.015 + i * (bw + gap) for i in range(4)]
+    txt = [f"train\n{fr['n_train_patients']} unaudited\npatients\n{fr['n_train_images']:,} images",
+           f"predict once\n{fr['n_test_patients']} audit-\nheld-out\npatients\n{fr['n_test_images']:,} images",
+           f"score twice:\nsource and\nadjudicated\ndiffer on {cd['n_changed_test']}",
+           f"{zr['bootstrap_replicates']:,} shared\nbootstrap\ndraws: $\\tau_b$,\npaired shifts"]
     for i, (x, t) in enumerate(zip(xs, txt)):
-        _box(ax, x, 0.26, 0.098, 0.48, t, fs=5.8)
+        _box(ax, x, 0.22, bw, 0.56, t)
         if i:
-            _arrow(ax, xs[i - 1] + 0.098, 0.50, x, 0.50)
-    ax.text(0.24, 0.12, f"perceptual-hash quarantine (Hamming $\\leq$ {zr['config']['quarantine_hamming']}) before fitting",
-            ha="center", fontsize=5.8, style="italic", color="#444444")
-    xs2 = [0.50, 0.60, 0.70]
+            _arrow(ax, xs[i - 1] + bw, 0.50, x, 0.50)
+    ax.text(0.24, 0.115, f"perceptual-hash quarantine (Hamming $\\leq$ {zr['config']['quarantine_hamming']}) before fitting",
+            ha="center", fontsize=FS, style="italic", color="#444444")
     n_img = load("dataset_stats.json")["images_by_modality"]["intraoral"]
-    txt2 = [f"{n_img:,} photos\n{ft['n_patients']} patients\nsource labels",
-            f"image | patient\nsplit, test {sz['test_frac']}\n{len(sz['seeds'])} seeds",
-            "per-image\nmacro-F1:\ninflation, $\\tau_b$"]
-    for i, (x, t) in enumerate(zip(xs2, txt2)):
-        _box(ax, x, 0.26, 0.085, 0.48, t)
+    txt2 = [f"{sz['n_entries']} frozen entries\n{n_img:,} photos, source labels",
+            f"image | patient split\ntest {sz['test_frac']}, {len(sz['seeds'])} seeds",
+            "per-image macro-F1:\ninflation, $\\tau_b$"]
+    ys2 = [0.585, 0.325, 0.065]
+    for i, (y, t) in enumerate(zip(ys2, txt2)):
+        _box(ax, 0.497, y, 0.256, 0.205, t)
         if i:
-            _arrow(ax, xs2[i - 1] + 0.085, 0.50, x, 0.50)
-    ax.text(0.643, 0.12, f"{sz['n_entries']} frozen entries", ha="center", fontsize=5.8, style="italic", color="#444444")
+            _arrow(ax, 0.625, ys2[i - 1], 0.625, y + 0.205)
     card = ["split unit: patient", "label version: both", "training: unaudited only", "leakage screen: pHash",
-            "scoring unit: patient", "uncertainty: paired bootstrap", "ceiling: expert reviewers",
+            "scoring unit: patient", "CIs: paired bootstrap", "ceiling: expert reviewers",
             "release: paired predictions"]
     for k, c in enumerate(card):
-        ax.text(0.815, 0.76 - k * 0.087, "• " + c, fontsize=5.7, va="center")
+        ax.text(0.783, 0.765 - k * 0.0915, "• " + c, fontsize=FS, va="center")
     save(fig, out, "ex_fig6_protocol")
 
 
@@ -456,28 +486,28 @@ def fig_comparison(out):
     rows = cm["datasets"]
     fig, ax = plt.subplots(figsize=(7.0, 0.30 * len(rows) + 0.6))
     ax.set_xlim(0, 1); ax.set_ylim(0, len(rows) + 1); ax.axis("off")
-    cols = [("Dataset", 0.0), ("Modalities", 0.17), ("Task", 0.37), ("Linked\nIO+OPG+ceph", 0.60),
-            ("Angle\nlabels", 0.70), ("Patient split\ndocumented", 0.80), ("Images", 0.89)]
+    cols = [("Dataset", 0.0), ("Modalities", 0.19), ("Task", 0.395), ("Linked\nIO+OPG+ceph", 0.645),
+            ("Angle\nlabels", 0.745), ("Patient split\ndocumented", 0.83), ("Images", 0.905)]
     for t, x in cols:
-        ax.text(x, len(rows) + 0.45, t, fontsize=6.6, fontweight="bold", va="center",
+        ax.text(x, len(rows) + 0.45, t, fontsize=6.2, fontweight="bold", va="center",
                 ha="left" if x < 0.5 or x > 0.85 else "center")
     mx = max(r["n_images"] for r in rows)
     for i, r in enumerate(rows):
         y = len(rows) - 1 - i + 0.5
         ours = r["source_id"] == "ours"
         if ours:
-            ax.add_patch(Rectangle((-0.005, y - 0.4), 1.0, 0.8, color=BLUE, alpha=0.08, lw=0))
+            ax.add_patch(Rectangle((-0.005, y - 0.4), 1.015, 0.8, color=BLUE, alpha=0.08, lw=0))
         fw = "bold" if ours else "normal"
         ax.text(0.0, y, r["name"], fontsize=6.6, va="center", fontweight=fw)
-        ax.text(0.17, y, r["modalities"], fontsize=6.3, va="center")
-        ax.text(0.37, y, r["task"], fontsize=6.3, va="center")
-        for x, key in ((0.60, "patient_linked_multimodal"), (0.70, "angle_class_labels"), (0.80, "patient_level_split")):
+        ax.text(0.19, y, r["modalities"], fontsize=6.3, va="center")
+        ax.text(0.395, y, r["task"], fontsize=6.3, va="center")
+        for x, key in ((0.645, "patient_linked_multimodal"), (0.745, "angle_class_labels"), (0.83, "patient_level_split")):
             v = r[key]
             s, c = ("✓", GREEN) if v else (("✗", VERM) if v is False else ("n/r", GRAY))
             ax.text(x, y, s, fontsize=8 if s != "n/r" else 6.2, ha="center", va="center", color=c, fontweight="bold")
-        bl = 0.08 * r["n_images"] / mx
-        ax.add_patch(Rectangle((0.89, y - 0.15), bl, 0.3, color=BLUE if ours else "#BFBFBF", lw=0))
-        ax.text(0.89 + bl + 0.005, y, f"{r['n_images']:,}", fontsize=6.2, va="center")
+        bl = 0.045 * r["n_images"] / mx
+        ax.add_patch(Rectangle((0.905, y - 0.15), bl, 0.3, color=BLUE if ours else "#BFBFBF", lw=0))
+        ax.text(0.905 + bl + 0.005, y, f"{r['n_images']:,}", fontsize=6.2, va="center")
     save(fig, out, "ex_fig_comparison")
 
 
