@@ -1,0 +1,18 @@
+\begin{tabular}{@{}lccccc@{}}\toprule
+Entry & \multicolumn{2}{c}{Source label} & \multicolumn{2}{c}{Expert label} & Bal.\ acc.\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & F1 & rank & F1 & rank & expert\\\midrule
+DINOv2-S (fine-tuned) & 0.542 & 1 & 0.590 & 1 & 0.618\\
+ConvNeXt-T (fine-tuned) & 0.520 & 2 & 0.516 & 2 & 0.492\\
+ResNet-18 (linear) & 0.504 & 3 & 0.502 & 3 & 0.516\\
+BiomedCLIP (linear) & 0.442 & 8 & 0.500 & 4 & 0.507\\
+ConvNeXt-T (linear) & 0.450 & 6 & 0.492 & 5 & 0.490\\
+DINOv2-S (linear) & 0.472 & 5 & 0.487 & 6 & 0.535\\
+SigLIP-2 (linear) & 0.448 & 7 & 0.473 & 7 & 0.470\\
+DINOv2-B (linear) & 0.490 & 4 & 0.468 & 8 & 0.487\\
+DINOv2-L (linear) & 0.439 & 9 & 0.458 & 9 & 0.464\\
+ConvNeXt-L (linear) & 0.368 & 11 & 0.417 & 10 & 0.414\\
+CLIP-B/16 (linear) & 0.396 & 10 & 0.415 & 11 & 0.420\\
+ResNet-50 (linear) & 0.342 & 17 & 0.320 & 25 & 0.321\\
+ResNet-50 (fine-tuned) & 0.246 & 33 & 0.254 & 33 & 0.335\\
+\bottomrule\end{tabular}

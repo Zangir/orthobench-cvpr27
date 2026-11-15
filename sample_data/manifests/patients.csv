@@ -1,0 +1,10 @@
+patient_id,label,label_numeric,n_images,n_intraoral,n_opg,n_cephalogram,modalities_present,split
+SYN000,Class I,0,5,3,1,1,intraoral+opg+cephalogram,unassigned
+SYN001,Class II,1,5,3,1,1,intraoral+opg+cephalogram,unassigned
+SYN002,Class III,2,6,4,1,1,intraoral+opg+cephalogram,unassigned
+SYN003,Class I,0,4,3,0,1,intraoral+cephalogram,unassigned
+SYN004,Class II,1,5,3,1,1,intraoral+opg+cephalogram,unassigned
+SYN005,Class III,2,5,4,1,0,intraoral+opg,unassigned
+SYN006,Class I,0,5,5,0,0,intraoral,unassigned
+SYN007,Class II,1,6,5,0,1,intraoral+cephalogram,unassigned
+SYN008,Class III,2,4,3,1,0,intraoral+opg,unassigned
