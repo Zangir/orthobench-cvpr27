@@ -1,0 +1,90 @@
+{
+  "_description": "Where the datasets of the paper's dataset comparison (Tab. 1c / supplement Sec. B.4) were acquired. Read by make_figures_exemplar.py (fig_map). Each entry records the primary source checked on 2026-11-15 and the exact statement relied on. Map coordinates are drawing positions for the marker: a city when the source names one, otherwise a point inside the named state/country/region; they are not acquisition coordinates. status: verified = stated in the cited paper; verified_ethics = the acquisition sentence names no site, but the paper's ethics approval names the hospital; unknown = could not be verified from the cited paper or official page (not drawn on the map). region = grouping used by the bar chart (derived from country).",
+  "checked": "2026-11-15",
+  "datasets": [
+    {
+      "name": "ISBI-2015",
+      "cite_key": "wang2016benchmark",
+      "country": "Taiwan",
+      "place": "Taipei",
+      "status": "verified_ethics",
+      "source_url": "https://pure.manchester.ac.uk/ws/files/45988550/wang_MIA2016.pdf (author copy of doi:10.1016/j.media.2016.02.004), Sec. 2.3",
+      "evidence": "Sec. 2.3: '400 cephalometric radiographs were collected from 400 patients aged six to 60 years.' ... 'Ethical approval (IRB Number 1-102-05-017) was obtained to conduct the study by the research ethics committee of the TriService General Hospital in Taipei, Taiwan.'",
+      "lon": 121.5,
+      "lat": 25.0,
+      "region": "East Asia"
+    },
+    {
+      "name": "Aariz",
+      "cite_key": "khalid2023aariz",
+      "country": "Pakistan",
+      "place": "Islamabad",
+      "status": "verified",
+      "source_url": "https://arxiv.org/html/2302.07797 (Sec. 3.1 Data Acquisition)",
+      "evidence": "Sec. 3.1: 'The dataset consists of lateral cephalometric X-ray images collected from the archives of patients undergoing orthodontic treatment at Islamic International Dental College, Islamabad, Pakistan.'",
+      "lon": 73.05,
+      "lat": 33.7,
+      "region": "South Asia"
+    },
+    {
+      "name": "CL-Detection 2023",
+      "cite_key": "zhang2024techniques",
+      "country": "China (Shenzhen) + Taiwan (ISBI-2015 images); third centre unknown",
+      "place": "Shenzhen",
+      "status": "verified",
+      "source_url": "https://arxiv.org/html/2409.15834v1 (Sec. III-B, Table I)",
+      "evidence": "Table I lists the 'ISBI challenge' (400), 'PKU cephalogram dataset' (102) and 'Shenzhen General Hospital dataset' (98) images. Sec. III-B: 'The first public 98 dental X-ray images collection and use has been approved by the Research Ethics Committee of Shenzhen University General Hospital.' The location of the PKU set is not stated in the text read, so it is not drawn.",
+      "lon": 114.06,
+      "lat": 22.54,
+      "region": "East Asia"
+    },
+    {
+      "name": "Tufts",
+      "cite_key": "panetta2022tufts",
+      "country": null,
+      "place": null,
+      "status": "unknown",
+      "source_url": "http://tdd.ece.tufts.edu/ (official page); doi:10.1109/JBHI.2021.3117575 (full text not retrievable)",
+      "evidence": "The official page states 'This dataset consists of 1000 panoramic dental radiography images' and names the creating laboratory, but no acquisition site. The paper's full text could not be retrieved, so the acquisition site is unverified.",
+      "lon": null,
+      "lat": null,
+      "region": "not verified"
+    },
+    {
+      "name": "DENTEX",
+      "cite_key": "hamamci2023dentex",
+      "country": "Türkiye",
+      "place": null,
+      "status": "verified",
+      "source_url": "https://arxiv.org/html/2305.19112 (Sec. II-A Dataset and Annotation Protocol)",
+      "evidence": "Sec. II-A: 'the scans were randomly selected from the database of three hospitals in Türkiye, and full ethics committee approval was obtained for their use.' Hospitals and cities are not named, so the marker sits inside the country.",
+      "lon": 35.0,
+      "lat": 39.0,
+      "region": "Türkiye"
+    },
+    {
+      "name": "UFBA-UESC",
+      "cite_key": "silva2018automatic",
+      "country": "Brazil",
+      "place": "Bahia (state)",
+      "status": "verified",
+      "source_url": "https://arxiv.org/html/1802.03086v1 (Sec. 4.1 Construction of the data set; arXiv version of doi:10.1016/j.eswa.2018.04.001)",
+      "evidence": "Sec. 4.1: 'X-rays were acquired at the Diagnostic Imaging Center of the Southwest State University of Bahia (UESB).' Bahia is a Brazilian state; no city is stated, so the marker sits inside the state.",
+      "lon": -41.7,
+      "lat": -12.5,
+      "region": "South America"
+    },
+    {
+      "name": "OrthoBench (ours)",
+      "cite_key": null,
+      "country": null,
+      "place": "Gulf region",
+      "status": "region_only",
+      "source_url": "project documents: input/brief.json ('Gulf clinics'); supplement Sec. A.2 ('three participating orthodontic centres in the Gulf region')",
+      "evidence": "Region-level label approved by the coordinator on 2026-11-15. No country, city or institution is shown; the marker and the shaded ellipse sit over the Gulf itself, not on a city.",
+      "lon": 51.5,
+      "lat": 26.6,
+      "region": "Gulf region"
+    }
+  ]
+}
