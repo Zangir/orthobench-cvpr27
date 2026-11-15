@@ -1,0 +1,99 @@
+{
+ "frozen_at": "2026-11-08",
+ "purpose": "CVPR 2027 revision: test whether the two evaluation variables (split unit, reference-label version) change which models look best, using a broader model suite. Written before any new score was computed.",
+ "fixed_inputs": {
+  "reference_split": "identical to results/reference_evaluation.json: all 240 audited patients withheld from fitting; union of cross-patient DINOv2-S pHash candidates (Hamming <= 6, all modalities) quarantined; test = primary-audit classifiable non-quarantined patients",
+  "training_labels": "original manifest labels of unaudited, non-quarantined patients",
+  "test_labels": [
+   "manifest",
+   "final (adjudicated)"
+  ]
+ },
+ "zoo": {
+  "encoders": [
+   "resnet18",
+   "resnet50",
+   "convnext_tiny",
+   "convnext_large",
+   "dinov2",
+   "dinov2_base",
+   "dinov2_large",
+   "rad_dino",
+   "siglip2",
+   "clip_b16",
+   "biomedclip"
+  ],
+  "heads": {
+   "logreg": "standardised features, C=1, class_weight=balanced, max_iter=2000",
+   "knn1": "cosine 1-NN",
+   "knn5": "cosine 5-NN, uniform"
+  },
+  "patient_aggregation": "mean of image probabilities, then argmax",
+  "finetuned": {
+   "archs": [
+    "dinov2 (ViT-S/14)",
+    "resnet50",
+    "convnext_tiny"
+   ],
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "epochs": 8,
+   "recipe": "AdamW wd 0.05, cosine schedule, batch 32, class-weighted CE, random 224 crop of 256 cache + brightness jitter; lr backbone 1e-5 (DINOv2, historical recipe) or 1e-4 (CNNs); head lr 1e-3; no early stopping, no test-based selection"
+  },
+  "selection_rule": "no hyperparameter, checkpoint or model selection uses any audited label"
+ },
+ "metrics": {
+  "primary": "patient macro-F1 over three classes",
+  "secondary": "balanced accuracy"
+ },
+ "reference_variable_statistics": {
+  "bootstrap": "2000 patient-bootstrap draws (seed 20261108) shared by all models and both reference versions",
+  "leaderboard_agreement": "Kendall tau-b between manifest-scored and final-scored leaderboards; percentile interval over draws",
+  "winner": "frequency over draws that the top-ranked model is the same under both references; identity of top model under each",
+  "pairwise": "for every model pair, d = (s_i - s_j | final) - (s_i - s_j | manifest); a pair counts as a significant re-ordering only if the point order flips AND the 95% interval of d excludes zero",
+  "primary_hypothesis": "H1: the final-reference leaderboard differs from the manifest leaderboard (tau-b < 1 with interval excluding 1, or >= 1 significant re-ordering)"
+ },
+ "split_variable_statistics": {
+  "design": "full intraoral cohort, source labels, image-level vs patient-level split, test fraction 0.3, seeds 0-4 (image split seeded 1000+s), per-image scoring in both arms (historical design)",
+  "agreement": "Kendall tau-b between regime-mean leaderboards; per-seed tau; per-entry inflation with sample SD over seeds",
+  "primary_hypothesis": "H2: memorising heads (1-NN, 5-NN) gain more under the image split than the linear head, changing the head ranking"
+ },
+ "label_analyses": {
+  "oracle_ceiling": "macro-F1 of the final labels scored against the manifest (and reverse) on the 221 primary classifiable cases, bootstrap interval",
+  "human_reference": "each fixed reviewer account (expert1, expert2) scored against the manifest on 221 cases and on the 189 test cases; not-assessable counts as an error",
+  "changed_case_decomposition": "on test cases where manifest != final: fraction of model predictions equal to the manifest label, to the final label, or to neither; zoo mean with bootstrap interval",
+  "case_difficulty": "final-reference accuracy on initially agreed cases vs senior-adjudicated cases, zoo mean, paired bootstrap",
+  "label_error_detection": "AUROC of 1 - p(manifest label) for predicting manifest != final on the test cases, per encoder (logreg) and for a pre-declared ensemble = mean logreg probability over all 11 encoders; confident-learning flags with per-class thresholds from 5-fold out-of-fold training probabilities; precision and recall",
+  "noise_robust_training": "confident-learning pruning of training patients (5-fold out-of-fold logreg probabilities, per-class thresholds, prune flagged off-diagonal patients), refit, score under both references; paired difference vs unpruned per encoder",
+  "noise_robust_hypothesis": "H3: pruning changes final-reference scores more favourably than manifest scores"
+ },
+ "fusion": {
+  "late_fusion": "per encoder, average patient probabilities of the modality-specific logreg models over the modalities each test patient has; compared with intraoral-only on the same 189 patients (paired bootstrap)",
+  "modality_headroom": "zoo-mean logreg macro-F1 per modality on identical patients (intraoral vs OPG on patients with both; intraoral vs cephalogram on patients with both), paired bootstrap"
+ },
+ "reporting": "all outcomes reported whether or not hypotheses hold; null results stated as nulls",
+ "amendments": [
+  {
+   "date": "2026-11-14",
+   "logged_before_running": true,
+   "status": "exploratory, added after the frozen plan; all on cached features or stored per-patient predictions (CPU); no model is refit for selection and no audited label is used for fitting",
+   "analyses": {
+    "C1_feature_distance": "for ResNet-18, ConvNeXt-T, DINOv2-S, BiomedCLIP intraoral caches (and all encoders on OPG/ceph for the supplement): per image, cosine distance to its nearest other image of (a) the same patient, (b) another patient with the same source label, (c) another patient with another source label; and the fraction of images whose nearest neighbour comes from the same patient. Aggregates only -> results/feature_distance.json",
+    "C3_modality_paired": "re-score the intraoral linear-probe predictions on exactly the test patients that have an OPG (resp. cephalogram) prediction, against the adjudicated label; must reproduce fusion_late.json zoo means -> results/modality_paired.json",
+    "C4_rank_stability": "over the same 2,000 patient-bootstrap draws (seed 20261108) used in zoo_reference.json, probability that each entry ranks first under the source label, under the adjudicated label, and under both -> results/rank_stability.json",
+    "C5_expert_subset": "macro-F1 against the source label of each expert reviewer and of fine-tuned DINOv2-S (3-seed mean of per-seed scores) on (a) all 189 test patients with not-assessable counted as an error (as in label_analysis.json) and (b) only the test patients that reviewer could assess -> results/expert_subset.json",
+    "C6_family_summary": "mean patient macro-F1 per pretraining family x adaptation, both labels -> results/family_summary.json",
+    "C7_dentex_count": "fill DENTEX n_images = 3903 in comparison_matrix.json from the DENTEX challenge paper (quoted fact already in number_whitelist.json) and re-render the comparison",
+    "C10_fig2_frame_probs": "per-frame class probabilities of the frozen DINOv2-S linear probe (reference-split fit) for the already-published primer record only; aggregates (per-frame probabilities, no identifiers) -> results/fig2_frame_probs.json",
+    "L1_novelty_check": "read DinoDental (arXiv 2603.28297) and the teledentistry study (doi 10.6026/973206300221974) to confirm neither releases a patient-linked intraoral+OPG+ceph benchmark or keeps original and expert-adjudicated labels"
+   },
+   "not_run_now": [
+    "E1 fine-tuned backbones in the split arm (GPU, ~8.7 h, after Nov 16)",
+    "E2 extra fine-tuning seeds (GPU, ~2.3 h, after Nov 16)"
+   ]
+  }
+ ]
+}

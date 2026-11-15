@@ -1,0 +1,181 @@
+{
+ "provenance": "run",
+ "plan": "experiments/cvpr27_plan.json (amendment 2026-11-14)",
+ "bootstrap_replicates": 2000,
+ "bootstrap_seed": 20261108,
+ "per_entry": {
+  "ResNet-18 / logreg": {
+   "p_rank1_source": 0.1355,
+   "p_rank1_adjudicated": 0.014,
+   "p_rank1_both": 0.0085
+  },
+  "ResNet-18 / knn1": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "ResNet-18 / knn5": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "ResNet-50 / logreg": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "ResNet-50 / knn1": {
+   "p_rank1_source": 0.0005,
+   "p_rank1_adjudicated": 0.001,
+   "p_rank1_both": 0.0
+  },
+  "ResNet-50 / knn5": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "ConvNeXt-T / logreg": {
+   "p_rank1_source": 0.005,
+   "p_rank1_adjudicated": 0.0155,
+   "p_rank1_both": 0.0005
+  },
+  "ConvNeXt-T / knn1": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "ConvNeXt-T / knn5": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "ConvNeXt-L / logreg": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "ConvNeXt-L / knn1": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "ConvNeXt-L / knn5": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "DINOv2-S / logreg": {
+   "p_rank1_source": 0.016,
+   "p_rank1_adjudicated": 0.002,
+   "p_rank1_both": 0.001
+  },
+  "DINOv2-S / knn1": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "DINOv2-S / knn5": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "DINOv2-B / logreg": {
+   "p_rank1_source": 0.054,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "DINOv2-B / knn1": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "DINOv2-B / knn5": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "DINOv2-L / logreg": {
+   "p_rank1_source": 0.002,
+   "p_rank1_adjudicated": 0.0005,
+   "p_rank1_both": 0.0
+  },
+  "DINOv2-L / knn1": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "DINOv2-L / knn5": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "SigLIP-2 / logreg": {
+   "p_rank1_source": 0.009,
+   "p_rank1_adjudicated": 0.0025,
+   "p_rank1_both": 0.001
+  },
+  "SigLIP-2 / knn1": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "SigLIP-2 / knn5": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "CLIP-B/16 / logreg": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0005,
+   "p_rank1_both": 0.0
+  },
+  "CLIP-B/16 / knn1": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "CLIP-B/16 / knn5": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "BiomedCLIP / logreg": {
+   "p_rank1_source": 0.0005,
+   "p_rank1_adjudicated": 0.011,
+   "p_rank1_both": 0.0
+  },
+  "BiomedCLIP / knn1": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0005,
+   "p_rank1_both": 0.0
+  },
+  "BiomedCLIP / knn5": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "DINOv2-S / fine-tuned": {
+   "p_rank1_source": 0.567,
+   "p_rank1_adjudicated": 0.9335,
+   "p_rank1_both": 0.5425
+  },
+  "ResNet-50 / fine-tuned": {
+   "p_rank1_source": 0.0,
+   "p_rank1_adjudicated": 0.0,
+   "p_rank1_both": 0.0
+  },
+  "ConvNeXt-T / fine-tuned": {
+   "p_rank1_source": 0.2105,
+   "p_rank1_adjudicated": 0.019,
+   "p_rank1_both": 0.0155
+  }
+ },
+ "top5_by_source": [
+  "DINOv2-S / fine-tuned",
+  "ConvNeXt-T / fine-tuned",
+  "ResNet-18 / logreg",
+  "DINOv2-B / logreg",
+  "DINOv2-S / logreg"
+ ],
+ "p_same_top_any_entry": 0.569
+}

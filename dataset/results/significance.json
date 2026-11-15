@@ -1,0 +1,125 @@
+{
+ "note": "One-sided paired tests of H0: leakage inflation <= 0. The exact permutation test over sign flips is the primary statistic; its floor at n seeds is 2^-n (0.031 at 5 seeds, 0.125 at 3).",
+ "arms": {
+  "linear_probe": {
+   "n_seeds": 5,
+   "mean_diff": 0.044565,
+   "sd_diff": 0.006815,
+   "t_stat": 14.622,
+   "p_t_one_sided": 6e-05,
+   "p_permutation_one_sided": 0.03125,
+   "p_sign_one_sided": 0.03125,
+   "seeds_positive": "5/5",
+   "per_seed_diff": [
+    0.034967,
+    0.048502,
+    0.039987,
+    0.051233,
+    0.048134
+   ]
+  },
+  "knn5": {
+   "n_seeds": 5,
+   "mean_diff": 0.085184,
+   "sd_diff": 0.00901,
+   "t_stat": 21.142,
+   "p_t_one_sided": 1e-05,
+   "p_permutation_one_sided": 0.03125,
+   "p_sign_one_sided": 0.03125,
+   "seeds_positive": "5/5",
+   "per_seed_diff": [
+    0.080854,
+    0.073181,
+    0.096039,
+    0.091733,
+    0.084112
+   ]
+  },
+  "knn1": {
+   "n_seeds": 5,
+   "mean_diff": 0.162527,
+   "sd_diff": 0.009981,
+   "t_stat": 36.411,
+   "p_t_one_sided": 0.0,
+   "p_permutation_one_sided": 0.03125,
+   "p_sign_one_sided": 0.03125,
+   "seeds_positive": "5/5",
+   "per_seed_diff": [
+    0.159946,
+    0.159947,
+    0.157298,
+    0.155395,
+    0.180047
+   ]
+  },
+  "finetuned": {
+   "n_seeds": 3,
+   "mean_diff": 0.066603,
+   "sd_diff": 0.012614,
+   "t_stat": 9.145,
+   "p_t_one_sided": 0.00587,
+   "p_permutation_one_sided": 0.125,
+   "p_sign_one_sided": 0.125,
+   "seeds_positive": "3/3",
+   "per_seed_diff": [
+    0.05226,
+    0.071575,
+    0.075973
+   ]
+  },
+  "modality_intraoral": {
+   "n_seeds": 5,
+   "mean_diff": 0.044565,
+   "sd_diff": 0.006815,
+   "t_stat": 14.622,
+   "p_t_one_sided": 6e-05,
+   "p_permutation_one_sided": 0.03125,
+   "p_sign_one_sided": 0.03125,
+   "seeds_positive": "5/5",
+   "per_seed_diff": [
+    0.034967,
+    0.048502,
+    0.039987,
+    0.051233,
+    0.048134
+   ],
+   "images_per_patient": 7.216
+  },
+  "modality_opg": {
+   "n_seeds": 5,
+   "mean_diff": 0.026206,
+   "sd_diff": 0.059351,
+   "t_stat": 0.987,
+   "p_t_one_sided": 0.18969,
+   "p_permutation_one_sided": 0.1875,
+   "p_sign_one_sided": 0.1875,
+   "seeds_positive": "4/5",
+   "per_seed_diff": [
+    -0.069028,
+    0.084275,
+    0.061425,
+    0.012922,
+    0.041438
+   ],
+   "images_per_patient": 1.288
+  },
+  "modality_cephalogram": {
+   "n_seeds": 5,
+   "mean_diff": 0.027045,
+   "sd_diff": 0.062789,
+   "t_stat": 0.963,
+   "p_t_one_sided": 0.19501,
+   "p_permutation_one_sided": 0.21875,
+   "p_sign_one_sided": 0.5,
+   "seeds_positive": "3/5",
+   "per_seed_diff": [
+    0.079424,
+    -0.019842,
+    -0.059635,
+    0.064577,
+    0.070703
+   ],
+   "images_per_patient": 1.007
+  }
+ }
+}

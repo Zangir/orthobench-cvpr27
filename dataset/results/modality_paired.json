@@ -1,0 +1,144 @@
+{
+ "provenance": "run",
+ "plan": "experiments/cvpr27_plan.json (amendment 2026-11-14)",
+ "label": "adjudicated",
+ "head": "linear",
+ "summary": {
+  "opg": {
+   "n_encoders": 10,
+   "zoo_mean_photo": 0.4451760821835107,
+   "zoo_mean_radiograph": 0.392923981633717
+  },
+  "cephalogram": {
+   "n_encoders": 10,
+   "zoo_mean_photo": 0.4555796011148486,
+   "zoo_mean_radiograph": 0.40620462442174565
+  }
+ },
+ "per_encoder": {
+  "opg/ResNet-18": {
+   "n": 151,
+   "photo": 0.4920939351319098,
+   "radiograph": 0.3940614549961415,
+   "family": "ImageNet-supervised"
+  },
+  "opg/ResNet-50": {
+   "n": 151,
+   "photo": 0.3184619736389801,
+   "radiograph": 0.41293215188797516,
+   "family": "ImageNet-supervised"
+  },
+  "opg/ConvNeXt-T": {
+   "n": 151,
+   "photo": 0.4935752078609221,
+   "radiograph": 0.38636236794897355,
+   "family": "ImageNet-supervised"
+  },
+  "opg/ConvNeXt-L": {
+   "n": 151,
+   "photo": 0.40146720736924574,
+   "radiograph": 0.3613697705802969,
+   "family": "ImageNet-supervised"
+  },
+  "opg/DINOv2-S": {
+   "n": 151,
+   "photo": 0.48591071648785295,
+   "radiograph": 0.4009781068604598,
+   "family": "DINOv2"
+  },
+  "opg/DINOv2-B": {
+   "n": 151,
+   "photo": 0.46394927536231884,
+   "radiograph": 0.3849348989535905,
+   "family": "DINOv2"
+  },
+  "opg/DINOv2-L": {
+   "n": 151,
+   "photo": 0.4145656824989303,
+   "radiograph": 0.4483293809165751,
+   "family": "DINOv2"
+  },
+  "opg/SigLIP-2": {
+   "n": 151,
+   "photo": 0.4539152997868594,
+   "radiograph": 0.36889338731444,
+   "family": "Image-text"
+  },
+  "opg/CLIP-B/16": {
+   "n": 151,
+   "photo": 0.4320220841959972,
+   "radiograph": 0.40738118288160424,
+   "family": "Image-text"
+  },
+  "opg/BiomedCLIP": {
+   "n": 151,
+   "photo": 0.49579943950208993,
+   "radiograph": 0.36399711399711404,
+   "family": "Image-text"
+  },
+  "cephalogram/ResNet-18": {
+   "n": 79,
+   "photo": 0.44823232323232326,
+   "radiograph": 0.30099344747410695,
+   "family": "ImageNet-supervised"
+  },
+  "cephalogram/ResNet-50": {
+   "n": 79,
+   "photo": 0.33670672570103305,
+   "radiograph": 0.4337321937321937,
+   "family": "ImageNet-supervised"
+  },
+  "cephalogram/ConvNeXt-T": {
+   "n": 79,
+   "photo": 0.47515976087404654,
+   "radiograph": 0.44753086419753085,
+   "family": "ImageNet-supervised"
+  },
+  "cephalogram/ConvNeXt-L": {
+   "n": 79,
+   "photo": 0.438986436269045,
+   "radiograph": 0.479726912653742,
+   "family": "ImageNet-supervised"
+  },
+  "cephalogram/DINOv2-S": {
+   "n": 79,
+   "photo": 0.49756230438674026,
+   "radiograph": 0.35816978887897716,
+   "family": "DINOv2"
+  },
+  "cephalogram/DINOv2-B": {
+   "n": 79,
+   "photo": 0.390345304773664,
+   "radiograph": 0.37721643681396005,
+   "family": "DINOv2"
+  },
+  "cephalogram/DINOv2-L": {
+   "n": 79,
+   "photo": 0.4763528599845735,
+   "radiograph": 0.4180722891566265,
+   "family": "DINOv2"
+  },
+  "cephalogram/SigLIP-2": {
+   "n": 79,
+   "photo": 0.5038335158817087,
+   "radiograph": 0.3988744588744589,
+   "family": "Image-text"
+  },
+  "cephalogram/CLIP-B/16": {
+   "n": 79,
+   "photo": 0.42158730158730157,
+   "radiograph": 0.49381271495940154,
+   "family": "Image-text"
+  },
+  "cephalogram/BiomedCLIP": {
+   "n": 79,
+   "photo": 0.5670294784580499,
+   "radiograph": 0.35391713747645953,
+   "family": "Image-text"
+  }
+ },
+ "rad_dino_radiograph": {
+  "opg": 0.3756226815050345,
+  "cephalogram": 0.39027432352699537
+ }
+}

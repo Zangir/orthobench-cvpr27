@@ -1,0 +1,9 @@
+{
+ "provenance": "derived from results/zoo_reference.json and label_analysis.json by logs/cvpr27/fill_text.py",
+ "gap_weaker_reviewer_minus_best_model_source": 0.03433476575066996,
+ "mean_pruned_training_patients": 275.9,
+ "pruning_mean_decrease_source": 0.025220258040072507,
+ "pruning_mean_decrease_expert": 0.036579560546683224,
+ "ft_gap_dinov2_minus_convnext_source": 0.02206891422040158,
+ "ft_gap_dinov2_minus_convnext_expert": 0.07422843448706962
+}

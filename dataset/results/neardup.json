@@ -1,0 +1,74 @@
+{
+ "max_dist": 10,
+ "n_images": 6935,
+ "by_threshold": {
+  "0": {
+   "pairs_at_exact_dist": 6,
+   "cross_patient_at_exact_dist": 0,
+   "cum_pairs_leq": 6,
+   "cum_cross_patient_leq": 0
+  },
+  "1": {
+   "pairs_at_exact_dist": 0,
+   "cross_patient_at_exact_dist": 0,
+   "cum_pairs_leq": 6,
+   "cum_cross_patient_leq": 0
+  },
+  "2": {
+   "pairs_at_exact_dist": 8,
+   "cross_patient_at_exact_dist": 0,
+   "cum_pairs_leq": 14,
+   "cum_cross_patient_leq": 0
+  },
+  "3": {
+   "pairs_at_exact_dist": 5,
+   "cross_patient_at_exact_dist": 0,
+   "cum_pairs_leq": 19,
+   "cum_cross_patient_leq": 0
+  },
+  "4": {
+   "pairs_at_exact_dist": 10,
+   "cross_patient_at_exact_dist": 3,
+   "cum_pairs_leq": 29,
+   "cum_cross_patient_leq": 3
+  },
+  "5": {
+   "pairs_at_exact_dist": 24,
+   "cross_patient_at_exact_dist": 11,
+   "cum_pairs_leq": 53,
+   "cum_cross_patient_leq": 14
+  },
+  "6": {
+   "pairs_at_exact_dist": 57,
+   "cross_patient_at_exact_dist": 33,
+   "cum_pairs_leq": 110,
+   "cum_cross_patient_leq": 47
+  },
+  "7": {
+   "pairs_at_exact_dist": 117,
+   "cross_patient_at_exact_dist": 87,
+   "cum_pairs_leq": 227,
+   "cum_cross_patient_leq": 134
+  },
+  "8": {
+   "pairs_at_exact_dist": 244,
+   "cross_patient_at_exact_dist": 201,
+   "cum_pairs_leq": 471,
+   "cum_cross_patient_leq": 335
+  },
+  "9": {
+   "pairs_at_exact_dist": 537,
+   "cross_patient_at_exact_dist": 480,
+   "cum_pairs_leq": 1008,
+   "cum_cross_patient_leq": 815
+  },
+  "10": {
+   "pairs_at_exact_dist": 1075,
+   "cross_patient_at_exact_dist": 1028,
+   "cum_pairs_leq": 2083,
+   "cum_cross_patient_leq": 1843
+  }
+ },
+ "images_involved_leq6": 195,
+ "images_in_cross_patient_neardup_leq6": 79
+}

@@ -1,0 +1,26 @@
+{
+ "provenance": "run",
+ "plan": "experiments/cvpr27_plan.json (amendment 2026-11-14)",
+ "n_test": 189,
+ "expert1": {
+  "n_not_assessable": 3,
+  "n_assessable": 186,
+  "expert_macro_f1_all_na_as_error": 0.6032951483397455,
+  "expert_macro_f1_assessable_only": 0.6093762069990868,
+  "dinov2s_ft_macro_f1_all": 0.5419289529067041,
+  "dinov2s_ft_macro_f1_same_assessable_subset": 0.5511322715378254,
+  "gap_expert_minus_model_all": 0.06136619543304145,
+  "gap_expert_minus_model_assessable": 0.05824393546126139
+ },
+ "expert2": {
+  "n_not_assessable": 9,
+  "n_assessable": 180,
+  "expert_macro_f1_all_na_as_error": 0.576263718657374,
+  "expert_macro_f1_assessable_only": 0.5941032277300798,
+  "dinov2s_ft_macro_f1_all": 0.5419289529067041,
+  "dinov2s_ft_macro_f1_same_assessable_subset": 0.5524025213508841,
+  "gap_expert_minus_model_all": 0.03433476575066996,
+  "gap_expert_minus_model_assessable": 0.04170070637919576
+ },
+ "weaker_reviewer_by_all_score": "expert2"
+}

@@ -1,0 +1,237 @@
+{
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
+ "test_frac": 0.3,
+ "modalities": {
+  "intraoral": {
+   "n_images": 6935,
+   "n_patients": 961,
+   "images_per_patient": 7.216,
+   "label_distribution": {
+    "0": 514,
+    "1": 332,
+    "2": 115
+   },
+   "patient_level_macro_f1": {
+    "mean": 0.39309379225765945,
+    "std": 0.0061602103591786575
+   },
+   "patient_agg_macro_f1": {
+    "mean": 0.45511979467759645,
+    "std": 0.028029744320725233
+   },
+   "image_level_macro_f1": {
+    "mean": 0.4376582505884631,
+    "std": 0.004067672130110254
+   },
+   "per_class_f1_seed0": [
+    0.5467128027681661,
+    0.4329896907216495,
+    0.3368421052631579
+   ],
+   "patient_bootstrap_ci_seed0": {
+    "macro_f1_ci": [
+     0.37496414272460676,
+     0.49166812762973355
+    ],
+    "accuracy_ci": [
+     0.41522491349480967,
+     0.5294117647058824
+    ],
+    "macro_f1_mean": 0.43669010224807436,
+    "accuracy_mean": 0.47300346020761247
+   },
+   "leakage_inflation": {
+    "macro_f1_abs": 0.0446,
+    "macro_f1_std": 0.0061,
+    "macro_f1_rel_pct": 11.3,
+    "exceeds_seed_noise": true
+   },
+   "per_seed_macro_f1": {
+    "seed": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "patient_level": [
+     0.399693,
+     0.395977,
+     0.396261,
+     0.381878,
+     0.391659
+    ],
+    "patient_agg": [
+     0.438848,
+     0.420922,
+     0.498281,
+     0.441388,
+     0.47616
+    ],
+    "image_level": [
+     0.43466,
+     0.444479,
+     0.436248,
+     0.433111,
+     0.439793
+    ]
+   }
+  },
+  "opg": {
+   "n_images": 943,
+   "n_patients": 732,
+   "images_per_patient": 1.288,
+   "label_distribution": {
+    "0": 402,
+    "1": 243,
+    "2": 87
+   },
+   "patient_level_macro_f1": {
+    "mean": 0.38305569521314553,
+    "std": 0.025784061084758836
+   },
+   "patient_agg_macro_f1": {
+    "mean": 0.3860752358128795,
+    "std": 0.025784448823970435
+   },
+   "image_level_macro_f1": {
+    "mean": 0.4092621092748132,
+    "std": 0.028436001777172076
+   },
+   "per_class_f1_seed0": [
+    0.5545454545454546,
+    0.4358974358974359,
+    0.25
+   ],
+   "patient_bootstrap_ci_seed0": {
+    "macro_f1_ci": [
+     0.3476575856072759,
+     0.48146272460703815
+    ],
+    "accuracy_ci": [
+     0.4,
+     0.5318181818181819
+    ],
+    "macro_f1_mean": 0.41049368439165185,
+    "accuracy_mean": 0.4663363636363636
+   },
+   "leakage_inflation": {
+    "macro_f1_abs": 0.0262,
+    "macro_f1_std": 0.0531,
+    "macro_f1_rel_pct": 6.8,
+    "exceeds_seed_noise": false
+   },
+   "per_seed_macro_f1": {
+    "seed": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "patient_level": [
+     0.430567,
+     0.356547,
+     0.364169,
+     0.3804,
+     0.383596
+    ],
+    "patient_agg": [
+     0.413481,
+     0.373037,
+     0.342903,
+     0.392591,
+     0.408365
+    ],
+    "image_level": [
+     0.361539,
+     0.440822,
+     0.425594,
+     0.393322,
+     0.425034
+    ]
+   }
+  },
+  "cephalogram": {
+   "n_images": 421,
+   "n_patients": 418,
+   "images_per_patient": 1.007,
+   "label_distribution": {
+    "0": 218,
+    "1": 152,
+    "2": 48
+   },
+   "patient_level_macro_f1": {
+    "mean": 0.3519571541568505,
+    "std": 0.016174220066900988
+   },
+   "patient_agg_macro_f1": {
+    "mean": 0.3541906319341174,
+    "std": 0.015719932629325205
+   },
+   "image_level_macro_f1": {
+    "mean": 0.37900234595976373,
+    "std": 0.049743719484256724
+   },
+   "per_class_f1_seed0": [
+    0.432,
+    0.4175824175824176,
+    0.23529411764705882
+   ],
+   "patient_bootstrap_ci_seed0": {
+    "macro_f1_ci": [
+     0.27232265220726887,
+     0.4529078033386467
+    ],
+    "accuracy_ci": [
+     0.312,
+     0.488
+    ],
+    "macro_f1_mean": 0.35874356605003904,
+    "accuracy_mean": 0.4004480000000001
+   },
+   "leakage_inflation": {
+    "macro_f1_abs": 0.027,
+    "macro_f1_std": 0.0562,
+    "macro_f1_rel_pct": 7.7,
+    "exceeds_seed_noise": false
+   },
+   "per_seed_macro_f1": {
+    "seed": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "patient_level": [
+     0.356364,
+     0.350942,
+     0.372374,
+     0.322917,
+     0.357188
+    ],
+    "patient_agg": [
+     0.361626,
+     0.350942,
+     0.372374,
+     0.325846,
+     0.360165
+    ],
+    "image_level": [
+     0.435788,
+     0.3311,
+     0.312739,
+     0.387494,
+     0.427891
+    ]
+   }
+  }
+ }
+}

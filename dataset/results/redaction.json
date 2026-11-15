@@ -1,0 +1,55 @@
+{
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
+ "variants": {
+  "plain": {
+   "patient_macro_f1": {
+    "mean": 0.45511979467759645,
+    "std": 0.028029744320725233
+   },
+   "n_images": 6935,
+   "redact_margin": 0.0,
+   "per_seed": [
+    0.438848,
+    0.420922,
+    0.498281,
+    0.441388,
+    0.47616
+   ]
+  },
+  "margin_redacted": {
+   "patient_macro_f1": {
+    "mean": 0.47208483342016994,
+    "std": 0.02197790910269438
+   },
+   "n_images": 6935,
+   "redact_margin": 0.12,
+   "per_seed": [
+    0.47302,
+    0.446354,
+    0.510029,
+    0.454881,
+    0.476141
+   ]
+  }
+ },
+ "delta": {
+  "macro_f1_abs": 0.017,
+  "macro_f1_std": 0.0118,
+  "per_seed": [
+   0.034172,
+   0.025432,
+   0.011748,
+   0.013493,
+   -1.9e-05
+  ],
+  "seeds_not_worse": 4,
+  "n_seeds": 5,
+  "within_one_seed_sd": true
+ }
+}

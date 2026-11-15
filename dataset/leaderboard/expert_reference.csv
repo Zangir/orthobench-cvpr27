@@ -1,0 +1,4 @@
+reader,macro_f1_vs_source,ci_lo,ci_hi,n_not_assessable,note
+reviewer_A,0.6033,0.5238,0.6778,3,not assessable counted as error
+reviewer_B,0.5763,0.4762,0.6563,9,not assessable counted as error
+adjudicated_label,0.6531,0.5663,0.7283,0,upper bound against the source label

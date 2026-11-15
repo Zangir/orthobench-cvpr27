@@ -1,0 +1,7 @@
+{
+ "provenance": "run",
+ "check": "extract_many (decode-once, multi-encoder) vs historical extract() DINOv2-S OPG cache",
+ "n_images": 20,
+ "min_cosine": 0.9999999403953552,
+ "phash_identical_fraction": 1.0
+}

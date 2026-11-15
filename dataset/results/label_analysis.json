@@ -1,0 +1,518 @@
+{
+ "provenance": "run",
+ "plan": "experiments/cvpr27_plan.json",
+ "human_and_oracle": {
+  "primary_221": {
+   "n": 221,
+   "oracle_final_vs_manifest_macro_f1": 0.6478076038013765,
+   "oracle_final_vs_manifest_ci": [
+    0.5697694741479433,
+    0.715644758096789
+   ],
+   "oracle_final_vs_manifest_bacc": 0.6611866564807741,
+   "expert1_vs_manifest_macro_f1": 0.6055158499795392,
+   "expert1_vs_manifest_ci": [
+    0.533584975776437,
+    0.6755649319446819
+   ],
+   "expert1_not_assessable": 4,
+   "expert2_vs_manifest_macro_f1": 0.5888223097588087,
+   "expert2_vs_manifest_ci": [
+    0.501171253881236,
+    0.6645076549687782
+   ],
+   "expert2_not_assessable": 10,
+   "expert1_vs_expert2_macro_f1_both_assessable": 0.6987357360898218,
+   "n_both_assessable": 210
+  },
+  "test_189": {
+   "n": 189,
+   "oracle_final_vs_manifest_macro_f1": 0.6530940878766965,
+   "oracle_final_vs_manifest_ci": [
+    0.5662584115481321,
+    0.7283476628839428
+   ],
+   "oracle_final_vs_manifest_bacc": 0.6626304452391408,
+   "expert1_vs_manifest_macro_f1": 0.6032951483397455,
+   "expert1_vs_manifest_ci": [
+    0.5238379775157264,
+    0.677784070914798
+   ],
+   "expert1_not_assessable": 3,
+   "expert2_vs_manifest_macro_f1": 0.576263718657374,
+   "expert2_vs_manifest_ci": [
+    0.4761904761904761,
+    0.6563377245894118
+   ],
+   "expert2_not_assessable": 9,
+   "expert1_vs_expert2_macro_f1_both_assessable": 0.7005918289423444,
+   "n_both_assessable": 179
+  }
+ },
+ "label_error_detection": {
+  "per_model": {
+   "ResNet-18 / logreg": {
+    "auroc": 0.623,
+    "auroc_ci": [
+     0.5397435688405796,
+     0.7032587808195656
+    ]
+   },
+   "ResNet-50 / logreg": {
+    "auroc": 0.494875,
+    "auroc_ci": [
+     0.41193590869183494,
+     0.580242281254801
+    ]
+   },
+   "ConvNeXt-T / logreg": {
+    "auroc": 0.610125,
+    "auroc_ci": [
+     0.5231074696082136,
+     0.6906331449800767
+    ]
+   },
+   "ConvNeXt-L / logreg": {
+    "auroc": 0.66275,
+    "auroc_ci": [
+     0.5731320347742302,
+     0.7373258507045678
+    ]
+   },
+   "DINOv2-S / logreg": {
+    "auroc": 0.612625,
+    "auroc_ci": [
+     0.5229854999476905,
+     0.6972950984160721
+    ]
+   },
+   "DINOv2-B / logreg": {
+    "auroc": 0.574,
+    "auroc_ci": [
+     0.4905673270904817,
+     0.6531903166471966
+    ]
+   },
+   "DINOv2-L / logreg": {
+    "auroc": 0.613125,
+    "auroc_ci": [
+     0.5250978025764806,
+     0.6911209771493617
+    ]
+   },
+   "SigLIP-2 / logreg": {
+    "auroc": 0.574375,
+    "auroc_ci": [
+     0.4841838146915378,
+     0.6557470876321144
+    ]
+   },
+   "CLIP-B/16 / logreg": {
+    "auroc": 0.581375,
+    "auroc_ci": [
+     0.4921799787166329,
+     0.66735135786949
+    ]
+   },
+   "BiomedCLIP / logreg": {
+    "auroc": 0.63575,
+    "auroc_ci": [
+     0.5508624245861908,
+     0.7145101399681838
+    ]
+   },
+   "ConvNeXt-T / fine-tuned": {
+    "auroc": 0.657625,
+    "auroc_ci": [
+     0.5736330214544446,
+     0.7345708646176561
+    ]
+   },
+   "DINOv2-S / fine-tuned": {
+    "auroc": 0.6885,
+    "auroc_ci": [
+     0.6045198000843874,
+     0.7633711697951661
+    ]
+   },
+   "ResNet-50 / fine-tuned": {
+    "auroc": 0.56425,
+    "auroc_ci": [
+     0.4744667470598151,
+     0.6515214581780924
+    ]
+   }
+  },
+  "ensemble_members": [
+   "ResNet-18 / logreg",
+   "ResNet-50 / logreg",
+   "ConvNeXt-T / logreg",
+   "ConvNeXt-L / logreg",
+   "DINOv2-S / logreg",
+   "DINOv2-B / logreg",
+   "DINOv2-L / logreg",
+   "SigLIP-2 / logreg",
+   "CLIP-B/16 / logreg",
+   "BiomedCLIP / logreg"
+  ],
+  "ensemble_auroc": 0.627875,
+  "ensemble_auroc_ci": [
+   0.5421513226104784,
+   0.7041991664516044
+  ],
+  "base_rate_changed": 0.3386243386243386,
+  "confident_learning_flags": {
+   "ResNet-18": {
+    "n_flagged": 87,
+    "true_positive": 34,
+    "precision": 0.39080459770114945,
+    "recall": 0.53125
+   },
+   "ResNet-50": {
+    "n_flagged": 115,
+    "true_positive": 37,
+    "precision": 0.3217391304347826,
+    "recall": 0.578125
+   },
+   "ConvNeXt-T": {
+    "n_flagged": 93,
+    "true_positive": 38,
+    "precision": 0.40860215053763443,
+    "recall": 0.59375
+   },
+   "ConvNeXt-L": {
+    "n_flagged": 100,
+    "true_positive": 42,
+    "precision": 0.42,
+    "recall": 0.65625
+   },
+   "DINOv2-S": {
+    "n_flagged": 88,
+    "true_positive": 34,
+    "precision": 0.38636363636363635,
+    "recall": 0.53125
+   },
+   "DINOv2-B": {
+    "n_flagged": 87,
+    "true_positive": 34,
+    "precision": 0.39080459770114945,
+    "recall": 0.53125
+   },
+   "DINOv2-L": {
+    "n_flagged": 86,
+    "true_positive": 34,
+    "precision": 0.3953488372093023,
+    "recall": 0.53125
+   },
+   "SigLIP-2": {
+    "n_flagged": 85,
+    "true_positive": 36,
+    "precision": 0.4235294117647059,
+    "recall": 0.5625
+   },
+   "CLIP-B/16": {
+    "n_flagged": 103,
+    "true_positive": 42,
+    "precision": 0.4077669902912621,
+    "recall": 0.65625
+   },
+   "BiomedCLIP": {
+    "n_flagged": 85,
+    "true_positive": 37,
+    "precision": 0.43529411764705883,
+    "recall": 0.578125
+   }
+  },
+  "cl_mean_precision": 0.39802534696506814,
+  "cl_mean_recall": 0.575
+ },
+ "confident_learning_pruning": {
+  "per_encoder": {
+   "ResNet-18": {
+    "manifest_base": 0.5035045669561006,
+    "manifest_pruned": 0.4041141431949169,
+    "final_base": 0.5015794608271097,
+    "final_pruned": 0.42892793125351264,
+    "delta_manifest_ci": [
+     -0.19030689264718995,
+     0.0016011802089889499
+    ],
+    "delta_final_ci": [
+     -0.15738324757887281,
+     0.01473809119408782
+    ],
+    "gap_final_minus_manifest_ci": [
+     -0.05426652616799935,
+     0.10717183827815273
+    ],
+    "n_pruned_patients": 292,
+    "n_train_patients_after": 301,
+    "pruned_by_given_class": [
+     154,
+     95,
+     43
+    ],
+    "delta_manifest": -0.09939042376118368,
+    "delta_final": -0.07265152957359705
+   },
+   "ResNet-50": {
+    "manifest_base": 0.341817952542878,
+    "manifest_pruned": 0.33323901150726276,
+    "final_base": 0.3196991164905603,
+    "final_pruned": 0.3382888875032044,
+    "delta_manifest_ci": [
+     -0.08363694006768545,
+     0.061831329604331096
+    ],
+    "delta_final_ci": [
+     -0.06593822643908595,
+     0.10284731100986542
+    ],
+    "gap_final_minus_manifest_ci": [
+     -0.04345360410949291,
+     0.10201461361794863
+    ],
+    "n_pruned_patients": 301,
+    "n_train_patients_after": 292,
+    "pruned_by_given_class": [
+     142,
+     112,
+     47
+    ],
+    "delta_manifest": -0.00857894103561524,
+    "delta_final": 0.018589771012644085
+   },
+   "ConvNeXt-T": {
+    "manifest_base": 0.44988527389583766,
+    "manifest_pruned": 0.42257692901509486,
+    "final_base": 0.49207692307692313,
+    "final_pruned": 0.3852437417654809,
+    "delta_manifest_ci": [
+     -0.1215629271190975,
+     0.06874070708691439
+    ],
+    "delta_final_ci": [
+     -0.20349203959234416,
+     -0.003606721983768429
+    ],
+    "gap_final_minus_manifest_ci": [
+     -0.1588352218900434,
+     -0.00042981226869077846
+    ],
+    "n_pruned_patients": 282,
+    "n_train_patients_after": 311,
+    "pruned_by_given_class": [
+     130,
+     104,
+     48
+    ],
+    "delta_manifest": -0.027308344880742796,
+    "delta_final": -0.10683318131144226
+   },
+   "ConvNeXt-L": {
+    "manifest_base": 0.36808246587138765,
+    "manifest_pruned": 0.34857626034096617,
+    "final_base": 0.4171572714173611,
+    "final_pruned": 0.36183574879227054,
+    "delta_manifest_ci": [
+     -0.09354876210935933,
+     0.0504917050871085
+    ],
+    "delta_final_ci": [
+     -0.12893496958792722,
+     0.015661350847778466
+    ],
+    "gap_final_minus_manifest_ci": [
+     -0.1099991312708012,
+     0.03139385510094417
+    ],
+    "n_pruned_patients": 271,
+    "n_train_patients_after": 322,
+    "pruned_by_given_class": [
+     132,
+     93,
+     46
+    ],
+    "delta_manifest": -0.019506205530421483,
+    "delta_final": -0.05532152262509055
+   },
+   "DINOv2-S": {
+    "manifest_base": 0.4722422615552387,
+    "manifest_pruned": 0.4142465776085709,
+    "final_base": 0.4867790047956355,
+    "final_pruned": 0.4434133645020328,
+    "delta_manifest_ci": [
+     -0.14344159749141075,
+     0.01919641768940583
+    ],
+    "delta_final_ci": [
+     -0.12313884437100486,
+     0.039335976560801025
+    ],
+    "gap_final_minus_manifest_ci": [
+     -0.054149255348826385,
+     0.0829467873344162
+    ],
+    "n_pruned_patients": 265,
+    "n_train_patients_after": 328,
+    "pruned_by_given_class": [
+     132,
+     99,
+     34
+    ],
+    "delta_manifest": -0.057995683946667764,
+    "delta_final": -0.043365640293602736
+   },
+   "DINOv2-B": {
+    "manifest_base": 0.49013738048825767,
+    "manifest_pruned": 0.4165434345375232,
+    "final_base": 0.46806015989375,
+    "final_pruned": 0.4540664124301536,
+    "delta_manifest_ci": [
+     -0.15298517914896323,
+     -0.0006998572362191939
+    ],
+    "delta_final_ci": [
+     -0.09995190204647848,
+     0.06928351737929504
+    ],
+    "gap_final_minus_manifest_ci": [
+     -0.019478057372031204,
+     0.13892990920475826
+    ],
+    "n_pruned_patients": 250,
+    "n_train_patients_after": 343,
+    "pruned_by_given_class": [
+     129,
+     86,
+     35
+    ],
+    "delta_manifest": -0.07359394595073449,
+    "delta_final": -0.013993747463596384
+   },
+   "DINOv2-L": {
+    "manifest_base": 0.4394287909626687,
+    "manifest_pruned": 0.44766919932796706,
+    "final_base": 0.4584869704452939,
+    "final_pruned": 0.44412878787878785,
+    "delta_manifest_ci": [
+     -0.10347126831589828,
+     0.12619661918397215
+    ],
+    "delta_final_ci": [
+     -0.1134837030102691,
+     0.10106128654910677
+    ],
+    "gap_final_minus_manifest_ci": [
+     -0.07368906785110636,
+     0.027668795595439062
+    ],
+    "n_pruned_patients": 275,
+    "n_train_patients_after": 318,
+    "pruned_by_given_class": [
+     131,
+     97,
+     47
+    ],
+    "delta_manifest": 0.00824040836529838,
+    "delta_final": -0.014358182566506061
+   },
+   "SigLIP-2": {
+    "manifest_base": 0.44826351593268887,
+    "manifest_pruned": 0.490313350220471,
+    "final_base": 0.4734663710273466,
+    "final_pruned": 0.4487630572270998,
+    "delta_manifest_ci": [
+     -0.0483190472884614,
+     0.1382943171152765
+    ],
+    "delta_final_ci": [
+     -0.11512058648701538,
+     0.0640861951706473
+    ],
+    "gap_final_minus_manifest_ci": [
+     -0.16024577694343461,
+     0.01495598759548315
+    ],
+    "n_pruned_patients": 262,
+    "n_train_patients_after": 331,
+    "pruned_by_given_class": [
+     127,
+     93,
+     42
+    ],
+    "delta_manifest": 0.04204983428778214,
+    "delta_final": -0.024703313800246818
+   },
+   "CLIP-B/16": {
+    "manifest_base": 0.39551439531909943,
+    "manifest_pruned": 0.42835581300376946,
+    "final_base": 0.4151831093309278,
+    "final_pruned": 0.40340598593714416,
+    "delta_manifest_ci": [
+     -0.06830441728080557,
+     0.1444566856315494
+    ],
+    "delta_final_ci": [
+     -0.113387245786899,
+     0.09648482472128744
+    ],
+    "gap_final_minus_manifest_ci": [
+     -0.12003640251211774,
+     0.026912411769146247
+    ],
+    "n_pruned_patients": 301,
+    "n_train_patients_after": 292,
+    "pruned_by_given_class": [
+     151,
+     101,
+     49
+    ],
+    "delta_manifest": 0.03284141768467003,
+    "delta_final": -0.011777123393783617
+   },
+   "BiomedCLIP": {
+    "manifest_base": 0.4424861945244627,
+    "manifest_pruned": 0.3935254988913525,
+    "final_base": 0.4998522709413799,
+    "final_pruned": 0.45847113548976903,
+    "delta_manifest_ci": [
+     -0.1139812636463977,
+     0.008412724914332398
+    ],
+    "delta_final_ci": [
+     -0.09784327540138035,
+     0.011841694294242722
+    ],
+    "gap_final_minus_manifest_ci": [
+     -0.04481447342811828,
+     0.06492650881065223
+    ],
+    "n_pruned_patients": 260,
+    "n_train_patients_after": 333,
+    "pruned_by_given_class": [
+     137,
+     88,
+     35
+    ],
+    "delta_manifest": -0.048960695633110174,
+    "delta_final": -0.04138113545161087
+   }
+  },
+  "zoo_mean_delta_manifest": -0.025220258040072507,
+  "zoo_mean_delta_final": -0.036579560546683224,
+  "zoo_mean_delta_manifest_ci": [
+   -0.05771828981538619,
+   0.009888738686171733
+  ],
+  "zoo_mean_delta_final_ci": [
+   -0.06821990182819457,
+   -0.004356679713967123
+  ],
+  "zoo_mean_gap_ci": [
+   -0.03659357967305882,
+   0.013834704857338932
+  ],
+  "encoders_final_gain_exceeds_manifest_gain": 5
+ }
+}

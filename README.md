@@ -90,6 +90,8 @@ directory. Results JSONs are aggregate only. Earlier experiments are reproduced 
 
 ## Data access
 
+The OrthoBench data release (evaluation protocol, split definitions keyed by anonymous IDs,
+leaderboard and aggregate results; CC BY-NC 4.0) is in [`dataset/`](dataset/).
 Clinical images and case-level records are restricted. The study received
 institutional ethics approval and data-use permission. Identifying details are
 withheld for double-blind review. Access is controlled through a data-use agreement
