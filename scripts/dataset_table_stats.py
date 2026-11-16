@@ -81,6 +81,23 @@ def main():
         "unused_by_source_class": {c: sup(sum(lab[p] == c for p in unused)) for c in CLASSES}}
     out["per_class"] = {c: {"patients": int((pat.label == c).sum()), "images": int((img.label == c).sum())}
                         for c in CLASSES}
+    # round 6 (2026-11-16): distributions for the supplement (aggregates; histogram bins < 5 suppressed)
+    BINS = [(k, k) for k in range(1, 13)] + [(13, 19), (20, 10 ** 6)]
+    dist = {}
+    for m in MODS:
+        sub = img[img.modality == m]
+        per = sub.groupby("patient_id").size()
+        hist = {}
+        for lo, hi in BINS:
+            n = int(((per >= lo) & (per <= hi)).sum())
+            if n:
+                hist[f"{lo}" if lo == hi else (f"{lo}-{hi}" if hi < 10 ** 6 else f">={lo}")] = sup(n)
+        mp = sub.width * sub.height / 1e6
+        q = lambda x: {k: float(np.quantile(x, v)) for k, v in (("p5", .05), ("p25", .25), ("p50", .5), ("p75", .75), ("p95", .95))}  # noqa: E731
+        dist[m] = {"images_per_patient_hist": hist, "megapixels": q(mp), "width": q(sub.width), "height": q(sub.height),
+                   "orientation": {"landscape": sup((sub.width > sub.height).sum()), "portrait": sup((sub.width < sub.height).sum()),
+                                   "square": sup((sub.width == sub.height).sum())}}
+    out["distributions"] = dist
     R.save("dataset_table_stats.json", out)
     print(json.dumps(out, indent=1))
 

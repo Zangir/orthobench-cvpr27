@@ -940,6 +940,71 @@ def supp_cohort_class(gen):
     L.append(r"\bottomrule\end{tabular}")
     (gen / "ex_supp_cohort_class.tex").write_text("\n".join(L) + "\n")
 
+def supp_stats(out, gen):
+    """Supplement B.5 (round 6, 2026-11-16): distributions per record type, class and split.
+    Aggregates from dataset_table_stats.json only; suppressed cells (< 5 patients) print as <5."""
+    ts, ra = load("dataset_table_stats.json"), load("reference_audit.json")
+    D = ts["distributions"]
+    MODS = (("intraoral", "Photographs", BLUE), ("opg", "OPG", ORANGE), ("cephalogram", "Cephalogram", PURPLE))
+    fig, axs = plt.subplots(1, 3, figsize=(7.0, 2.3), gridspec_kw={"width_ratios": [1.35, 0.9, 1.35], "wspace": 0.55})
+    ax = axs[0]
+    for j, (m, nm, col) in enumerate(MODS):
+        h = D[m]["images_per_patient_hist"]
+        keys = list(h)
+        xs = np.arange(len(keys)) + (j - 1) * 0.27
+        vals = [v if v is not None else 0 for v in h.values()]
+        ax.bar(xs, vals, 0.27, color=col, label=nm, lw=0)
+        sup_x = [x for x, v in zip(xs, h.values()) if v is None]   # suppressed bins: hatched stub, no count
+        ax.bar(sup_x, [3] * len(sup_x), 0.27, facecolor="white", edgecolor=col, hatch="////", lw=0.6)
+    allk = list(D["intraoral"]["images_per_patient_hist"])
+    ax.set_xticks(range(len(allk)), [k.replace(">=", "≥") for k in allk], rotation=90)
+    ax.set_xlabel("images per patient"); ax.set_ylabel("patients"); ax.set_yscale("log")
+    ax.set_title("(a) Images per patient", loc="left", fontsize=7.8)
+    ax.legend(fontsize=FS, frameon=False, loc="upper right", handlelength=0.8)
+    ax = axs[1]
+    for j, (m, nm, col) in enumerate(MODS):
+        q = D[m]["megapixels"]
+        ax.add_patch(Rectangle((j - 0.25, q["p25"]), 0.5, q["p75"] - q["p25"], facecolor=col, alpha=0.35, edgecolor=col))
+        ax.plot([j - 0.25, j + 0.25], [q["p50"]] * 2, color=col, lw=1.6)
+        ax.plot([j, j], [q["p5"], q["p25"]], color=col, lw=0.8); ax.plot([j, j], [q["p75"], q["p95"]], color=col, lw=0.8)
+    ax.set_xticks(range(3), ["Photos", "OPG", "Ceph."]); ax.set_xlim(-0.6, 2.6); ax.set_ylabel("megapixels")
+    ax.set_title("(b) Resolution", loc="left", fontsize=7.8)
+    ax = axs[2]
+    rs, pr = ts["reference_split"], ra["primary"]
+    fin = {k: v for k, v in pr["final_labels"].items() if k.startswith("Class")}
+    rows = [("all patients", {k: ts["per_class"][k]["patients"] for k in ("Class I", "Class II", "Class III")}),
+            ("train (src)", rs["train_by_source_class"]), ("test (src)", rs["test_by_source_class"]),
+            ("test (adj)", rs["test_by_adjudicated_class"]), ("audit (src)", pr["manifest_labels"]),
+            ("audit (adj)", fin)]
+    for i, (nm, d) in enumerate(rows):
+        y = len(rows) - 1 - i
+        tot = sum(d[k] for k in ("Class I", "Class II", "Class III"))
+        left = 0
+        for k, c in zip(("Class I", "Class II", "Class III"), CLS_COLOR):
+            ax.barh(y, d[k] / tot, left=left, color=c, height=0.62, edgecolor="white", lw=0.4)
+            left += d[k] / tot
+    ax.set_yticks(range(len(rows)), [r[0] for r in rows][::-1]); ax.set_xlim(0, 1); ax.set_xlabel("share of patients")
+    ax.set_title("(c) Classes per set", loc="left", fontsize=7.8); ax.grid(False)
+    hd = [Rectangle((0, 0), 1, 1, color=c) for c in CLS_COLOR]
+    ax.legend(hd, ["I", "II", "III"], ncol=3, fontsize=FS, frameon=False, loc="lower center", bbox_to_anchor=(0.5, 1.12),
+              handlelength=0.8, columnspacing=0.8)
+    for a in axs:
+        a.tick_params(labelsize=FS)
+        for sp in ("top", "right"):
+            a.spines[sp].set_visible(False)
+    save(fig, out, "ex_supp_stats")
+    c = lambda v: r"$<$5" if v is None else f"{v:,}"  # noqa: E731
+    L = [r"\begin{tabular}{@{}lccccccc@{}}\toprule",
+         r" & \multicolumn{3}{c}{Width (px): p5 / median / p95} & \multicolumn{2}{c}{Megapixels: p5 / p95} & Landscape & Portrait\\\midrule"]
+    L[1] = r"Record type & Width p5 & Width median & Width p95 & MP p5 & MP p95 & Landscape & Portrait\\\midrule"
+    for m, nm, _ in MODS:
+        d = D[m]
+        L.append(f"{nm} & {d['width']['p5']:.0f} & {d['width']['p50']:.0f} & {d['width']['p95']:.0f} & "
+                 f"{d['megapixels']['p5']:.2f} & {d['megapixels']['p95']:.2f} & {c(d['orientation']['landscape'])} & "
+                 f"{c(d['orientation']['portrait'])}\\\\")
+    L.append(r"\bottomrule\end{tabular}")
+    (gen / "ex_supp_resolution.tex").write_text("\n".join(L) + "\n")
+
 def supp_tables(gen):
     rs, es, fd = load("rank_stability.json"), load("expert_subset.json"), load("feature_distance.json")
     L = [r"\begin{tabular}{@{}lccc@{}}\toprule",
@@ -990,7 +1055,7 @@ def main():
     else:
         print("[skip] Figs 1-2 need the redacted record thumbnails (not released); rendering the rest")
     fig3(out); fig4(out); fig5(out); fig6(out); fig_comparison(out); fig_map(out)
-    tab1(gen); tab2(gen); supp_tables(gen); postplan_tables(gen); supp_cohort_class(gen)
+    tab1(gen); tab2(gen); supp_tables(gen); postplan_tables(gen); supp_cohort_class(gen); supp_stats(out, gen)
 
 
 if __name__ == "__main__":
