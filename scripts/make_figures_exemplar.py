@@ -623,7 +623,7 @@ def fig_map(out):
     org = json.loads((HERE / "dataset_origins.json").read_text())["datasets"]
     cm = {r["name"]: r for r in load("comparison_matrix.json")["datasets"]}
     LAND, EDGE, PUB, OURS = "#E4E2DD", "white", "#1F3A5F", VERM
-    fig = plt.figure(figsize=(7.0, 2.45))
+    fig = plt.figure(figsize=(7.0, 2.2))   # round 4: legend moved to the bottom, less height
     ax = fig.add_axes([0.0, 0.0, 0.70, 1.0])
     for f in geo["features"]:
         g = f["geometry"]
@@ -658,7 +658,7 @@ def fig_map(out):
     ax.legend(loc="lower left", bbox_to_anchor=(0.0, 0.0), fontsize=FS, frameon=False, handletextpad=0.3,
               labelspacing=0.3, borderaxespad=0.2)
     # right: datasets by region and record type
-    bx = fig.add_axes([0.80, 0.24, 0.185, 0.66])
+    bx = fig.add_axes([0.80, 0.30, 0.185, 0.68])
     regions = ["East Asia", "South Asia", "Türkiye", "South America", "not verified", "Gulf region"]
     rlab = {"not verified": "not verified\n(" + ", ".join(r["name"] for r in org if r["lon"] is None) + ")"}
     kinds = [("Lateral ceph", "cephalograms", "#9DB4CE"), ("Panoramic", "panoramic", "#C9C6BF"),
@@ -682,8 +682,9 @@ def fig_map(out):
     for sp in ("top", "right"):
         bx.spines[sp].set_visible(False)
     hd = [Rectangle((0, 0), 1, 1, color=col) for _, _, col in kinds]
-    bx.legend(hd, [t for _, t, _ in kinds], loc="lower left", bbox_to_anchor=(-0.62, 1.0), ncol=1, fontsize=FS,
-              frameon=False, handlelength=1.0, handletextpad=0.4, labelspacing=0.25, borderaxespad=0.1)
+    # record-type legend at the bottom of the figure (user request 2026-11-16, round 4)
+    fig.legend(hd, [t for _, t, _ in kinds], loc="lower center", bbox_to_anchor=(0.62, -0.02), ncol=3, fontsize=FS,
+               frameon=False, handlelength=1.0, handletextpad=0.4, columnspacing=1.0, borderaxespad=0.1)
     save(fig, out, "ex_fig_map")
 
 
