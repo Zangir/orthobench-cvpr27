@@ -317,6 +317,55 @@ def fig2(out, thumbs):
 
 
 # ----------------------------------------------------------------- Fig 3 (feature distance)
+def fig_samples(out, thumbs):
+    """Benchmark images of one linked record (user request 2026-11-16, round 5).
+
+    Sample-panel style (coloured group headers, dark in-image tags, captions under each tile).
+    PRIVACY: uses only the redacted, OCR-screened thumbnails already published in the primer
+    figure (primer_thumbnails); the output is a paper-only figure and is never part of a code
+    release (the thumbnails are restricted, like ex_fig1_teaser and fig9_primer).
+    """
+    fp = load("fig2_frame_probs.json")
+    CL = ["I", "II", "III"]
+    W, H = 7.0, 1.62
+    fig = plt.figure(figsize=(W, H))
+    ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
+    tiles = [(im, f"frame {i + 1}", fp["intraoral_frame_probs"][i], BLUE) for i, im in enumerate(thumbs["intraoral"])]
+    tiles += [(thumbs["opg"], "OPG", fp["opg_frame_probs"][0], ORANGE),
+              (thumbs["cephalogram"], "ceph.", fp["cephalogram_frame_probs"][0], PURPLE)]
+    gap, ggap = 0.05, 0.09
+    ratio = sum(im.size[0] / im.size[1] for im, *_ in tiles)
+    th = (W - 0.02 - gap * 4 - ggap * 2) / ratio      # tile height so the row fills the width
+    y0 = 0.50
+    x, pos = 0.01, []
+    for k, (im, tag, pv, col) in enumerate(tiles):
+        if k in (5, 6):
+            x += ggap - gap
+        w = th * im.size[0] / im.size[1]
+        ax.imshow(np.asarray(im), extent=(x, x + w, y0, y0 + th), zorder=2, interpolation="lanczos")
+        ax.add_patch(Rectangle((x, y0), w, th, fill=False, edgecolor=col, lw=1.0, zorder=3))
+        ax.text(x + 0.03, y0 + th - 0.03, tag, fontsize=FS, color="white", va="top", ha="left", zorder=4,
+                bbox=dict(boxstyle="square,pad=0.15", facecolor="black", alpha=0.6, lw=0))
+        c = int(np.argmax(pv))
+        ax.text(x + w / 2, y0 - 0.1, f"probe: Class {CL[c]}", fontsize=FS, ha="center", va="center",
+                color=CLS_COLOR[c], fontweight="bold")
+        pos.append((x, w, col))
+        x += w + gap
+    groups = [(0, 4, "intraoral photograph series (5 frames)"), (5, 5, "panoramic (OPG)"),
+              (6, 6, "cephalogram")]
+    for a, b, t in groups:
+        xa, xb, col = pos[a][0], pos[b][0] + pos[b][1], pos[a][2]
+        ax.add_patch(Rectangle((xa, y0 + th + 0.04), xb - xa, 0.2, color=col, lw=0, zorder=2))
+        ax.text((xa + xb) / 2, y0 + th + 0.14, t, fontsize=FS, color="white", fontweight="bold",
+                ha="center", va="center", zorder=3)
+    src = fp["source_label"]
+    ax.text(0.01, 0.2, f"One patient's linked record.  Source label: {src}.  Expert audit: not audited.  "
+            "De-identified and border-redacted.", fontsize=FS, color="#222222", va="center")
+    ax.text(0.01, 0.05, "probe = frozen DINOv2-S linear probe trained without this record; label colour = predicted class",
+            fontsize=FS, color=SUB, va="center")
+    save(fig, out, "ex_fig_samples")
+
+
 def fig3(out):
     fd = load("feature_distance.json")["per_encoder"]
     encs = ["ResNet-18", "ConvNeXt-T", "DINOv2-S", "BiomedCLIP"]
@@ -653,7 +702,7 @@ def fig_map(out):
         ax.text(lx, ly + 0.6, r["name"], ha=ha, va="bottom", fontsize=FS, fontweight="bold", color=c, zorder=6)
         ax.text(lx, ly, desc[r["name"]], ha=ha, va="top", fontsize=FS, color=c if ours else "#333333",
                 linespacing=1.1, zorder=6)
-    ax.scatter([], [], s=13, color=PUB, label="public dental dataset (Fig. 2)")
+    ax.scatter([], [], s=13, color=PUB, label="public dental dataset (Tab. 1c)")
     ax.scatter([], [], marker="*", s=70, color=OURS, label="OrthoBench (ours), Gulf region")
     ax.legend(loc="lower left", bbox_to_anchor=(0.0, 0.0), fontsize=FS, frameon=False, handletextpad=0.3,
               labelspacing=0.3, borderaxespad=0.2)
@@ -677,7 +726,7 @@ def fig_map(out):
     for t in bx.get_yticklabels():
         if t.get_text() == "Gulf region":
             t.set_color(OURS); t.set_fontweight("bold")
-    bx.set_xlim(0, 2.6); bx.set_xticks([0, 1, 2]); bx.set_xlabel("datasets in Fig. 2", fontsize=FS, labelpad=1)
+    bx.set_xlim(0, 2.6); bx.set_xticks([0, 1, 2]); bx.set_xlabel("datasets in Tab. 1c", fontsize=FS, labelpad=1)
     bx.tick_params(labelsize=7.8, pad=1, length=1.5); bx.grid(axis="y", visible=False)
     for sp in ("top", "right"):
         bx.spines[sp].set_visible(False)
@@ -694,10 +743,11 @@ def f3(x):
 
 
 def tab1(gen):
-    """Tab. 1 (user requests 2026-11-16): left (a) cohort by record type, (b) reference split by
-    record type, (c) primary expert audit; right (d) patients per class. The former dataset
-    comparison block now lives only in Fig. 2 (fig_comparison)."""
-    ds, ra = load("dataset_stats.json"), load("reference_audit.json")
+    """Tab. 1 (round 5, user request 2026-11-16): the earlier combined layout. Left: (a) cohort by
+    record type, (b) primary expert audit, (c) comparison with dental datasets (marks and verified
+    facts from comparison_matrix.json; not reported renders as a cross). Right: (d) patients per
+    class, split and label version, (e) reference split by record type."""
+    ds, ra, cm = load("dataset_stats.json"), load("reference_audit.json"), load("comparison_matrix.json")
     ts = load("dataset_table_stats.json")
     pr = ra["primary"]; ag = pr["reviewer_agreement"]
     mods = (("intraoral", "Photographs"), ("opg", "OPG"), ("cephalogram", "Cephalogram"))
@@ -710,22 +760,24 @@ def tab1(gen):
            f"${ds['resolution'][m]['median_wh'][0]}\\times{ds['resolution'][m]['median_wh'][1]}$\\\\"
            for m, nm in mods],
          f"All (linked: {ds['fully_paired_patients']}) & {ds['n_patients']} & {ds['n_images']:,} & & \\\\",
-         r"\midrule\multicolumn{5}{@{}l}{\textbf{(b) Reference split by record type}}\\",
-         r"Record type & Train pat. & Test pat. & Train img. & Test img.\\\midrule"]
-    for m, nm in mods:
-        v = ts["per_modality"][m]
-        L.append(f"{nm} & {v['train_patients']} & {v['test_patients']} & {v['train_images']:,} & {v['test_images']:,}\\\\")
-    L += [r"\midrule\multicolumn{5}{@{}l}{\textbf{(c) Expert audit (primary batch)}}\\",
-          r"Patients & Agreement & $\kappa$ ($95\%$ CI) & Adjudicated / excl. & Revised\\\midrule",
-          f"{ag['n']} & ${100 * ag['raw_agreement']:.1f}\\%$ & {ag['kappa']:.3f} ({ag['kappa_ci'][0]:.3f}--{ag['kappa_ci'][1]:.3f}) & "
-          f"{pr['senior_n']} / {pr['n_excluded']} & {pr['changed_labels']}/{pr['n_assessable']} (${100 * pr['changed_fraction']:.1f}\\%$)\\\\",
-          r"\bottomrule\end{tabular}"]
+         r"\midrule\multicolumn{5}{@{}l}{\textbf{(b) Expert audit (primary batch)}}\\",
+         r"Patients & Agreement & $\kappa$ ($95\%$ CI) & Adjudicated / excl. & Revised\\\midrule",
+         f"{ag['n']} & ${100 * ag['raw_agreement']:.1f}\\%$ & {ag['kappa']:.3f} ({ag['kappa_ci'][0]:.3f}--{ag['kappa_ci'][1]:.3f}) & "
+         f"{pr['senior_n']} / {pr['n_excluded']} & {pr['changed_labels']}/{pr['n_assessable']} (${100 * pr['changed_fraction']:.1f}\\%$)\\\\",
+         r"\midrule\multicolumn{5}{@{}l}{\textbf{(c) Comparison with dental datasets}}\\",
+         r"Dataset & Images & Linked & Angle labels & Patient split\\\midrule"]
+    for r in cm["datasets"]:
+        nm = r"\textbf{OrthoBench (ours)}" if r["source_id"] == "ours" else f"{r['name']}~\\cite{{{r['cite_key']}}}"
+        mk = lambda v: r"\cmark" if v else r"\xmark"  # noqa: E731
+        L.append(f"{nm} & {r['n_images']:,} & {mk(r['patient_linked_multimodal'])} & {mk(r['angle_class_labels'])} & "
+                 f"{mk(r['patient_level_split'])}\\\\")
+    L.append(r"\bottomrule\end{tabular}")
     (gen / "ex_tab1.tex").write_text("\n".join(L) + "\n")
     tab1_right(gen, ts, pr)
 
 
 def tab1_right(gen, ts, pr):
-    """Tab. 1 (d) patients per class, split and label version (aggregate; cells < 5 suppressed)."""
+    """Tab. 1 (d) patients per class, split and label version, (e) reference split by record type."""
     cls = ("Class I", "Class II", "Class III")
     rs = ts["reference_split"]
     c = lambda v: r"$<$5" if v is None else f"{v:,}"  # noqa: E731  (small-cell suppression)
@@ -744,7 +796,12 @@ def tab1_right(gen, ts, pr):
          row("Not used$^\\dagger$ (source)", rs["unused_by_source_class"], rs["unused_patients"]),
          row("Primary audit (source)", pr["manifest_labels"], pr["n"]),
          row("Primary audit (adjudicated)", fin, f"{pr['n_assessable']} + {fin['excl']} excl."),
-         r"\bottomrule\end{tabular}"]
+         r"\midrule\multicolumn{5}{@{}l}{\textbf{(e) Reference split by record type}}\\",
+         r"Record type & Train pat. & Test pat. & Train img. & Test img.\\\midrule"]
+    for m, nm in (("intraoral", "Photographs"), ("opg", "OPG"), ("cephalogram", "Cephalogram")):
+        v = ts["per_modality"][m]
+        L.append(f"{nm} & {v['train_patients']} & {v['test_patients']} & {v['train_images']:,} & {v['test_images']:,}\\\\")
+    L.append(r"\bottomrule\end{tabular}")
     (gen / "ex_tab1_right.tex").write_text("\n".join(L) + "\n")
 
 
@@ -929,7 +986,7 @@ def main():
     primer = paper / "figures/fig9_primer.pdf"
     if primer.exists():   # restricted: the redacted thumbnails exist only in the authors' copy
         thumbs = primer_thumbnails(primer)
-        fig1(out, thumbs); fig2(out, thumbs)
+        fig1(out, thumbs); fig2(out, thumbs); fig_samples(out, thumbs)
     else:
         print("[skip] Figs 1-2 need the redacted record thumbnails (not released); rendering the rest")
     fig3(out); fig4(out); fig5(out); fig6(out); fig_comparison(out); fig_map(out)
