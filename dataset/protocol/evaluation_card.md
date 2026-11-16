@@ -12,4 +12,4 @@ Every reported OrthoBench score states:
 | Metric | patient macro-F1 (primary), balanced accuracy (secondary) |
 | Uncertainty | 2,000 shared patient-bootstrap draws; paired shifts between label versions |
 | Ceiling | expert reviewers and the adjudicated label scored against the source label |
-| Release | paired per-patient predictions, under the data-use agreement |
+| Release | paired per-patient predictions, with the public dataset release |

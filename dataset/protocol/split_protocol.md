@@ -17,4 +17,4 @@ Implemented in `orthobench/reference_eval.py` (`quarantine_candidates`, `split_m
    patient-level class-stratified splits with test fraction 0.3 and seeds 0-4
    (`orthobench/splits.py`), scored per image.
 
-The patient-keyed membership lists are held under the data-use agreement.
+The patient-keyed membership lists will be released with the public dataset at camera-ready.

@@ -10,5 +10,5 @@ patient-level records.
 - You must not attempt to re-identify any patient or link these results to other data in
   order to do so.
 - The clinical images and case-level records of OrthoBench are not covered by these terms.
-  They are available only under a separate data-use agreement with the data custodian,
-  after institutional approval.
+  They are not part of this review release; the de-identified dataset will be released
+  publicly with the camera-ready version, under its own terms.

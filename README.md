@@ -90,12 +90,10 @@ directory. Results JSONs are aggregate only. Earlier experiments are reproduced 
 
 ## Data access
 
-The OrthoBench data release (evaluation protocol, split definitions keyed by anonymous IDs,
-leaderboard and aggregate results; CC BY-NC 4.0) is in [`dataset/`](dataset/).
-Clinical images and case-level records are restricted. The study received
-institutional ethics approval and data-use permission. Identifying details are
-withheld for double-blind review. Access is controlled through a data-use agreement
-with the data custodian. The code license does not apply to clinical data. OCR screening
+Clinical images and case-level records are not part of this review release. The study
+received institutional ethics approval and data-use permission. Identifying details are
+withheld for double-blind review. The de-identified dataset will be released publicly
+with the camera-ready version. The code license does not apply to clinical data. OCR screening
 and border redaction are triage aids, not pixel-privacy certification.
 
 ## Repository structure
@@ -120,4 +118,4 @@ and border redaction are triage aids, not pixel-privacy certification.
 
 ## License
 
-Code: MIT (see `LICENSE`). Clinical data: restricted, not covered by the code license.
+Code: MIT (see `LICENSE`). Clinical data: released separately with the camera-ready version, not covered by the code license.
