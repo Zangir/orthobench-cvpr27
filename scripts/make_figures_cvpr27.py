@@ -160,6 +160,12 @@ def fmt(x, nd=3):
     return f"{x:.{nd}f}"
 
 
+def sgn(x, nd=3):
+    """Signed value; a rounded zero prints as 0.000, never -0.000 (QA 2026-11-16)."""
+    t = f"{x:+.{nd}f}"
+    return f"{0:.{nd}f}" if float(t) == 0 else t
+
+
 def tables(ref, split, ft, fus, out):
     mods = ref["macro_f1"]["models"]
     bacc = {m["name"]: m for m in ref["balanced_accuracy"]["models"]}
@@ -202,7 +208,7 @@ def supp_tables(ref, split, lab, fus, ft, out):
     for n, v in pr.items():
         lo, hi = v["gap_final_minus_manifest_ci"]
         L.append(f"{n} & {v['n_pruned_patients']} & {fmt(v['manifest_base'])} & {fmt(v['manifest_pruned'])} & "
-                 f"{fmt(v['final_base'])} & {fmt(v['final_pruned'])} & {lo:+.3f} to {hi:+.3f}\\\\")
+                 f"{fmt(v['final_base'])} & {fmt(v['final_pruned'])} & {sgn(lo)} to {sgn(hi)}\\\\")
     L.append(r"\bottomrule\end{tabular}")
     (Path(out) / "supp_pruning.tex").write_text("\n".join(L) + "\n")
     if fus and fus.get("per_encoder"):

@@ -81,7 +81,10 @@
   "test_patients": 189,
   "unused_patients": 180,
   "unused_audited": 51,
-  "unused_unaudited_quarantined": 129,
+  "unused_unaudited": 129,
+  "unused_unaudited_quarantined": 128,
+  "unused_unaudited_no_photographs": 1,
+  "unused_audited_quarantined": 35,
   "train_by_source_class": {
    "Class I": 316,
    "Class II": 205,

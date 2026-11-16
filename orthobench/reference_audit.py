@@ -1,4 +1,4 @@
-"""Read the supplied OrthoLabel workbook in place and independently audit its rows.
+"""Read the supplied audit workbook in place and independently audit its rows.
 
 Only aggregate statistics leave this module. Spreadsheet summary/formula cells are
 cross-checks, never the input to statistical calculations. Original inputs are immutable.

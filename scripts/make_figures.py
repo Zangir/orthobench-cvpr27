@@ -484,7 +484,19 @@ def _exemplar_frames(root, patient=EXEMPLAR_PATIENT, margin=REDACT_MARGIN, px=34
     return out
 
 
-def fig_primer(ds, data_root=None):
+
+def _font_scale(k):
+    """Scale every font size for one figure so labels print at >= 7 pt (QA 2026-11-16)."""
+    keys = ("font.size", "axes.labelsize", "axes.titlesize", "xtick.labelsize", "ytick.labelsize",
+            "legend.fontsize")
+    upd = {}
+    for key in keys:
+        v = plt.rcParams[key]
+        if isinstance(v, (int, float)):
+            upd[key] = v * k
+    return plt.rc_context(upd)
+
+def _fig_primer_impl(ds, data_root=None):
     """Reader-facing primer: what Angle Class I/II/III means, what each modality
     contributes, and what a patient's uncurated intraoral series actually looks
     like. Angle anatomy is schematic; the photographic panels are real frames from
@@ -534,14 +546,14 @@ def fig_primer(ds, data_root=None):
         _molar(ax, 0.30, 0.60, 0.42, 0.17, "#BFBFBF", up=False)
         _molar(ax, 0.30 + shift * 0.42, 0.32, 0.42, 0.17, col, up=True)
         if j == 0:
-            ax.text(0.24, 0.685, "upper", ha="right", va="center", fontsize=6.3,
+            ax.text(0.24, 0.685, "upper", ha="right", va="center", fontsize=7.6,
                     color="#777777")
-            ax.text(0.24, 0.405, "lower", ha="right", va="center", fontsize=6.3,
+            ax.text(0.24, 0.405, "lower", ha="right", va="center", fontsize=7.6,
                     color="#777777")
             ax.annotate("", xy=(0.86, 0.185), xytext=(0.52, 0.185),
                         arrowprops=dict(arrowstyle="-|>", color="#999999",
                                         linewidth=0.8))
-            ax.text(0.48, 0.185, "posterior", ha="right", va="center", fontsize=6.0,
+            ax.text(0.48, 0.185, "posterior", ha="right", va="center", fontsize=7.6,
                     color="#999999")
         ax.plot([0.30, 0.30], [0.26, 0.82], color="#888888", linewidth=0.7,
                 linestyle=(0, (2, 2)), zorder=1)
@@ -551,10 +563,10 @@ def fig_primer(ds, data_root=None):
                                         shrinkA=0, shrinkB=0))
         ax.text(0.5, 1.02, name, ha="center", va="center", fontsize=8.6,
                 fontweight="bold", color=col)
-        ax.text(0.5, 0.10, note, ha="center", va="center", fontsize=6.6,
+        ax.text(0.5, 0.10, note, ha="center", va="center", fontsize=7.6,
                 color="#444444", style="italic")
         ax.text(0.5, -0.05, f"{lab[name]} patients", ha="center", va="center",
-                fontsize=6.8, color="#222222", fontweight="bold")
+                fontsize=7.6, color="#222222", fontweight="bold")
 
     # ---------- (b) one exemplar per modality ------------------------------------
     gsb = top[1].subgridspec(1, 2, wspace=0.14)
@@ -594,24 +606,25 @@ def fig_primer(ds, data_root=None):
                                      edgecolor=col, linewidth=1.6, zorder=3))
         ax.text(0.5, 1.02, name, ha="center", va="center", fontsize=8.6,
                 fontweight="bold", color=col)
-        ax.text(0.5, 0.15, note, ha="center", va="center", fontsize=6.4,
+        ax.text(0.5, 0.15, note, ha="center", va="center", fontsize=7.6,
                 color="#444444", style="italic", linespacing=1.15)
         ax.text(0.5, -0.02, f"{n_img[key]:,} images", ha="center", va="center",
-                fontsize=6.8, color="#222222", fontweight="bold")
+                fontsize=7.6, color="#222222", fontweight="bold")
         ax.text(0.5, -0.115, f"median {ipp[key][0]:.0f}/patient", ha="center",
-                va="center", fontsize=6.4, color="#666666")
+                va="center", fontsize=7.6, color="#666666")
 
     # ---------- (c) one patient's uncurated intraoral series ---------------------
     series = ex["intraoral"] if have else []
     n = max(len(series), 5)
-    fig.text(0.005, 0.455,
+    fig.text(0.005, 0.47,
              "(c)  One patient's intraoral series: what the intraoral track actually scores"
              f"  ({n_img['intraoral']:,} images, median {ipp['intraoral'][0]:.0f}/patient)",
              ha="left", va="center", fontsize=8.4, fontweight="bold", color="#222222")
-    fig.text(0.005, 0.408,
-             "No view labels exist, so every method must pool the whole series; the molar "
+    # QA 2026-11-16: two lines, so the >= 7 pt text stays inside the 7.1-inch canvas
+    fig.text(0.005, 0.418,
+             "No view labels exist, so every method must pool the whole series;\nthe molar "
              "relationship that defines Angle class is legible in only some frames.",
-             ha="left", va="center", fontsize=6.9, color="#666666", style="italic")
+             ha="left", va="center", fontsize=7.6, color="#666666", style="italic", linespacing=1.1)
     gsc = outer[1].subgridspec(1, n, wspace=0.06)
     for j in range(n):
         ax = fig.add_subplot(gsc[0, j])
@@ -626,19 +639,23 @@ def fig_primer(ds, data_root=None):
             ax.add_patch(Rectangle((0.02, 0.10), 0.96, 0.88, facecolor="#F2F2F2",
                                    edgecolor=HUE["intraoral"], linewidth=1.2,
                                    zorder=2))
-        ax.text(0.5, -0.03, f"frame {j+1}", ha="center", va="center", fontsize=6.4,
+        ax.text(0.5, -0.03, f"frame {j+1}", ha="center", va="center", fontsize=7.6,
                 color="#666666")
     _save(fig, "fig9_primer")
 
 
 # ------------------------------------------- modality tracks + leakage mechanism
-def fig_modality(mt):
+def fig_primer(ds, data_root=None):
+    with _font_scale(1.0):
+        return _fig_primer_impl(ds, data_root)
+
+def _fig_modality_impl(mt):
     """Left: per-modality difficulty. Right: the mechanism -- leakage inflation
     against images per patient, with the per-seed difference spread. Where a patient
     contributes one image the two split protocols coincide and the gap must vanish."""
     mods = [m for m in ("intraoral", "opg", "cephalogram") if m in mt["modalities"]]
     d = mt["modalities"]
-    fig, axes = plt.subplots(1, 2, figsize=(10.2, 3.9),
+    fig, axes = plt.subplots(1, 2, figsize=(8.6, 4.4),
                              gridspec_kw={"width_ratios": [1.0, 1.25]})
     ax = axes[0]
     m = [d[k]["patient_agg_macro_f1"]["mean"] for k in mods]
@@ -647,16 +664,16 @@ def fig_modality(mt):
                   color=[HUE[k] for k in mods], edgecolor="white", linewidth=0.6)
     for bar, val, k in zip(bars, m, mods):
         ax.text(bar.get_x() + bar.get_width() / 2, 0.02, f"{val:.3f}",
-                ha="center", va="bottom", fontsize=9, color="white", fontweight="bold")
+                ha="center", va="bottom", fontsize=9*1.15, color="white", fontweight="bold")
         ax.text(bar.get_x() + bar.get_width() / 2, val + e[mods.index(k)] + 0.008,
-                f"n={d[k]['n_images']:,}", ha="center", va="bottom", fontsize=8,
+                f"n={d[k]['n_images']:,}", ha="center", va="bottom", fontsize=8*1.15,
                 color="#555555")
     ax.axhline(0.329, ls=":", color="#555555", lw=1)
     ax.annotate("dotted line: stratified random (0.329)", (0.02, 0.96),
-                xycoords="axes fraction", ha="left", fontsize=8, color="#555555")
+                xycoords="axes fraction", ha="left", fontsize=8*1.15, color="#555555")
     ax.set_xticks(np.arange(len(mods)))
     ax.set_xticklabels([DISP[k] for k in mods])
-    ax.set_ylabel("Patient-level macro-F1 (mean $\\pm$ std)")
+    ax.set_ylabel("Patient-level macro-F1\n(mean $\\pm$ std)")
     ax.set_xlabel("Benchmark track")
     ax.set_ylim(0, max(m) + 0.13)
     _polish_axes(ax)
@@ -667,7 +684,7 @@ def fig_modality(mt):
     ise = [d[k]["leakage_inflation"]["macro_f1_std"] for k in mods]
     ax.axhline(0, color="#444444", lw=1)
     # stagger the two near-coincident low-images-per-patient labels
-    offs = {"intraoral": (-52, 16), "cephalogram": (10, 26), "opg": (10, -34)}
+    offs = {"intraoral": (-150, 22), "cephalogram": (14, -78), "opg": (14, -48)}
     for k, xv, yv, ev in zip(mods, ipp, inf, ise):
         real = d[k]["leakage_inflation"]["exceeds_seed_noise"]
         ax.errorbar(xv, yv, yerr=ev, fmt="o", ms=9, color=HUE[k], ecolor=HUE[k],
@@ -676,19 +693,23 @@ def fig_modality(mt):
                     markeredgecolor=HUE[k], markeredgewidth=1.6)
         ax.annotate(f"{DISP[k]} {yv:+.3f} $\\pm$ {ev:.3f}", (xv, yv),
                     xytext=offs.get(k, (8, 14)), textcoords="offset points",
-                    fontsize=8.5, color=HUE[k], fontweight="bold")
+                    fontsize=8.5*1.15, color=HUE[k], fontweight="bold")
     ax.set_xlabel("Images per patient in the track")
     ax.set_ylabel("Leakage inflation\n(image $-$ patient macro-F1)")
     ax.set_xlim(0.3, 9.0)
     ax.annotate("filled = exceeds seed noise;  hollow = within noise",
-                (0.98, 0.03), xycoords="axes fraction", ha="right", fontsize=8,
+                (0.5, 1.02), xycoords="axes fraction", ha="center", va="bottom", fontsize=8*1.15,
                 color="#555555")
     _polish_axes(ax, grid_axis="both")
-    fig.subplots_adjust(wspace=0.34)
+    fig.subplots_adjust(wspace=0.42)
     _save(fig, "fig6_modality")
 
 
 # --------------------------------------------- confusion + per-class intervals
+def fig_modality(mt):
+    with _font_scale(1.15):
+        return _fig_modality_impl(mt)
+
 def fig_confusion(bl):
     """Where the benchmark actually fails. Left: patient-level confusion for the
     two most informative backbones. Right: per-class F1 with patient-bootstrap
@@ -771,45 +792,49 @@ def fig_mechanism(mt):
 
 
 # ------------------------------------------------------------------ fusion track
-def fig_fusion(fu):
+def _fig_fusion_impl(fu):
     tr = fu["tracks"]
     keys = [k for k in ("intraoral", "opg", "cephalogram", "intraoral+opg",
                         "intraoral+cephalogram", "opg+cephalogram",
                         "intraoral+opg+cephalogram") if k in tr]
     short = {"intraoral": "IO", "opg": "OPG", "cephalogram": "Ceph"}
-    lab = ["+".join(short[p] for p in k.split("+")) for k in keys]
+    lab = ["+\n".join(short[p] for p in k.split("+")) for k in keys]
     m = [tr[k]["macro_f1"]["mean"] for k in keys]
     e = [tr[k]["macro_f1"]["std"] for k in keys]
     col = [HUE[k] if "+" not in k else OI["grey"] for k in keys]
     col[-1] = OI["black"]
-    fig, ax = plt.subplots(figsize=(8.8, 4.0))
+    fig, ax = plt.subplots(figsize=(7.4, 3.8))
     bars = ax.bar(np.arange(len(keys)), m, 0.62, yerr=e, capsize=3, color=col,
                   edgecolor="white", linewidth=0.6)
     for bar, val in zip(bars, m):
         ax.text(bar.get_x() + bar.get_width() / 2, 0.02, f"{val:.3f}",
-                ha="center", va="bottom", fontsize=8.5, color="white", fontweight="bold")
+                ha="center", va="bottom", fontsize=8.5*1.05, color="white", fontweight="bold")
     best_uni = max(m[:3])
     ax.axhline(best_uni, ls="--", color=OI["vermillion"], lw=1.1)
     ax.annotate(f"dashed line: best single modality ({best_uni:.3f})", (0.02, 0.89),
-                xycoords="axes fraction", ha="left", fontsize=8.5,
+                xycoords="axes fraction", ha="left", fontsize=8.5*1.05,
                 color=OI["vermillion"])
-    ax.set_xticks(np.arange(len(keys))); ax.set_xticklabels(lab, fontsize=8.5)
+    ax.set_xticks(np.arange(len(keys))); ax.set_xticklabels(lab, fontsize=8.5*1.05)
     ax.set_ylabel("Macro-F1 (mean $\\pm$ std, 10 seeds)")
     ax.set_xlabel(f"Modality blocks fused ({fu['n_patients_fully_paired']} "
                   f"fully-paired patients)")
     ax.set_ylim(0, max(np.array(m) + np.array(e)) + 0.115)
     ax.annotate("all error bars overlap: the paired cohort cannot yet resolve a "
                 "fusion gain", (0.02, 0.96), xycoords="axes fraction", ha="left",
-                fontsize=8.5, color="#555555")
+                fontsize=8.5*1.05, color="#555555")
     _polish_axes(ax)
     _save(fig, "fig7_fusion")
 
 
 # --------------------------------------------------- pixel-PHI audit and release
-def fig_phi(ph, rd):
+def fig_fusion(fu):
+    with _font_scale(1.05):
+        return _fig_fusion_impl(fu)
+
+def _fig_phi_impl(ph, rd):
     """Three panels: how much of the cohort needs review, how sensitive the detector
     is, and what a blanket border redaction costs the benchmark (nothing)."""
-    fig, axes = plt.subplots(1, 3, figsize=(11.6, 3.6),
+    fig, axes = plt.subplots(1, 3, figsize=(9.0, 4.0),
                              gridspec_kw={"width_ratios": [1.05, 1.0, 0.78]})
     ax = axes[0]
     mods = [m for m in ("intraoral", "opg", "cephalogram") if m in ph["by_modality"]]
@@ -819,14 +844,14 @@ def fig_phi(ph, rd):
     for bar, val, m in zip(bars, pct, mods):
         ax.text(bar.get_x() + bar.get_width() / 2, val - 0.5,
                 f"{val:.1f}%\n({ph['by_modality'][m]['flagged_risk']})",
-                ha="center", va="top", fontsize=8.5, color="white",
+                ha="center", va="top", fontsize=8.5*1.2, color="white",
                 fontweight="bold")
     ax.axhline(ph["flagged_pct_of_cohort"], ls=":", color="#444444", lw=1)
     ax.annotate(f"dotted line: whole cohort {ph['flagged_pct_of_cohort']:.2f}%",
-                (0.02, 0.96), xycoords="axes fraction", ha="left", fontsize=8,
+                (0.02, 0.96), xycoords="axes fraction", ha="left", fontsize=8*1.2,
                 color="#444444")
-    ax.set_xticks(np.arange(len(mods))); ax.set_xticklabels([DISP[m] for m in mods])
-    ax.set_ylabel("Images flagged for PHI review (%)")
+    ax.set_xticks(np.arange(len(mods))); ax.set_xticklabels([{"cephalogram": "Ceph."}.get(m, DISP[m]) for m in mods])
+    ax.set_ylabel("Images flagged\nfor PHI review (%)")
     ax.set_xlabel("Modality")
     ax.set_ylim(0, max(pct) + 4.2)
     _polish_axes(ax)
@@ -836,21 +861,21 @@ def fig_phi(ph, rd):
     bands = rp.get("sensitivity_by_font_size", {})
     bk = list(bands)
     sens = [bands[b]["sensitivity"] for b in bk]
-    lab = [b.replace("pct", "%").replace("-", "\u2013") for b in bk]
+    lab = [b.replace("pct", "%").replace("-", "\u2013\n") for b in bk]
     bars = ax.bar(np.arange(len(bk)), sens, 0.6, color=OI["blue"],
                   edgecolor="white", linewidth=0.6)
     for bar, val, b in zip(bars, sens, bk):
         ax.text(bar.get_x() + bar.get_width() / 2, val - 0.07, f"{val:.2f}",
-                ha="center", va="top", fontsize=9, color="white", fontweight="bold")
+                ha="center", va="top", fontsize=9*1.2, color="white", fontweight="bold")
         ax.text(bar.get_x() + bar.get_width() / 2, val + 0.012,
-                f"n={bands[b]['n']}", ha="center", va="bottom", fontsize=8,
+                f"n={bands[b]['n']}", ha="center", va="bottom", fontsize=8*1.2,
                 color="#555555")
     ax.axhline(rp.get("sensitivity", 0), ls="--", color=OI["vermillion"], lw=1.1)
     ax.annotate(f"dashed line: overall {rp.get('sensitivity', 0):.2f}", (0.02, 0.96),
-                xycoords="axes fraction", ha="left", fontsize=8.5,
+                xycoords="axes fraction", ha="left", fontsize=8.5*1.2,
                 color=OI["vermillion"])
-    ax.set_xticks(np.arange(len(bk))); ax.set_xticklabels(lab, fontsize=9)
-    ax.set_ylabel("Detection rate, synthetic overlays")
+    ax.set_xticks(np.arange(len(bk))); ax.set_xticklabels(lab, fontsize=9*1.2)
+    ax.set_ylabel("Detection rate,\nsynthetic overlays")
     ax.set_xlabel("Overlay height (% of frame)")
     ax.set_ylim(0, 1.08)
     _polish_axes(ax)
@@ -866,18 +891,22 @@ def fig_phi(ph, rd):
                   color=[OI["grey"], OI["green"]], edgecolor="white", linewidth=0.6)
     for bar, val, ev in zip(bars, m, e):
         ax.text(bar.get_x() + bar.get_width() / 2, val - ev - 0.015, f"{val:.3f}",
-                ha="center", va="top", fontsize=9, color="white", fontweight="bold")
-    ax.set_xticks([0, 1]); ax.set_xticklabels(names, fontsize=9)
-    ax.set_ylabel("Patient-level macro-F1")
+                ha="center", va="top", fontsize=9*1.2, color="white", fontweight="bold")
+    ax.set_xticks([0, 1]); ax.set_xticklabels(names, fontsize=9*1.2)
+    ax.set_ylabel("Patient-level\nmacro-F1")
     ax.set_ylim(0, max(np.array(m) + np.array(e)) + 0.10)
     ax.annotate(f"paired $\\Delta$ = {rd['delta']['macro_f1_abs']:+.3f} "
                 f"$\\pm$ {rd['delta']['macro_f1_std']:.3f}",
-                (0.5, 0.93), xycoords="axes fraction", ha="center", fontsize=8.5,
+                (0.5, 0.93), xycoords="axes fraction", ha="center", fontsize=8.5*1.2,
                 color="#555555")
     _polish_axes(ax)
-    fig.subplots_adjust(wspace=0.36)
+    fig.subplots_adjust(wspace=0.55)
     _save(fig, "fig8_phi")
 
+
+def fig_phi(ph, rd):
+    with _font_scale(1.2):
+        return _fig_phi_impl(ph, rd)
 
 def main():
     datasets = {name: _load(name + ".json") for name in (

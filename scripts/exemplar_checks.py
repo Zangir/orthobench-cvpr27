@@ -5,7 +5,7 @@ Runs only on cached features and stored per-patient predictions. No model is ref
 selection and no audited label is used for fitting. Only aggregates are written to
 results/; patient identifiers never leave memory.
 
-  python scripts/exemplar_checks.py --workbook ../../updates/OrthoLabel_EDA.xlsx
+  python scripts/exemplar_checks.py --workbook ../../updates/audit_workbook.xlsx
 
 Outputs: results/rank_stability.json, expert_subset.json, expert_gap_ci.json, feature_distance.json,
 modality_paired.json, family_summary.json, fig2_frame_probs.json

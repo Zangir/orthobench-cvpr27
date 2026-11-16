@@ -204,7 +204,7 @@ def fig1(out, thumbs):
 
     # (4) evaluation variables: two slope charts in white tiles
     ax = panel(fig, xs[3], Y0, W, H, "Evaluation variables", 4, FH)
-    subtitle(ax, f"same models, {zr['n_entries']} entries")
+    subtitle(ax, f"same models, {len(sz['entries'])}/{zr['n_entries']} entries")  # QA 2026-11-16: split panel plots 30
     tile(ax, 0.05, 0.215, 0.43, 0.60)
     tile(ax, 0.52, 0.215, 0.43, 0.60)
     a1 = sub(3, 0.175, 0.31, 0.27, 0.36)
@@ -217,12 +217,12 @@ def fig1(out, thumbs):
         h = mm["name"].split(" / ")[1]
         a2.plot([0, 1], [mm["score_ref_a"], mm["score_ref_b"]], color=HEAD_COLOR[h], lw=0.55, alpha=0.8,
                 marker="o", ms=1.4, mew=0)
-    a1.set_xticks([0, 1], ["pat.", "img."], fontsize=FS)
-    a2.set_xticks([0, 1], ["src", "adj."], fontsize=FS)
+    a1.set_xticks([0, 1], ["pat.", "img."], fontsize=7.8)
+    a2.set_xticks([0, 1], ["src", "adj."], fontsize=7.8)
     for a, t, tau in ((a1, "split unit", sz["kendall_tau_point"]), (a2, "label version", zr["macro_f1"]["kendall_tau_point"])):
         a.set_xlim(-0.3, 1.3); a.set_ylim(0.24, 0.62)
         a.set_yticks([0.3, 0.4, 0.5, 0.6]); a.grid(axis="y", alpha=0.35, lw=0.4); a.grid(axis="x", visible=False)
-        a.tick_params(labelsize=FS, pad=1, length=1.5)
+        a.tick_params(labelsize=7.8, pad=1, length=1.5)
         for sp in ("top", "right"):
             a.spines[sp].set_visible(False)
     a2.set_yticklabels([])
@@ -643,7 +643,8 @@ def fig_map(out):
         ours = r["cite_key"] is None
         c = OURS if ours else PUB
         if ours:
-            ax.add_patch(Ellipse((r["lon"], r["lat"]), 16, 11, facecolor=OURS, alpha=0.22, lw=0, zorder=2))
+            # QA 2026-11-16: halo spans the whole Gulf and its shores, not one country
+            ax.add_patch(Ellipse((r["lon"], r["lat"]), 24, 15, facecolor=OURS, alpha=0.20, lw=0, zorder=2))
             ax.scatter(r["lon"], r["lat"], marker="*", s=80, color=OURS, edgecolor="white", lw=0.4, zorder=5)
         else:
             ax.scatter(r["lon"], r["lat"], s=13, color=PUB, edgecolor="white", lw=0.4, zorder=5)
@@ -677,7 +678,7 @@ def fig_map(out):
         if t.get_text() == "Gulf region":
             t.set_color(OURS); t.set_fontweight("bold")
     bx.set_xlim(0, 2.6); bx.set_xticks([0, 1, 2]); bx.set_xlabel("datasets in Fig. 2", fontsize=FS, labelpad=1)
-    bx.tick_params(labelsize=FS, pad=1, length=1.5); bx.grid(axis="y", visible=False)
+    bx.tick_params(labelsize=7.8, pad=1, length=1.5); bx.grid(axis="y", visible=False)
     for sp in ("top", "right"):
         bx.spines[sp].set_visible(False)
     hd = [Rectangle((0, 0), 1, 1, color=col) for _, _, col in kinds]
@@ -791,7 +792,8 @@ def tab2(gen):
          f"($n={fl['n_test_with_opg']}$) & ($n={fl['n_test_with_ceph']}$)\\\\\\midrule"]
     for gi, g in enumerate(order):
         for e in g:
-            L.append(f"{e} & " + " & ".join(cell(val(e, c), abs(val(e, c) - best[c]) < 1e-12) for c in cols) + r"\\")
+            # QA 2026-11-16: bold every entry that ties the best at the printed precision
+            L.append(f"{e} & " + " & ".join(cell(val(e, c), f3(val(e, c)) == f3(best[c])) for c in cols) + r"\\")
         if gi < len(order) - 1:
             L.append(r"\midrule")
     L.append(r"\bottomrule\end{tabular}")

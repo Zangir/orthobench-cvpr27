@@ -70,7 +70,11 @@ def main():
     out["reference_split"] = {
         "train_patients": len(train), "test_patients": len(test), "unused_patients": len(unused),
         "unused_audited": int(sum(p in audited for p in unused)),
-        "unused_unaudited_quarantined": int(sum(p not in audited for p in unused)),
+        "unused_unaudited": int(sum(p not in audited for p in unused)),
+        # QA 2026-11-16: split the unaudited unused patients into quarantined ones and those without photographs
+        "unused_unaudited_quarantined": int(sum(p not in audited and p in ctx["quarantine"] for p in unused)),
+        "unused_unaudited_no_photographs": int(sum(p not in audited and p not in set(pids) for p in unused)),
+        "unused_audited_quarantined": int(sum(p in audited and p in ctx["quarantine"] for p in unused)),
         "train_by_source_class": {c: sup(sum(lab[p] == c for p in train)) for c in CLASSES},
         "test_by_source_class": {c: sup((manifest == i).sum()) for i, c in enumerate(CLASSES)},
         "test_by_adjudicated_class": {c: sup((final == i).sum()) for i, c in enumerate(CLASSES)},

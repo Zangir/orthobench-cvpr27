@@ -14,7 +14,8 @@ COLORS = ["#0072B2", "#E69F00", "#009E73", "#999999"]
 
 
 def interval(v):
-    return f"{v[0]:.3f}--{v[1]:.3f}"
+    # "to" keeps negative bounds readable (QA 2026-11-16)
+    return f"{v[0]:.3f} to {v[1]:.3f}"
 
 
 def table_file(name, columns, header, rows):
