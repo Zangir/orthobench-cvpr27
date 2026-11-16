@@ -104,6 +104,40 @@
     "C11_expert_gap_ci": "for each expert reviewer, paired 95% percentile interval of (reviewer macro-F1 minus fine-tuned DINOv2-S macro-F1, 3-seed mean) against the source label, over the same 2,000 patient-bootstrap draws (seed 20261108) as zoo_reference.json; rule (a) all 189 test patients with not-assessable counted as an error, rule (b) only the patients that reviewer could assess; also the share of draws in which the model scores at or above the reviewer -> results/expert_gap_ci.json",
     "C12_lead_ci": "paired 95% interval of (fine-tuned DINOv2-S minus fine-tuned ConvNeXt-T) and (fine-tuned DINOv2-S minus the best frozen entry, ResNet-18 linear) macro-F1 under the source and the adjudicated label, same draws -> results/expert_gap_ci.json"
    }
+  },
+  {
+   "date": "2026-11-16",
+   "logged_at": "2026-11-16 13:30 +04 (before any run)",
+   "logged_before_running": true,
+   "reason": "user request 2026-11-16 (state-of-the-art coverage: SAM and vision-language baselines); coordinator cut-off for new runs 2026-11-16 22:00 local",
+   "status": "post-plan entries, added after the frozen plan; reported whatever the outcome in the leaderboard (separate block), the appendix and one main-text sentence; NOT added to the pre-registered 33-entry statistics (tau_b, pair shifts, rank stability, AUROC, cleaning), which stay unchanged",
+   "privacy": "local models only; patient images are read in place and never leave the machine; no external API",
+   "selection_rule": "selection uses only the 593 unaudited training patients (source labels); the 189 audit-held-out test patients are scored once with the selected configuration; no audited label is used for selection",
+   "analyses": {
+    "P1_sam_vitb_linear": "SAM ViT-B image encoder (facebook/sam-vit-base, transformers SamModel, SamProcessor: longest side 1024 + pad, SAM normalisation), frozen, intraoral photographs only. Two candidate image features from the same forward pass: (a) mean-pooled 256-d neck output (the image embedding SAM's mask decoder reads), (b) mean-pooled 768-d final ViT hidden state before the neck. Head: the frozen-protocol linear probe (standardised, C=1, class-balanced, max_iter 2000), patient = mean of image probabilities. Feature choice (a vs b) by 5-fold patient-grouped stratified CV patient macro-F1 on the training pool (source labels); tie -> (a). Fit on the full training pool (same quarantine/split masks as zoo.predict), predict the 189 test patients once. Heavy step via .cache/cvpr27/run_heavy.sh only -> data/feat_cache/sam_vitb_intraoral.npz",
+    "P2_zero_shot_clip": "zero-shot CLIP-B/16 (open_clip ViT-B-16 openai) and BiomedCLIP from the existing cached image embeddings (encode_image outputs, L2-normalised) and locally computed text embeddings of four pre-declared prompt templates for Class I/II/III; image probabilities = softmax(model logit_scale * cosine); patient = mean of image probabilities. Template per model selected by patient macro-F1 on the 593 training patients (source labels, no fitting); score the 189 test patients once. CPU only",
+    "P3_optional_local_vlm": "a small local open generative VLM only if P1 and P2 finish with compute to spare before the cut-off; otherwise not run and not claimed",
+    "scoring": "macro-F1 (primary) and balanced accuracy against source and adjudicated labels, 95% intervals over the same 2,000 patient-bootstrap draws (seed 20261108) as zoo_reference.json, paired difference to the current leader (fine-tuned DINOv2-S, mean of 3 seeds) -> results/postplan_baselines.json",
+    "stop_rule": "if any post-plan entry's point estimate exceeds the current leader under either label, stop and tell the coordinator before any claim is changed; the abstract is fixed"
+   },
+   "prompt_templates": [
+    "an intraoral photograph showing Angle {cls} malocclusion",
+    "a dental photograph of an Angle {cls} molar relationship",
+    "Angle {cls}",
+    "an intraoral photograph of a patient with {desc}"
+   ],
+   "prompt_classes": {
+    "cls": [
+     "Class I",
+     "Class II",
+     "Class III"
+    ],
+    "desc": [
+     "a normal molar relationship, Angle Class I",
+     "a distal molar relationship, Angle Class II malocclusion",
+     "a mesial molar relationship, Angle Class III malocclusion"
+    ]
+   }
   }
  ]
 }

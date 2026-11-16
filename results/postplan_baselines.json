@@ -1,0 +1,199 @@
+{
+ "provenance": "run",
+ "plan_amendment": "experiments/cvpr27_plan.json amendments[date=2026-11-16]",
+ "n_test": 189,
+ "bootstrap_replicates": 2000,
+ "bootstrap_seed": 20261108,
+ "leader": {
+  "name": "DINOv2-S / fine-tuned",
+  "source_macro_f1": 0.5419289529067041,
+  "adjudicated_macro_f1": 0.590110494946904
+ },
+ "entries": {
+  "CLIP-B/16 / zero-shot": {
+   "selected_template": "Angle {cls}",
+   "selected_template_index": 2,
+   "validation_macro_f1_per_template": [
+    0.07218045112781955,
+    0.0836499201136162,
+    0.12326507096841775,
+    0.07838500113973103
+   ],
+   "n_validation_patients": 593,
+   "logit_scale": 100.00000762939453,
+   "source": {
+    "macro_f1": 0.09531645569620252,
+    "macro_f1_ci": [
+     0.06155085877192101,
+     0.13291765715211498
+    ],
+    "bacc": 0.34782608695652173,
+    "bacc_ci": [
+     0.3333333333333333,
+     0.36486486486486486
+    ],
+    "leader_minus_entry": 0.44661249721050156,
+    "leader_minus_entry_ci": [
+     0.37299790005613215,
+     0.5141917017284094
+    ],
+    "rank_if_inserted_among_33": 34,
+    "beats_leader_point": false
+   },
+   "adjudicated": {
+    "macro_f1": 0.1186187290150234,
+    "macro_f1_ci": [
+     0.07582295036827975,
+     0.16432463368907058
+    ],
+    "bacc": 0.3567251461988304,
+    "bacc_ci": [
+     0.3385416666666667,
+     0.3802083333333333
+    ],
+    "leader_minus_entry": 0.47149176593188064,
+    "leader_minus_entry_ci": [
+     0.3950217162539359,
+     0.5372934606032609
+    ],
+    "rank_if_inserted_among_33": 34,
+    "beats_leader_point": false
+   },
+   "pred_class_counts": [
+    0,
+    10,
+    179
+   ]
+  },
+  "BiomedCLIP / zero-shot": {
+   "selected_template": "an intraoral photograph of a patient with {desc}",
+   "selected_template_index": 3,
+   "validation_macro_f1_per_template": [
+    0.24171155337804007,
+    0.07915950839170081,
+    0.08661552412594664,
+    0.27982683792264157
+   ],
+   "n_validation_patients": 593,
+   "logit_scale": 85.2322769165039,
+   "source": {
+    "macro_f1": 0.2313546423135464,
+    "macro_f1_ci": [
+     0.20450991731996745,
+     0.2595137696249828
+    ],
+    "bacc": 0.2943932074366857,
+    "bacc_ci": [
+     0.2700756968308515,
+     0.31778437018568595
+    ],
+    "leader_minus_entry": 0.31057431059315765,
+    "leader_minus_entry_ci": [
+     0.22846050294049172,
+     0.38509343287901315
+    ],
+    "rank_if_inserted_among_33": 34,
+    "beats_leader_point": false
+   },
+   "adjudicated": {
+    "macro_f1": 0.26490411575694317,
+    "macro_f1_ci": [
+     0.2230576441102757,
+     0.31426188012471606
+    ],
+    "bacc": 0.30953541260558803,
+    "bacc_ci": [
+     0.27561552965811664,
+     0.35336706476946683
+    ],
+    "leader_minus_entry": 0.32520637918996087,
+    "leader_minus_entry_ci": [
+     0.22659846453328328,
+     0.4090912123454838
+    ],
+    "rank_if_inserted_among_33": 33,
+    "beats_leader_point": false
+   },
+   "pred_class_counts": [
+    159,
+    4,
+    26
+   ]
+  },
+  "SAM ViT-B / logreg": {
+   "cv_patient_macro_f1": {
+    "features": {
+     "fold_macro_f1": [
+      0.4290692941855733,
+      0.46717966717966714,
+      0.5379253767622751,
+      0.4402108262108262,
+      0.42867528717768066
+     ],
+     "mean": 0.46061209030320444
+    },
+    "features_vit": {
+     "fold_macro_f1": [
+      0.44395171224439517,
+      0.44672131147540983,
+      0.4890362970362971,
+      0.4698412698412698,
+      0.4769539963338412
+     ],
+     "mean": 0.4653009173862427
+    }
+   },
+   "selected_feature": "features_vit",
+   "selected_feature_desc": "mean-pooled 768-d ViT hidden state",
+   "n_train_patients": 593,
+   "n_train_images": 4133,
+   "n_unreadable": 0,
+   "source": {
+    "macro_f1": 0.5284858484490903,
+    "macro_f1_ci": [
+     0.4411756137190388,
+     0.6081917765599133
+    ],
+    "bacc": 0.5307108350586612,
+    "bacc_ci": [
+     0.443336652920967,
+     0.6177313187860957
+    ],
+    "leader_minus_entry": 0.013443104457613764,
+    "leader_minus_entry_ci": [
+     -0.07171730120857464,
+     0.09792839588086516
+    ],
+    "rank_if_inserted_among_33": 2,
+    "beats_leader_point": false
+   },
+   "adjudicated": {
+    "macro_f1": 0.5129664031360656,
+    "macro_f1_ci": [
+     0.42687365546887185,
+     0.5900779554845513
+    ],
+    "bacc": 0.5091780376868096,
+    "bacc_ci": [
+     0.4249632266227646,
+     0.5926748518606797
+    ],
+    "leader_minus_entry": 0.07714409181083848,
+    "leader_minus_entry_ci": [
+     -0.008149790015048546,
+     0.16836585911004529
+    ],
+    "rank_if_inserted_among_33": 3,
+    "beats_leader_point": false
+   },
+   "pred_class_counts": [
+    105,
+    62,
+    22
+   ]
+  }
+ },
+ "not_run": [
+  "generative VLM (P3): not run"
+ ]
+}

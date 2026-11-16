@@ -564,32 +564,50 @@ def fig6(out):
 
 # ----------------------------------------------------------------- supplementary comparison
 def fig_comparison(out):
+    """Fig. 2, compact single-column comparison (user request 2026-11-16).
+
+    Layout follows a booktabs comparison table as in LUWA Tab. 1 and SiteShift Tab. 1: one row
+    per dataset, name on the first line and record type and task in grey on the second, three
+    check columns and an image-count bar. Facts and marks come from comparison_matrix.json
+    unchanged (not reported renders as a cross, as before); only display labels are shortened.
+    """
     cm = load("comparison_matrix.json")
     rows = cm["datasets"]
-    fig, ax = plt.subplots(figsize=(7.0, 0.30 * len(rows) + 0.6))
-    ax.set_xlim(0, 1); ax.set_ylim(0, len(rows) + 1); ax.axis("off")
-    cols = [("Dataset", 0.0), ("Modalities", 0.19), ("Task", 0.395), ("Linked\nIO+OPG+ceph", 0.645),
-            ("Angle\nlabels", 0.745), ("Patient split\ndocumented", 0.83), ("Images", 0.905)]
-    for t, x in cols:
-        ax.text(x, len(rows) + 0.45, t, fontsize=6.2, fontweight="bold", va="center",
-                ha="left" if x < 0.5 or x > 0.85 else "center")
+    MOD = {"Lateral ceph": "ceph", "Panoramic": "OPG", "Intraoral + OPG + ceph": "photos + OPG + ceph"}
+    TASK = {"Landmark detection": "landmarks", "Landmark detection + CVM": "landmarks + CVM",
+            "Diagnostic segmentation": "diagnostic segmentation", "Enumeration / pathosis": "enumeration, pathosis",
+            "Tooth segmentation": "tooth segmentation", "Patient-level Angle class": "Angle class"}
+    W, RH, HD = 3.3, 0.255, 0.34
+    H = HD + RH * len(rows) + 0.06
+    fig = plt.figure(figsize=(W, H))
+    ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
+    xc = {"patient_linked_multimodal": 1.83, "angle_class_labels": 2.18, "patient_level_split": 2.53}
+    xb, bmax = 2.74, 0.24
+    top = H - 0.02
+    ax.plot([0, W], [top, top], color="black", lw=0.8)
+    hy = top - HD / 2
+    ax.text(0.0, hy, "Dataset", fontsize=FS, fontweight="bold", va="center")
+    for (k, x), t in zip(xc.items(), ("Linked", "Angle\nlabels", "Patient\nsplit")):
+        ax.text(x, hy, t, fontsize=FS, fontweight="bold", va="center", ha="center", linespacing=0.95)
+    ax.text(xb, hy, "Images", fontsize=FS, fontweight="bold", va="center")
+    ax.plot([0, W], [top - HD, top - HD], color="black", lw=0.5)
     mx = max(r["n_images"] for r in rows)
     for i, r in enumerate(rows):
-        y = len(rows) - 1 - i + 0.5
+        yc = top - HD - RH * (i + 0.5)
         ours = r["source_id"] == "ours"
         if ours:
-            ax.add_patch(Rectangle((-0.005, y - 0.4), 1.015, 0.8, color=BLUE, alpha=0.08, lw=0))
-        fw = "bold" if ours else "normal"
-        ax.text(0.0, y, r["name"], fontsize=6.6, va="center", fontweight=fw)
-        ax.text(0.19, y, r["modalities"], fontsize=6.3, va="center")
-        ax.text(0.395, y, r["task"], fontsize=6.3, va="center")
-        for x, key in ((0.645, "patient_linked_multimodal"), (0.745, "angle_class_labels"), (0.83, "patient_level_split")):
-            v = r[key]
-            s, c = ("✓", GREEN) if v else ("✗", VERM)  # n/r shown as a cross (user 2026-11-15)
-            ax.text(x, y, s, fontsize=8 if s != "n/r" else 6.2, ha="center", va="center", color=c, fontweight="bold")
-        bl = 0.045 * r["n_images"] / mx
-        ax.add_patch(Rectangle((0.905, y - 0.15), bl, 0.3, color=BLUE if ours else "#BFBFBF", lw=0))
-        ax.text(0.905 + bl + 0.005, y, f"{r['n_images']:,}", fontsize=6.2, va="center")
+            ax.add_patch(Rectangle((0, yc - RH / 2 + 0.01), W, RH - 0.02, color=BLUE, alpha=0.08, lw=0))
+        ax.text(0.0, yc + 0.055, r["name"], fontsize=FS, va="center", fontweight="bold" if ours else "normal")
+        ax.text(0.0, yc - 0.06, f"{MOD[r['modalities']]} · {TASK[r['task']]}", fontsize=7.0, va="center", color=SUB)
+        for k, x in xc.items():
+            v = r[k]
+            ax.text(x, yc, "✓" if v else "✗", fontsize=8, ha="center", va="center",
+                    color=GREEN if v else VERM, fontweight="bold")
+        bl = bmax * r["n_images"] / mx
+        ax.add_patch(Rectangle((xb, yc - 0.045), bl, 0.09, color=BLUE if ours else "#BFBFBF", lw=0))
+        ax.text(xb + bl + 0.03, yc, f"{r['n_images']:,}", fontsize=FS, va="center",
+                fontweight="bold" if ours else "normal")
+    ax.plot([0, W], [top - HD - RH * len(rows), top - HD - RH * len(rows)], color="black", lw=0.8)
     save(fig, out, "ex_fig_comparison")
 
 
@@ -634,7 +652,7 @@ def fig_map(out):
         ax.text(lx, ly + 0.6, r["name"], ha=ha, va="bottom", fontsize=FS, fontweight="bold", color=c, zorder=6)
         ax.text(lx, ly, desc[r["name"]], ha=ha, va="top", fontsize=FS, color=c if ours else "#333333",
                 linespacing=1.1, zorder=6)
-    ax.scatter([], [], s=13, color=PUB, label="public dental dataset (Tab. 1c)")
+    ax.scatter([], [], s=13, color=PUB, label="public dental dataset (Fig. 2)")
     ax.scatter([], [], marker="*", s=70, color=OURS, label="OrthoBench (ours), Gulf region")
     ax.legend(loc="lower left", bbox_to_anchor=(0.0, 0.0), fontsize=FS, frameon=False, handletextpad=0.3,
               labelspacing=0.3, borderaxespad=0.2)
@@ -658,7 +676,7 @@ def fig_map(out):
     for t in bx.get_yticklabels():
         if t.get_text() == "Gulf region":
             t.set_color(OURS); t.set_fontweight("bold")
-    bx.set_xlim(0, 2.6); bx.set_xticks([0, 1, 2]); bx.set_xlabel("datasets in Tab. 1c", fontsize=FS, labelpad=1)
+    bx.set_xlim(0, 2.6); bx.set_xticks([0, 1, 2]); bx.set_xlabel("datasets in Fig. 2", fontsize=FS, labelpad=1)
     bx.tick_params(labelsize=FS, pad=1, length=1.5); bx.grid(axis="y", visible=False)
     for sp in ("top", "right"):
         bx.spines[sp].set_visible(False)
@@ -674,26 +692,58 @@ def f3(x):
 
 
 def tab1(gen):
-    ds, ra, cm = load("dataset_stats.json"), load("reference_audit.json"), load("comparison_matrix.json")
+    """Tab. 1 (user requests 2026-11-16): left (a) cohort by record type, (b) reference split by
+    record type, (c) primary expert audit; right (d) patients per class. The former dataset
+    comparison block now lives only in Fig. 2 (fig_comparison)."""
+    ds, ra = load("dataset_stats.json"), load("reference_audit.json")
+    ts = load("dataset_table_stats.json")
     pr = ra["primary"]; ag = pr["reviewer_agreement"]
-    L = [r"\begin{tabular}{@{}lcccc@{}}\toprule",
-         r"\multicolumn{5}{@{}l}{\textbf{(a) Cohort}}\\",
-         r"Patients & Images & Modalities & Photos/patient & Fully linked\\\midrule",
-         f"{ds['n_patients']} & {ds['n_images']:,} & 3 & {ds['images_per_patient']['intraoral'][0]:.0f} (median) & {ds['fully_paired_patients']}\\\\",
-         r"\midrule\multicolumn{5}{@{}l}{\textbf{(b) Expert audit (primary batch)}}\\",
-         r"Patients & Agreement & $\kappa$ ($95\%$ CI) & Adjudicated / excl. & Revised\\\midrule",
-         f"{ag['n']} & ${100 * ag['raw_agreement']:.1f}\\%$ & {ag['kappa']:.3f} ({ag['kappa_ci'][0]:.3f}--{ag['kappa_ci'][1]:.3f}) & "
-         f"{pr['senior_n']} / {pr['n_excluded']} & {pr['changed_labels']}/{pr['n_assessable']} (${100 * pr['changed_fraction']:.1f}\\%$)\\\\",
-         r"\midrule\multicolumn{5}{@{}l}{\textbf{(c) Comparison with dental datasets}}\\",
-         r"Dataset & Images & Linked & Angle labels & Patient split\\\midrule"]
-    for r in cm["datasets"]:
-        nm = r"\textbf{OrthoBench (ours)}" if r["source_id"] == "ours" else f"{r['name']}~\\cite{{{r['cite_key']}}}"
-        # surgical revision 2026-11-15: "not reported" renders as a cross, like "no" (caption legend says so)
-        mk = lambda v: r"\cmark" if v else r"\xmark"  # noqa: E731
-        L.append(f"{nm} & {r['n_images']:,} & {mk(r['patient_linked_multimodal'])} & {mk(r['angle_class_labels'])} & "
-                 f"{mk(r['patient_level_split'])}\\\\")
-    L.append(r"\bottomrule\end{tabular}")
+    mods = (("intraoral", "Photographs"), ("opg", "OPG"), ("cephalogram", "Cephalogram"))
+    L = [r"\begin{tabular}[t]{@{}lcccc@{}}\toprule",
+         r"\multicolumn{5}{@{}l}{\textbf{(a) Cohort by record type}}\\",
+         r"Record type & Patients & Images & Images/patient & Median resolution\\\midrule",
+         *[f"{nm} & {ts['per_modality'][m]['patients']} & {ts['per_modality'][m]['images']:,} & "
+           f"{ds['images_per_patient'][m][0]:.0f} ({ds['images_per_patient'][m][1]:.0f}--{ds['images_per_patient'][m][2]:.0f}), "
+           f"{ds['images_per_patient'][m][3]}--{ds['images_per_patient'][m][4]} & "
+           f"${ds['resolution'][m]['median_wh'][0]}\\times{ds['resolution'][m]['median_wh'][1]}$\\\\"
+           for m, nm in mods],
+         f"All (linked: {ds['fully_paired_patients']}) & {ds['n_patients']} & {ds['n_images']:,} & & \\\\",
+         r"\midrule\multicolumn{5}{@{}l}{\textbf{(b) Reference split by record type}}\\",
+         r"Record type & Train pat. & Test pat. & Train img. & Test img.\\\midrule"]
+    for m, nm in mods:
+        v = ts["per_modality"][m]
+        L.append(f"{nm} & {v['train_patients']} & {v['test_patients']} & {v['train_images']:,} & {v['test_images']:,}\\\\")
+    L += [r"\midrule\multicolumn{5}{@{}l}{\textbf{(c) Expert audit (primary batch)}}\\",
+          r"Patients & Agreement & $\kappa$ ($95\%$ CI) & Adjudicated / excl. & Revised\\\midrule",
+          f"{ag['n']} & ${100 * ag['raw_agreement']:.1f}\\%$ & {ag['kappa']:.3f} ({ag['kappa_ci'][0]:.3f}--{ag['kappa_ci'][1]:.3f}) & "
+          f"{pr['senior_n']} / {pr['n_excluded']} & {pr['changed_labels']}/{pr['n_assessable']} (${100 * pr['changed_fraction']:.1f}\\%$)\\\\",
+          r"\bottomrule\end{tabular}"]
     (gen / "ex_tab1.tex").write_text("\n".join(L) + "\n")
+    tab1_right(gen, ts, pr)
+
+
+def tab1_right(gen, ts, pr):
+    """Tab. 1 (d) patients per class, split and label version (aggregate; cells < 5 suppressed)."""
+    cls = ("Class I", "Class II", "Class III")
+    rs = ts["reference_split"]
+    c = lambda v: r"$<$5" if v is None else f"{v:,}"  # noqa: E731  (small-cell suppression)
+    fin = {k.replace("Excluded (not assessable)", "excl"): v for k, v in pr["final_labels"].items()}
+
+    def row(name, d, tot):
+        return f"{name} & " + " & ".join(c(d[k]) for k in cls) + f" & {tot}\\\\"
+    L = [r"\begin{tabular}[t]{@{}lcccc@{}}\toprule",
+         r"\multicolumn{5}{@{}l}{\textbf{(d) Patients per class, split and label version}}\\",
+         r"Set (label version) & Class~I & Class~II & Class~III & Total\\\midrule",
+         row("All patients (source)", {k: ts["per_class"][k]["patients"] for k in cls}, ts["n_patients"]),
+         row("All images (source)", {k: ts["per_class"][k]["images"] for k in cls}, f"{ts['n_images']:,}"),
+         row("Train (source)", rs["train_by_source_class"], rs["train_patients"]),
+         row("Test (source)", rs["test_by_source_class"], rs["test_patients"]),
+         row("Test (adjudicated)", rs["test_by_adjudicated_class"], rs["test_patients"]),
+         row("Not used$^\\dagger$ (source)", rs["unused_by_source_class"], rs["unused_patients"]),
+         row("Primary audit (source)", pr["manifest_labels"], pr["n"]),
+         row("Primary audit (adjudicated)", fin, f"{pr['n_assessable']} + {fin['excl']} excl."),
+         r"\bottomrule\end{tabular}"]
+    (gen / "ex_tab1_right.tex").write_text("\n".join(L) + "\n")
 
 
 def tab2(gen):
@@ -783,6 +833,53 @@ def tab2(gen):
     (gen / "ex_tab2d.tex").write_text("\n".join(D) + "\n")
 
 
+def postplan_tables(gen):
+    """Post-plan entries (plan amendment 2026-11-16): Tab. 2 (e) and the appendix detail table."""
+    pp = RES / "postplan_baselines.json"
+    if not pp.exists():
+        print("[skip] postplan_baselines.json missing"); return
+    pp = json.loads(pp.read_text())
+    order = [k for k in ("SAM ViT-B / logreg", "CLIP-B/16 / zero-shot", "BiomedCLIP / zero-shot") if k in pp["entries"]]
+    nm = lambda k: k.replace(" / logreg", " linear").replace(" / zero-shot", " zero-shot")  # noqa: E731
+    E = [r"\begin{tabular}[t]{@{}lcc@{}}\toprule",
+         r"\multicolumn{3}{@{}l}{\textbf{(e) Post-plan entries}}\\",
+         r"Entry & src & adj\\\midrule"]
+    for k in order:
+        v = pp["entries"][k]
+        E.append(f"{nm(k)} & {f3(v['source']['macro_f1'])} & {f3(v['adjudicated']['macro_f1'])}\\\\")
+    E.append(r"\bottomrule\end{tabular}")
+    (gen / "ex_tab2e.tex").write_text("\n".join(E) + "\n")
+    S = [r"\begin{tabular}{@{}lcccccc@{}}\toprule",
+         r" & \multicolumn{3}{c}{Source label} & \multicolumn{3}{c}{Adjudicated label}\\",
+         r"\cmidrule(lr){2-4}\cmidrule(l){5-7}",
+         r"Entry & macro-F1 ($95\%$ CI) & bal.\ acc. & leader $-$ entry ($95\%$ CI) & macro-F1 ($95\%$ CI) & bal.\ acc. & leader $-$ entry ($95\%$ CI)\\\midrule"]
+    for k in order:
+        v = pp["entries"][k]
+        cells = []
+        for r in ("source", "adjudicated"):
+            x = v[r]
+            cells += [f"{f3(x['macro_f1'])} ({f3(x['macro_f1_ci'][0])}--{f3(x['macro_f1_ci'][1])})", f3(x["bacc"]),
+                      f"{f3(x['leader_minus_entry'])} ({f3(x['leader_minus_entry_ci'][0])}--{f3(x['leader_minus_entry_ci'][1])})"]
+        S.append(f"{nm(k)} & " + " & ".join(cells) + "\\\\")
+    S.append(r"\bottomrule\end{tabular}")
+    (gen / "ex_supp_postplan.tex").write_text("\n".join(S) + "\n")
+
+def supp_cohort_class(gen):
+    """Appendix B.2: patients and images per source class and record type (aggregate, small cells suppressed)."""
+    ts = load("dataset_table_stats.json")
+    cls = ("Class I", "Class II", "Class III")
+    c = lambda v: r"$<$5" if v is None else f"{v:,}"  # noqa: E731
+    L = [r"\begin{tabular}{@{}lcccccc@{}}\toprule",
+         r" & \multicolumn{3}{c}{Patients (source label)} & \multicolumn{3}{c}{Images (source label)}\\",
+         r"\cmidrule(lr){2-4}\cmidrule(l){5-7}",
+         r"Record type & Class~I & Class~II & Class~III & Class~I & Class~II & Class~III\\\midrule"]
+    for m, nm in (("intraoral", "Photographs"), ("opg", "OPG"), ("cephalogram", "Cephalogram")):
+        v = ts["per_modality"][m]
+        L.append(f"{nm} & " + " & ".join(c(v["patients_by_source_class"][k]) for k in cls) + " & "
+                 + " & ".join(c(v["images_by_source_class"][k]) for k in cls) + "\\\\")
+    L.append(r"\bottomrule\end{tabular}")
+    (gen / "ex_supp_cohort_class.tex").write_text("\n".join(L) + "\n")
+
 def supp_tables(gen):
     rs, es, fd = load("rank_stability.json"), load("expert_subset.json"), load("feature_distance.json")
     L = [r"\begin{tabular}{@{}lccc@{}}\toprule",
@@ -833,7 +930,7 @@ def main():
     else:
         print("[skip] Figs 1-2 need the redacted record thumbnails (not released); rendering the rest")
     fig3(out); fig4(out); fig5(out); fig6(out); fig_comparison(out); fig_map(out)
-    tab1(gen); tab2(gen); supp_tables(gen)
+    tab1(gen); tab2(gen); supp_tables(gen); postplan_tables(gen); supp_cohort_class(gen)
 
 
 if __name__ == "__main__":
