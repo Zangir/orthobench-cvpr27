@@ -8,7 +8,7 @@ an image-level split should inflate more than a linear probe does, not less.
 
 Decoded 256-px crops are cached once into a uint8 memmap (the restricted images
 are read in place and never copied as images); every epoch then streams from
-that memmap, which keeps a full run inside a laptop session.
+that memmap, which keeps a full run within a single 16 GB GPU budget.
 """
 import os
 import numpy as np

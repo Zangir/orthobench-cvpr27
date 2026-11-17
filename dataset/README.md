@@ -36,9 +36,10 @@ benchmark scores every model against both label versions under a frozen protocol
 
 ## How to obtain the data
 
-After a completed manual privacy review, the full de-identified dataset (images, labels,
-splits and site, device and demographic metadata) will be released publicly under
-CC BY-NC 4.0 on a public dataset host with the camera-ready version. Until then this folder
+The full de-identified dataset (images, labels, splits and site, device and demographic
+metadata) will be released publicly under CC BY-NC 4.0 on a public dataset host with the
+camera-ready version, after two steps: completion of the manual pixel review for identifiers,
+including non-Latin text, and the data custodian's written permission. Until then this folder
 holds the protocol and the aggregate results. The code to reproduce every experiment and to
 rebuild all tables from the aggregate files here is in the companion code repository.
 
@@ -57,7 +58,8 @@ Patient-keyed split definitions will be part of the public dataset release at ca
 ## Licence and terms
 
 - Clinical images and case-level records: released publicly under CC BY-NC 4.0 on a public
-  dataset host with the camera-ready version, after a completed manual privacy review.
+  dataset host with the camera-ready version, after the manual pixel review (including
+  non-Latin text) and the data custodian's written permission.
 - Protocol and aggregate results in this repository: released under CC BY-NC 4.0
   (see `LICENSE.md`); do not attempt to re-identify any patient.
 - Code: MIT, in the companion code repository.

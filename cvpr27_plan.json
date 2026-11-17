@@ -149,6 +149,17 @@
     "N2_random_relabel": "1,000 draws (seed 20261117): choose 64 of the 189 test patients uniformly at random and replace each one's source label by one of the two other classes uniformly at random; Kendall tau_b between the source-label leaderboard and the relabelled leaderboard on the full test set (same predictions)",
     "report": "median and 2.5/97.5 percentiles of each null, and the share of null draws with tau_b <= 0.65 (observed source-vs-adjudicated value) -> results/label_version_null.json"
    }
+  },
+  {
+   "date": "2026-11-17",
+   "logged_at": "before running (round 9)",
+   "logged_before_running": true,
+   "reason": "user decision after external review: how stable is the order of the 30 frozen entries beyond the single reference split?",
+   "status": "exploratory, post-plan; cached intraoral features only (CPU, nice -n 10, < 2 GB); no audited patient is used; fine-tuned entries stay on the fixed reference split; reported whatever the outcome",
+   "analyses": {
+    "R1_repeated_cv": "patient-level stratified 5-fold CV repeated 5 times (shuffle seeds 0-4) over the 593 unaudited, non-quarantined training patients (the reference-arm training pool), source labels; the same folds for all 30 frozen entries (10 encoders x linear / 1-NN / 5-NN, frozen-protocol heads); patient = mean of image probabilities; patient macro-F1 per held-out fold -> per entry mean and SD over the 25 folds and over the 5 repeat-level pooled scores",
+    "R2_tiers": "corrected repeated k-fold t-test (Nadeau-Bengio variance correction, factor 1/25 + 1/4) on per-fold differences, two-sided 5%; tier 1 = best mean entry plus all entries not significantly below it; then repeat on the remaining entries -> results/repeated_cv.json"
+   }
   }
  ]
 }

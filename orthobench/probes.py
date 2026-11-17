@@ -1,6 +1,6 @@
 """Frozen-feature probes: logistic regression and kNN.
 
-These are deliberately simple, laptop-scale classifiers on frozen features. The
+These are deliberately simple, lightweight classifiers on frozen features. The
 kNN probe directly exploits the nearest-neighbour shortcut, so under an
 image-level split it can retrieve another image of the same patient from the
 training set -- which is exactly the leakage we quantify.

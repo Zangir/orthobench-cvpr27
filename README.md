@@ -8,7 +8,7 @@ here measures how two evaluation choices change a model leaderboard: the split u
 
 ![License: MIT](https://img.shields.io/badge/code-MIT-green.svg)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)
-![Compute](https://img.shields.io/badge/compute-CPU%20%2F%20Apple%20MPS-orange.svg)
+![Compute](https://img.shields.io/badge/compute-single%2016%20GB%20GPU-orange.svg)
 
 ![Teaser: split unit, label version, and label ceiling](figures/fig_teaser_cvpr27.png)
 
@@ -39,7 +39,10 @@ python -m unittest discover -s tests -v
 ```
 
 Feature extraction and fine-tuning need `requirements.txt` (PyTorch, torchvision,
-transformers, open_clip). Set `PYTORCH_ENABLE_MPS_FALLBACK=1` on Apple MPS.
+transformers, open_clip).
+
+Hardware used for the reported runs: a single GPU with 16 GB of memory for
+feature extraction, fine-tuning and the SAM encoder; the analyses on cached features run on CPU.
 
 ## Results
 
@@ -90,10 +93,10 @@ directory. Results JSONs are aggregate only. Earlier experiments are reproduced 
 
 ## Data access
 
-Clinical images and case-level records are not part of this review release. The study
-received institutional ethics approval and data-use permission. Identifying details are
-withheld for double-blind review. The de-identified dataset will be released publicly
-with the camera-ready version. The code license does not apply to clinical data. OCR screening
+Clinical images and case-level records are restricted. The study received
+institutional ethics approval and data-use permission. Identifying details are
+withheld for double-blind review. Access is controlled through a data-use agreement
+with the data custodian. The code license does not apply to clinical data. OCR screening
 and border redaction are triage aids, not pixel-privacy certification.
 
 ## Repository structure
@@ -118,4 +121,4 @@ and border redaction are triage aids, not pixel-privacy certification.
 
 ## License
 
-Code: MIT (see `LICENSE`). Clinical data: released separately with the camera-ready version, not covered by the code license.
+Code: MIT (see `LICENSE`). Clinical data: restricted, not covered by the code license.

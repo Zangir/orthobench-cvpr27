@@ -1019,6 +1019,22 @@ def supp_null(gen):
     L.append(r"\bottomrule\end{tabular}")
     (gen / "ex_supp_null.tex").write_text("\n".join(L) + "\n")
 
+def supp_cv(gen):
+    """Supplement F.11 (round 9, plan amendment 2026-11-17): repeated patient-level 5-fold CV."""
+    pp = RES / "repeated_cv.json"
+    if not pp.exists():
+        print("[skip] repeated_cv.json missing"); return
+    cv = json.loads(pp.read_text())
+    E = cv["entries"]
+    nm = lambda n: n.replace(" / logreg", " (linear)").replace(" / knn1", " (1-NN)").replace(" / knn5", " (5-NN)")  # noqa: E731
+    L = [r"\begin{tabular}{@{}lccc@{}}\toprule",
+         r"Entry & Fold macro-F1, mean $\pm$ SD & Repeat macro-F1, mean $\pm$ SD & Tier\\\midrule"]
+    for n in sorted(E, key=lambda n: (E[n]["tier"], -E[n]["mean"])):
+        v = E[n]
+        L.append(f"{nm(n)} & {v['mean']:.3f} $\\pm$ {v['sd_folds']:.3f} & {v['mean_repeats']:.3f} $\\pm$ {v['sd_repeats']:.3f} & {v['tier']}\\\\")
+    L.append(r"\bottomrule\end{tabular}")
+    (gen / "ex_supp_cv.tex").write_text("\n".join(L) + "\n")
+
 def supp_tables(gen):
     rs, es, fd = load("rank_stability.json"), load("expert_subset.json"), load("feature_distance.json")
     L = [r"\begin{tabular}{@{}lccc@{}}\toprule",
@@ -1069,7 +1085,7 @@ def main():
     else:
         print("[skip] Figs 1-2 need the redacted record thumbnails (not released); rendering the rest")
     fig3(out); fig4(out); fig5(out); fig6(out); fig_comparison(out); fig_map(out)
-    tab1(gen); tab2(gen); supp_tables(gen); postplan_tables(gen); supp_cohort_class(gen); supp_stats(out, gen); supp_null(gen)
+    tab1(gen); tab2(gen); supp_tables(gen); postplan_tables(gen); supp_cohort_class(gen); supp_stats(out, gen); supp_null(gen); supp_cv(gen)
 
 
 if __name__ == "__main__":
