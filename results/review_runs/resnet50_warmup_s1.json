@@ -1,0 +1,25 @@
+{
+ "provenance": "run",
+ "status": "post-plan",
+ "plan_amendment": "experiments/cvpr27_plan.json amendments[C1_resnet50_warmup]",
+ "arch": "resnet50",
+ "seed": 1,
+ "lr_backbone": 1e-05,
+ "lr_head": 0.001,
+ "batch": 16,
+ "epochs": 8,
+ "warmup_steps": 259,
+ "schedule": "linear warmup then cosine to 0",
+ "n_train_images": 4133,
+ "n_train_patients": 593,
+ "n_test_patients": 189,
+ "pred_class_counts_I_II_III": [
+  74,
+  115,
+  0
+ ],
+ "manifest_macro_f1": 0.35480020105554155,
+ "final_macro_f1": 0.27851605758582504,
+ "final_balanced_accuracy": 0.32504873294346975,
+ "wall_seconds": 985.8408125829883
+}

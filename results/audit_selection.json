@@ -1,0 +1,76 @@
+{
+ "provenance": "run",
+ "status": "post-plan",
+ "plan_amendment": "experiments/cvpr27_plan.json amendments[D1_audit_selection]",
+ "audit_selection": {
+  "n_audited": 240,
+  "n_unaudited": 722,
+  "n_patients": 962,
+  "audited_source_counts_I_II_III": [
+   129,
+   82,
+   29
+  ],
+  "unaudited_source_counts_I_II_III": [
+   386,
+   250,
+   86
+  ],
+  "audited_share": [
+   0.5375,
+   0.3416666666666667,
+   0.12083333333333333
+  ],
+  "unaudited_share": [
+   0.5346260387811634,
+   0.3462603878116344,
+   0.11911357340720222
+  ],
+  "chi2": 0.018249375510223726,
+  "dof": 2,
+  "p": 0.9909168158763795,
+  "sampling_rule_recorded_in_export": false
+ },
+ "resnet50_collapse": {
+  "n_test": 189,
+  "runs": {
+   "s0": {
+    "pred_class_counts_I_II_III": [
+     189,
+     0,
+     0
+    ],
+    "source_macro_f1": 0.22916666666666666,
+    "adjudicated_macro_f1": 0.24242424242424243,
+    "adjudicated_balanced_accuracy": 0.3333333333333333
+   },
+   "s1": {
+    "pred_class_counts_I_II_III": [
+     189,
+     0,
+     0
+    ],
+    "source_macro_f1": 0.22916666666666666,
+    "adjudicated_macro_f1": 0.24242424242424243,
+    "adjudicated_balanced_accuracy": 0.3333333333333333
+   },
+   "s2": {
+    "pred_class_counts_I_II_III": [
+     178,
+     11,
+     0
+    ],
+    "source_macro_f1": 0.2786401925391095,
+    "adjudicated_macro_f1": 0.2769779240367476,
+    "adjudicated_balanced_accuracy": 0.3382066276803119
+   }
+  },
+  "constant_class_I": {
+   "source_macro_f1": 0.22916666666666666,
+   "adjudicated_macro_f1": 0.24242424242424243,
+   "adjudicated_balanced_accuracy": 0.3333333333333333
+  },
+  "historical_majority_class_macro_f1": 0.23175319789315274,
+  "historical_majority_class_n_test": 289
+ }
+}

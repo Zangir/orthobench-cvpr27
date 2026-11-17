@@ -160,6 +160,50 @@
     "R1_repeated_cv": "patient-level stratified 5-fold CV repeated 5 times (shuffle seeds 0-4) over the 593 unaudited, non-quarantined training patients (the reference-arm training pool), source labels; the same folds for all 30 frozen entries (10 encoders x linear / 1-NN / 5-NN, frozen-protocol heads); patient = mean of image probabilities; patient macro-F1 per held-out fold -> per entry mean and SD over the 25 folds and over the 5 repeat-level pooled scores",
     "R2_tiers": "corrected repeated k-fold t-test (Nadeau-Bengio variance correction, factor 1/25 + 1/4) on per-fold differences, two-sided 5%; tier 1 = best mean entry plus all entries not significantly below it; then repeat on the remaining entries -> results/repeated_cv.json"
    }
+  },
+  {
+   "date": "2026-11-17",
+   "logged_at": "2026-11-17 13:07 +0400 (before running)",
+   "logged_before_running": true,
+   "reason": "external review request: were the 240 audited patients selected in a class-dependent way? (post-plan)",
+   "status": "post-plan descriptive check; patient-level source labels only (seconds, CPU); nothing is fitted; reported whatever the outcome",
+   "analyses": {
+    "D1_audit_selection": "source (manifest) label counts of the 240 audited patients (updates/OrthoLabel_EDA.xlsx, sheet 'Analysis Data', column manifest_label) versus the unaudited patients (union of DINOv2-S feature caches over intraoral/OPG/cephalogram, label_numeric, patients not in the export); 2x3 Pearson chi-square without continuity correction -> scripts/audit_selection_check.py, results/audit_selection.json. The sampling rule itself is not recorded in the export and is not inferred.",
+    "C0_resnet50_collapse_note": "no new analysis: read predicted-class counts of the three stored fine-tuned ResNet-50 runs (data/preds/finetune_reference_preds.npz) and the scores in results/finetune_reference.json, and compare with a constant Class-I prediction on the same 189 test patients; written to results/audit_selection.json under resnet50_collapse"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "logged_at": "2026-11-17 13:13 +0400 (before running)",
+   "logged_before_running": true,
+   "reason": "external review request: the protocol fine-tuned ResNet-50 collapsed (seeds 0 and 1 predict Class I for every test patient); does a lower backbone learning rate with warmup train it? (post-plan)",
+   "status": "post-plan entry; reported next to the protocol ResNet-50 row, which stays unchanged; not added to the 33-entry statistics; reported whatever the outcome; GPU/MPS via .cache/cvpr27/run_heavy.sh, one seed per call",
+   "selection_rule": "no selection: the recipe is fixed here and is not tuned on test or train; the backbone rate 1e-5 is the protocol rate of fine-tuned DINOv2-S",
+   "analyses": {
+    "C1_resnet50_warmup": "fine-tuned ResNet-50 (ImageNet-1k V2 weights) on the reference split (593 training patients, 4,133 photographs; 189 test patients), identical to the protocol recipe (batch 16, 8 epochs, AdamW, head lr 1e-3, weight decay 0.05, 224 random crop of the 256 cache, brightness jitter, class-weighted cross-entropy, patient = mean image probability) except backbone lr 1e-4 -> 1e-5 and a linear warmup of both learning rates from 0 over the first epoch (259 steps) followed by cosine decay to 0 over the remaining 1,813 steps; seeds 0, 1, 2 -> scripts/review_resnet50_warmup.py, results/review_runs/resnet50_warmup_s*.json; aggregated with the shared 2,000 bootstrap draws (seed 20261108) into results/review_resnet50_warmup.json: entry = 3-seed mean, macro-F1 against source and adjudicated labels with 95% intervals, paired difference to the protocol ResNet-50 entry and to fine-tuned DINOv2-S, predicted-class counts per seed"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "logged_at": "2026-11-17 13:14 +0400 (before running)",
+   "logged_before_running": true,
+   "reason": "external review request: does a learned fusion of the three record types beat the complete-case concatenation and photographs alone? (post-plan)",
+   "status": "post-plan; cached frozen features only (CPU); historical complete-case cohort and source labels, comparable with results/fusion.json and not with the reference-split leaderboard; reported whatever the outcome",
+   "selection_rule": "all learned components (stacking layer, modality weights) are fitted on out-of-fold probabilities of the training patients of each split; nothing is chosen on the test patients",
+   "analyses": {
+    "B1_learned_fusion": "the 285 patients with all three record types; patient vector = L2-normalised mean image feature; the same 10 stratified 70/30 patient splits (seeds 0-9) and class-balanced logistic probe (C=1) as results/fusion.json. Methods per split: photos only; concatenation of the three blocks (both as fusion.json); stacking = per-modality logistic heads + multinomial logistic layer (balanced, C=1) on their 5-fold out-of-fold log-probabilities; weighted = per-modality heads averaged with simplex weights (step 0.1, 66 candidates) that maximise out-of-fold macro-F1 (ties -> closest to uniform). Two feature sets: primary 'rad' = DINOv2-S photographs + RAD-DINO OPG + RAD-DINO cephalogram (as requested); 'dinov2' = DINOv2-S for all three (the exact features of results/fusion.json, whose photos and concatenation numbers must reproduce). Statistics: mean and SD over the 10 splits, splits won, and 95% intervals of the 10-split mean and of paired differences from 2,000 patient-bootstrap draws per split (seed 20261108 + split seed), averaged across splits draw by draw. Primary comparisons: stack minus concat and stack minus photos on 'rad'. -> scripts/review_learned_fusion.py, results/review_learned_fusion.json"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "logged_at": "2026-11-17 13:18 +0400 (before running)",
+   "logged_before_running": true,
+   "reason": "external review request: a multiple-instance baseline that learns which photographs matter, instead of averaging frame probabilities (post-plan)",
+   "status": "post-plan entries; cached frame embeddings only (CPU, via .cache/cvpr27/run_heavy.sh, one config or seed per call); not added to the 33-entry statistics; reported whatever the outcome",
+   "selection_rule": "hyperparameters are chosen by patient-grouped stratified 5-fold CV (shuffle seed 0) on the 593 training patients with source labels only; the 189 test patients are scored once with the selected configuration",
+   "analyses": {
+    "A1_attention_mil": "gated attention-MIL (Ilse, Tomczak, Welling, ICML 2018): frame embedding -> Linear(d,128)+ReLU+dropout -> gated attention (V,U: 128->64, w: 64->1, softmax over the patient's frames) -> weighted sum -> Linear(128,3); Adam, batch 16 bags, class-weighted cross-entropy; frame features standardised with statistics of the training frames. Encoders: DINOv2-S (384-d cached features) and SAM ViT-B (768-d mean-pooled ViT state, the feature selected for the SAM post-plan entry). Grid: lr {1e-4, 1e-3} x weight decay {1e-4, 1e-2} x dropout {0, 0.25}, evaluated after 20, 50 and 100 epochs (24 candidates); selection = highest mean CV patient macro-F1 (ties: earlier grid entry, fewer epochs). Final model refit on all 593 training patients with seeds 0, 1, 2; entry = mean of the 3 seeds' scores, as for fine-tuned entries. Scoring: macro-F1 against the source and the adjudicated label with the shared 2,000 patient-bootstrap draws (seed 20261108); paired difference to the linear probe on the same encoder (DINOv2-S / logreg leaderboard entry; SAM ViT-B / logreg post-plan entry) and to fine-tuned DINOv2-S; rank if inserted among the 33 entries -> scripts/review_abmil.py, results/review_abmil.json. The bibliography entry for Ilse et al. (PMLR vol. 80, pp. 2127-2136) is verified with tools/verify_citations.py."
+   }
   }
  ]
 }

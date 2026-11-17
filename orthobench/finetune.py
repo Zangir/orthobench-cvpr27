@@ -98,8 +98,12 @@ def _prep(arr, sel, train, rng, mean, std, device):
 
 
 def train_eval(arr, meta, tr, te, seed, epochs=8, bs=32, lr_bb=1e-5, lr_head=1e-3,
-               device=None, log=print, arch="dinov2"):
-    """Fine-tune on `tr`, return test probabilities on `te` (image order preserved)."""
+               device=None, log=print, arch="dinov2", warmup_steps=0):
+    """Fine-tune on `tr`, return test probabilities on `te` (image order preserved).
+
+    warmup_steps=0 is the protocol recipe (cosine decay from the first step). warmup_steps>0
+    (post-plan, 2026-11-17) ramps both learning rates linearly from 0 over that many steps and
+    then applies the same cosine decay over the remaining steps."""
     import torch
     from .features import _device, _IN_MEAN, _IN_STD
     device = device or _device()
@@ -116,7 +120,13 @@ def train_eval(arr, meta, tr, te, seed, epochs=8, bs=32, lr_bb=1e-5, lr_head=1e-
                              {"params": head.parameters(), "lr": lr_head}],
                             weight_decay=0.05)
     steps = max(1, epochs * (len(tr) // bs + 1))
-    sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=steps)
+    if warmup_steps > 0:
+        import math
+        rest = max(1, steps - warmup_steps)
+        sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda k: (k + 1) / warmup_steps if k < warmup_steps
+                                                  else 0.5 * (1 + math.cos(math.pi * min(k - warmup_steps, rest) / rest)))
+    else:
+        sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=steps)
     for ep in range(epochs):
         net.train(); head.train()
         tot, nb = 0.0, 0
