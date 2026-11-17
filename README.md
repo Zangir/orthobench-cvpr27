@@ -93,10 +93,11 @@ directory. Results JSONs are aggregate only. Earlier experiments are reproduced 
 
 ## Data access
 
-Clinical images and case-level records are restricted. The study received
-institutional ethics approval and data-use permission. Identifying details are
-withheld for double-blind review. Access is controlled through a data-use agreement
-with the data custodian. The code license does not apply to clinical data. OCR screening
+Clinical images and case-level records are not included here. The study received
+institutional ethics approval (individual consent waived) and the clinics' written
+permission for public release. Identifying details are withheld for double-blind review.
+The de-identified dataset will be released publicly under CC BY-NC 4.0 with the
+camera-ready version, once the manual pixel review is complete. The code license does not apply to clinical data. OCR screening
 and border redaction are triage aids, not pixel-privacy certification.
 
 ## Repository structure
