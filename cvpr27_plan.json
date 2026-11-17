@@ -138,6 +138,17 @@
      "a mesial molar relationship, Angle Class III malocclusion"
     ]
    }
+  },
+  {
+   "date": "2026-11-17",
+   "logged_before_running": true,
+   "reason": "external review (round 8): is the label-version reordering (Kendall tau_b = 0.65) larger than sampling noise or than any 64 label changes?",
+   "status": "exploratory, post-plan; stored per-patient predictions of the 33 planned entries only (CPU); nothing refit; reported whatever the outcome",
+   "analyses": {
+    "N1_bootstrap_pairs": "1,000 pairs of independent patient-bootstrap resamples of the 189 test patients (seed 20261117); for each pair, Kendall tau_b between the 33-entry macro-F1 leaderboards on the two resamples under the SAME label version; done separately for the source and the adjudicated label",
+    "N2_random_relabel": "1,000 draws (seed 20261117): choose 64 of the 189 test patients uniformly at random and replace each one's source label by one of the two other classes uniformly at random; Kendall tau_b between the source-label leaderboard and the relabelled leaderboard on the full test set (same predictions)",
+    "report": "median and 2.5/97.5 percentiles of each null, and the share of null draws with tau_b <= 0.65 (observed source-vs-adjudicated value) -> results/label_version_null.json"
+   }
   }
  ]
 }

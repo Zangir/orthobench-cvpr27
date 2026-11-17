@@ -1,0 +1,28 @@
+{
+ "provenance": "run",
+ "plan_amendment": "experiments/cvpr27_plan.json amendments[date=2026-11-17]",
+ "n_test": 189,
+ "n_entries": 33,
+ "n_draws": 1000,
+ "seed": 20261117,
+ "n_changed": 64,
+ "observed_tau_b": 0.6477272727272727,
+ "N1_bootstrap_pairs_source": {
+  "median": 0.6136363636363636,
+  "p2_5": 0.45072086889760243,
+  "p97_5": 0.7425189393939392,
+  "share_le_observed": 0.706
+ },
+ "N1_bootstrap_pairs_adjudicated": {
+  "median": 0.6287878787878788,
+  "p2_5": 0.47727272727272724,
+  "p97_5": 0.7537878787878788,
+  "share_le_observed": 0.607
+ },
+ "N2_random_relabel_64": {
+  "median": 0.6628787878787878,
+  "p2_5": 0.5454545454545455,
+  "p97_5": 0.7613636363636365,
+  "share_le_observed": 0.42
+ }
+}

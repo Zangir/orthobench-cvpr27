@@ -1005,6 +1005,20 @@ def supp_stats(out, gen):
     L.append(r"\bottomrule\end{tabular}")
     (gen / "ex_supp_resolution.tex").write_text("\n".join(L) + "\n")
 
+def supp_null(gen):
+    """Supplement F.10 (round 8, plan amendment 2026-11-17): nulls for the label-version tau_b."""
+    nl = load("label_version_null.json")
+    L = [r"\begin{tabular}{@{}lcccc@{}}\toprule",
+         r"Comparison & Median $\tau_b$ & $2.5\%$ & $97.5\%$ & Draws with $\tau_b \le$ observed\\\midrule"]
+    for k, nm in (("N1_bootstrap_pairs_source", "Two bootstrap resamples, source label"),
+                  ("N1_bootstrap_pairs_adjudicated", "Two bootstrap resamples, adjudicated label"),
+                  ("N2_random_relabel_64", f"Source vs. {nl['n_changed']} random label changes")):
+        v = nl[k]
+        L.append(f"{nm} & {v['median']:.2f} & {v['p2_5']:.2f} & {v['p97_5']:.2f} & ${100 * v['share_le_observed']:.0f}\\%$\\\\")
+    L.append(r"\midrule " + f"Observed: source vs.\\ adjudicated & {nl['observed_tau_b']:.2f} & & & \\\\")
+    L.append(r"\bottomrule\end{tabular}")
+    (gen / "ex_supp_null.tex").write_text("\n".join(L) + "\n")
+
 def supp_tables(gen):
     rs, es, fd = load("rank_stability.json"), load("expert_subset.json"), load("feature_distance.json")
     L = [r"\begin{tabular}{@{}lccc@{}}\toprule",
@@ -1055,7 +1069,7 @@ def main():
     else:
         print("[skip] Figs 1-2 need the redacted record thumbnails (not released); rendering the rest")
     fig3(out); fig4(out); fig5(out); fig6(out); fig_comparison(out); fig_map(out)
-    tab1(gen); tab2(gen); supp_tables(gen); postplan_tables(gen); supp_cohort_class(gen); supp_stats(out, gen)
+    tab1(gen); tab2(gen); supp_tables(gen); postplan_tables(gen); supp_cohort_class(gen); supp_stats(out, gen); supp_null(gen)
 
 
 if __name__ == "__main__":

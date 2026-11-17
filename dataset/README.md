@@ -36,11 +36,11 @@ benchmark scores every model against both label versions under a frozen protocol
 
 ## How to obtain the data
 
-Images and case-level records (labels, splits, per-patient predictions) are not part of this
-review release. The de-identified dataset will be released publicly with the camera-ready
-version. The code to
-reproduce every experiment from an approved copy, and to rebuild all tables from the
-aggregate files here, is in the companion code repository.
+After a completed manual privacy review, the full de-identified dataset (images, labels,
+splits and site, device and demographic metadata) will be released publicly under
+CC BY-NC 4.0 on a public dataset host with the camera-ready version. Until then this folder
+holds the protocol and the aggregate results. The code to reproduce every experiment and to
+rebuild all tables from the aggregate files here is in the companion code repository.
 
 ## Splits
 
@@ -52,12 +52,12 @@ aggregate files here, is in the companion code repository.
 - **Split arm.** The full intraoral cohort is split by image and by patient (class-stratified,
   test fraction 0.3, five seeds) to measure leakage.
 
-Patient-keyed split definitions are not part of this repository (see the licence section).
+Patient-keyed split definitions will be part of the public dataset release at camera-ready.
 
 ## Licence and terms
 
-- Clinical images and case-level records: not included during review; the de-identified
-  dataset will be released publicly with the camera-ready version.
+- Clinical images and case-level records: released publicly under CC BY-NC 4.0 on a public
+  dataset host with the camera-ready version, after a completed manual privacy review.
 - Protocol and aggregate results in this repository: released under CC BY-NC 4.0
   (see `LICENSE.md`); do not attempt to re-identify any patient.
 - Code: MIT, in the companion code repository.
